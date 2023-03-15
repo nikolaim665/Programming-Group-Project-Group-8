@@ -4,6 +4,7 @@ The flight data browser project.
 Group members:
 - Nicolas Moschenross
 - Richard Blazek
+- Cormac O'Sullivan 
 
 ## Project structure
 - `data/flights_sample.csv` - file with sample flights
