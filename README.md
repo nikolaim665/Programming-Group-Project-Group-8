@@ -1,3 +1,6 @@
-Nicolas Moschenross
-# Programming-Group-Project-Group-8
-Programming Group Project (group 8)
+# Programming Project - Group 8
+The flight data browser project.
+
+Group members:
+- Nicolas Moschenross
+- Richard Blazek
