@@ -96,13 +96,13 @@ class CsvParser
   }
   
   // This method loads a next cell from the CSV data and converts it to boolean.
-  // Number which rounds to 1 is converted to true, anything else is converted to false.
+  // Value which starts with 1 is converted to true, anything else is converted to false.
   // Return value: The resulting number, or false in case of error.
   public boolean nextBoolean()
   {
     try
     {
-      return Math.round(Double.parseDouble(next())) == 1;
+      return next().startsWith("1");
     }
     catch (NumberFormatException exc)
     {
