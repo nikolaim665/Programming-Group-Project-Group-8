@@ -55,5 +55,5 @@ void draw()
   fill(255, 255, 0);
   rect(MAP_WIDTH-10, 0, 300, SCREEN_HEIGHT);
   fill(255);
-  rect(MAP_WIDTH+290, 0, SCREEN_WIDTH-MAP_WIDTH-10, SCREEN_HEIGHT); // C. O'Sull updated the screen to show our 3 parts. 
+  rect(MAP_WIDTH+290, 0, SCREEN_WIDTH-MAP_WIDTH-10, SCREEN_HEIGHT); // C. O'Sull updated the screen to show the 3 parts. 
 }
