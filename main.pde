@@ -1,9 +1,19 @@
 ArrayList<Flight> flights;
+PImage usaMap;
 
 void setup()
 {
   FlightLoader loader = new FlightLoader("flights_sample.csv");
   flights = loader.load();
+  
+  //the weird width and x-position of the map are to make the image fit perfectly
+  //usa map image width = 600, height = 400
+  
+  //make sure to add usa_map_with_airports.jpeg file
+  
+  size(590, 400);
+  usaMap = loadImage("usa_map_with_airports.jpeg");
+  image(usaMap, -10, 0);
   
   // Print the loaded information to verify that out FlightLoader works correctly
   println("Flight count:", flights.size());
