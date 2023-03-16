@@ -31,6 +31,10 @@ class Flight
   public final int actualDeparture;
   public final int scheduledArrival;
   public final int actualArrival;
+  
+  // X-Position and Y-Position of planes on map
+  public int xPosition;
+  public int yPosition;
  
   // Cancelled flight indicator
   public final boolean isCancelled;
@@ -44,11 +48,14 @@ class Flight
     String originAirportCode, String originCityName, String originStateCode, int originWorldAreaCode,
     String destinationAirportCode, String destinationCityName, String destinationStateCode, int destinationWorldAreaCode,
     int scheduledDeparture, int actualDeparture, int scheduledArrival, int actualArrival,
-    boolean isCancelled, boolean isDiverted, double distance)
+    boolean isCancelled, boolean isDiverted, double distance, int xPosition, int yPosition)
   {
     this.flightDate = flightDate;
     this.carrierCode = carrierCode;
     this.flightNumber = flightNumber;
+    
+    this.xPosition = xPosition;
+    this.yPosition = yPosition;
     
     this.originAirportCode = originAirportCode;
     this.originCityName = originCityName;

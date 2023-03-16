@@ -1,6 +1,8 @@
 ArrayList<Flight> flights;
 PImage usaMap;
 
+
+
 void setup()
 {
   FlightLoader loader = new FlightLoader("flights_sample.csv");
