@@ -12,5 +12,8 @@ Group members:
 - `CsvParser.pde` - class CsvParser, which parses data stored in the CSV format
 - `Flight.pde` - class Flight, which contains data about a single Flight
 - `FlightLoader.pde` - class FlightLoader, which uses CsvParser to parse a file and create an ArrayList of Flight objects, containing the information about the flights in the given file
+- 
 - `main.pde` - the main program (currently just dummy program which loads all flights and prints them)
 - `sketch.properties` - a configuration file which tells Processing that the main program is in the file `main.pde`
+- 'Screens' - creates the screens on which graphs will be displayed
+-  'Widgets' - creates buttons to go forward and back to different screens
