@@ -100,14 +100,7 @@ class CsvParser
   // Return value: The resulting number, or false in case of error.
   public boolean nextBoolean()
   {
-    try
-    {
-      return next().startsWith("1");
-    }
-    catch (NumberFormatException exc)
-    {
-      return false;
-    }
+    return next().startsWith("1");
   }
   
   // This method loads a next cell from the CSV data, interprets it as a date in the American format,
@@ -116,20 +109,16 @@ class CsvParser
   // Return value: The date in the YYYY-MM-DD format, or an empty string in case of an error.
   public String nextDate()
   {
-    try
-    {
-      String date = next();
-      int monthEnd = date.indexOf('/');
-      int dayEnd = date.indexOf('/', monthEnd + 1);
-      String month = (monthEnd < 2 ? "0" : "") + date.substring(0, monthEnd);
-      String day = (dayEnd - monthEnd < 3 ? "0" : "") + date.substring(monthEnd + 1, dayEnd);
-      String year = date.substring(dayEnd + 1, dayEnd + 5);
-      return year + "-" + month + "-" + day;
-    }
-    catch (IndexOutOfBoundsException exc)
+    String[] date = next().split("/");
+    if (date.length != 3)
     {
       return "";
     }
+    
+    String month = (date[0].length() < 2 ? "0" : "") + date[0];
+    String day = (date[1].length() < 2 ? "0" : "") + date[1];
+    String year = date[2].substring(0, 4);
+    return year + "-" + month + "-" + day;
   }
   
   // This method loads a next cell from the CSV data, interprets it as a time in the HHMM format,
@@ -137,21 +126,12 @@ class CsvParser
   // Return value: The time as a number of minutes since midnight, or -1 in case of an error.
   public int nextTime()
   {
-    try
-    {
-      String time = next();
-      int hours = Integer.parseInt(time.substring(0, 2));
-      int minutes = Integer.parseInt(time.substring(2, 4));
-      return hours * 60 + minutes;
-    }
-    catch (IndexOutOfBoundsException exc)
+    String time = next();
+    if (time.length() != 4)
     {
       return -1;
     }
-    catch (NumberFormatException exc)
-    {
-      return -1;
-    }
+    return (time.charAt(0) - '0') * 600 + (time.charAt(1) - '0') * 60 + (time.charAt(2) - '0') * 10 + (time.charAt(3) - '0');
   }
   
   // This method sets the current position in the data to the begining of the next line
