@@ -1,3 +1,4 @@
+
 class FlightLoader
 {
   private String filepath;
@@ -42,7 +43,7 @@ class FlightLoader
       
       Flight flight = new Flight(flightDate, carrierCode, flightNumber, originAirportCode, originCityName, originStateCode, originWorldAreaCode,
         destinationAirportCode, destinationCityName, destinationStateCode, destinationWorldAreaCode, scheduledDeparture, actualDeparture,
-        scheduledArrival, actualArrival, isCancelled, isDiverted, distance);
+        scheduledArrival, actualArrival, isCancelled, isDiverted, distance, width/2, height/2); //the width and height are temporary, will be linked to origin city
       flights.add(flight);
     }
     

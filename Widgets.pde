@@ -2,6 +2,10 @@ final int INITIAL_WIDGET_YPOSITION = 40;
 final int WIDGET_WIDTH = 80;
 final int WIDGET_HEIGHT = 30;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2d34449ec42599c8fc15c3ee6ba208ff569a1434
 class Widget {
   public int xPosition;
   public int yPosition;

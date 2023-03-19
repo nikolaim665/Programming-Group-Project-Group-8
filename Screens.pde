@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import java.util.ArrayList; //has this already been imported?
 
 final int NUMBER_OF_SCREENS = 6; //how many charts will we have?
+=======
+import java.util.ArrayList;
+
+final int NUMBER_OF_SCREENS = 6;
+>>>>>>> 2d34449ec42599c8fc15c3ee6ba208ff569a1434
 
 final int[] colours = {#FF0000, #00FF00, #0000FF}; //red, green, blue
 final String[] widget_labels = {"BUTTON", "FORWARD", "BACKWARD"};
@@ -18,10 +24,13 @@ class Screen {
   
 }
 
+<<<<<<< HEAD
 
 
 
 //to be called in setup()
+=======
+>>>>>>> 2d34449ec42599c8fc15c3ee6ba208ff569a1434
 public void createScreens() {
   
   screens = new ArrayList<Screen>();
@@ -57,5 +66,10 @@ public void createScreens() {
   
   }
   
+<<<<<<< HEAD
+=======
+    currentScreenBackground = screens.get(0).backgroundColour;
+  
+>>>>>>> 2d34449ec42599c8fc15c3ee6ba208ff569a1434
   
 }
