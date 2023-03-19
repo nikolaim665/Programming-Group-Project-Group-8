@@ -1,0 +1,85 @@
+//<<<<<<< Updated upstream
+import java.util.ArrayList;
+
+final int NUMBER_OF_SCREENS = 6;
+//=======
+//<<<<<<< HEAD
+
+
+import java.util.ArrayList; 
+
+final int NUMBER_OF_SCREENS = 3; //how many charts will we have?
+final String[] widget_labels = {"HISTOGRAM", "BARCHART", "PIECHART"}; //NUMBER_OF_SCREENS==widget_labels.length
+
+final int[] colours = {#FF0000, #00FF00, #0000FF}; //red, green, blue
+PFont serifFont;
+
+ArrayList<Screen> screens;
+int currentScreen; //if ==0, in the first screen, if ==1, in the second screen
+int currentScreenBackground;
+
+
+class Screen {
+  
+  ArrayList<Widget> widgets;
+  int numberOfWidgets;
+  int backgroundColour;
+  
+}
+
+//<<<<<<< Updated upstream
+//=======
+//<<<<<<< HEAD
+
+
+//to be called in setup()
+//=======
+//>>>>>>> 5135421cc10e31c6909ffe478163cc243641bfa0
+//>>>>>>> Stashed changes
+public void createScreens() {
+  
+  screens = new ArrayList<Screen>();
+  currentScreen=0;
+  
+  serifFont = createFont("micross", (WIDGET_HEIGHT/2) );      //ADD MICROSS FILE!!
+  textFont(serifFont);                                        //the (WIDGET_HEIGHT/2) connects the size of the font to the size of the widget
+  //text("test", width/2, height/2);
+  
+  
+  
+  for (int j =0; j<NUMBER_OF_SCREENS; j++) {
+    Screen screen = new Screen();
+    ArrayList<Widget> widgets = new ArrayList<Widget>();
+    screen.widgets = widgets;
+    //fill(134); rect (80, 80, 80, 80);
+    //widgets.add(new Widget());
+  
+    for (int i =0; i<3; i++) {
+      //widgets.add(new Widget());
+      Widget w = new Widget();
+    
+      w.xPosition = width - (WIDGET_WIDTH + MARGIN);
+      w.yPosition = INITIAL_WIDGET_YPOSITION - (i* (WIDGET_HEIGHT*2));
+      w.colour = colours[i];
+      w.widget_label = widget_labels[i];
+      w.displayWidgetOutline = false;      
+    
+      screen.widgets.add(w);
+      screen.numberOfWidgets++;
+    
+    }
+    
+    screens.add(screen);
+  }
+  
+//<<<<<<< Updated upstream
+    currentScreenBackground = screens.get(0).backgroundColour;
+  
+//=======
+//<<<<<<< HEAD
+//=======
+  
+//>>>>>>> 5135421cc10e31c6909ffe478163cc243641bfa0
+//>>>>>>> Stashed changes
+  
+}

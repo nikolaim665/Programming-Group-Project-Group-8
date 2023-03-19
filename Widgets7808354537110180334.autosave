@@ -1,0 +1,107 @@
+final int WIDGET_WIDTH = 80;
+final int WIDGET_HEIGHT = 25;
+
+//<<<<<<< Updated upstream
+
+//=======
+final int MARGIN = 25;                                    //the gap between the widgets and the edge
+final int INITIAL_WIDGET_YPOSITION = 400 - MARGIN;        //y position of the first widget. 400 is the current length (y) of screen, will be changed to 500
+
+
+
+//<<<<<<< HEAD
+//=======
+
+//>>>>>>> 5135421cc10e31c6909ffe478163cc243641bfa0
+//>>>>>>> Stashed changes
+class Widget {
+  public int xPosition;
+  public int yPosition;
+  //public String name;
+  
+  public int colour; //colour will be stored as hex value
+  public String widget_label;
+  public boolean displayWidgetOutline;
+  
+  public void drawWidget() {
+    
+    
+    if (this.displayWidgetOutline)
+      stroke(0);
+    else
+      noStroke();
+    
+    
+    fill(this.colour); rect(this.xPosition, this.yPosition, WIDGET_WIDTH, WIDGET_HEIGHT);
+    fill(255);
+    
+    text(this.widget_label, this.xPosition + 5, this.yPosition + 15);     //the +5 and +15 are to align it according to the widget, if you think it
+                                                                          //could look better, feel free to change it
+    //this.displayWidgetOutline=false;
+    
+  }
+  
+  public boolean checkIfMouseIsHoveringOverWidget() {
+    if (this.yPosition < mouseY && mouseY < (this.yPosition+WIDGET_HEIGHT)) {
+      if (this.xPosition < mouseX && mouseX < (this.xPosition+WIDGET_WIDTH)) {
+        return true;
+      }
+    }
+    
+    return false; 
+
+  }
+  
+ /*
+  public void addWidget(Widget w, int i) {
+    
+      w.xPosition = width/2 - (WIDGET_WIDTH/2);
+      w.yPosition = (i* (WIDGET_HEIGHT*2)) + INITIAL_WIDGET_YPOSITION;
+      w.colour = colours[i];
+      w.widget_label = widget_labels[i];
+      w.displayWidgetOutline = false;
+    
+    
+    
+  }
+  */
+  
+}
+
+public void drawWidgets() {
+  for (int i =0; i<screens.get(currentScreen).numberOfWidgets; i++) {
+      
+      
+      if (currentScreen==NUMBER_OF_SCREENS-1 && screens.get(currentScreen).widgets.get(i).widget_label=="FORWARD") {
+        //don't draw forward button if on last screen
+      } else if (currentScreen==0 && screens.get(currentScreen).widgets.get(i).widget_label=="BACKWARD") {
+        //dont draw back button if on first screen
+      }
+      else {
+      screens.get(currentScreen).widgets.get(i).drawWidget();
+      }
+      
+    }
+  
+  
+}
+
+public void mouseMoved() {
+  
+  boolean finished = false;
+  for (int i =0; i<3 && !finished; i++) {
+    
+    
+    if (screens.get(currentScreen).widgets.get(i).checkIfMouseIsHoveringOverWidget()) {
+      finished = true;
+      screens.get(currentScreen).widgets.get(i).displayWidgetOutline = true;
+    }
+    else {
+      screens.get(currentScreen).widgets.get(i).displayWidgetOutline = false;
+    }
+  }
+  
+  
+  
+}
+ 
