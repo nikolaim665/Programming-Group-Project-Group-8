@@ -1,69 +1,64 @@
-// This class reads data from data in the CSV format, stored as a byte array. It assumes the data
-// to use the ASCII encoding (which is sufficient for the data from the US Bureau of Transportation).
+// This class reads data from file in the CSV format. It assumes that there are no double quotes or line
+// breaks inside quoted cells which is sufficient for our dataset.
 class CsvParser
-{  
-  private byte[] bytes;
-  private int position = 0;
-  
-  // Reads data from a file at the given filepath
-  public CsvParser(byte[] bytes)
+{
+  private String[] lines;
+  private int y, x = 0;
+
+  // Reads data from a file at the given "filepath"
+  // Skip the first "skippedLines" lines
+  public CsvParser(String filepath, int skippedLines)
   {
-    this.bytes = bytes;
+    this.lines = loadStrings(filepath);
+    this.y = skippedLines;
+  }
+
+  // This method returns the number of lines in the CSV file
+  // Return value: an integer indicating the number of lines
+  public int lineCount()
+  {
+    return lines.length;
   }
   
   // This method tells whether the end of the data has been reached
   // Return value: true, if the end has been reached, false otherwise
   public boolean reachedEnd()
   {
-    return position >= bytes.length;
+    return y >= lines.length;
   }
   
   // This method loads a next cell from the CSV data.
   // Return value: The text contained in the cell.
   public String next()
   {
-    StringBuilder result = new StringBuilder();
-    boolean isQuoted = position < bytes.length && bytes[position] == '"';
+    String line = lines[y];
+    int begin = 0, end = 0;
     
-    if (isQuoted)
+    if (x < line.length()) 
     {
-      ++position;
-    }
-    
-    while (position < bytes.length)
-    {
-      // Ignore control characters other than newline (e.g. Carriage Return characted on Windows)
-      if (bytes[position] < 32 && bytes[position] != '\n')
+      if (line.charAt(x) == '"')
       {
-        ++position;
+        begin = x + 1;
+        end = line.indexOf('"', begin);
+        x = end + 2;
       }
-      // Non-quoted cell is terminated by a newline or a comma
-      else if (!isQuoted && (bytes[position] == '\n' || bytes[position] == ','))
-      {
-        ++position;
-        break;
-      }
-      // Quoted cell is terminated by a quote character followed by a newline or a comma
-      else if (isQuoted && bytes[position] == '"' && (bytes[position + 1] == '\n' || bytes[position + 1] == ','))
-      {
-        position += 2;
-        break;
-      }
-      // Two quote characters inside quoted cell denote quote character
-      else if (isQuoted && bytes[position] == '"' && bytes[position + 1] == '"')
-      {
-          position += 2;
-          result.append('"');
-      }
-      // Other characters are just content of the cell
       else
       {
-        result.append((char)bytes[position]);
-        ++position;
+        begin = x;
+        end = line.indexOf(',', begin);
+        end = end < 0 ? line.length() : end;
+        x = end + 1;
       }
     }
+
+    String result = line.substring(begin, end);
     
-    return result.toString();
+    while (y < lines.length && x >= lines[y].length())
+    {
+      x = 0;
+      ++y;
+    }
+    return result;
   }
   
   // This method loads a next cell from the CSV data and converts it to int.
@@ -104,7 +99,7 @@ class CsvParser
   }
   
   // This method loads a next cell from the CSV data, interprets it as a date in the American format,
-  // i.e. MM/DD/YYYY (possibly followed by other information, which is ignored) and converts it to
+  // i.e. (M)M/(D)D/YYYY (possibly followed by other information, which is ignored) and converts it to
   // the format YYYY-MM-DD.
   // Return value: The date in the YYYY-MM-DD format, or an empty string in case of an error.
   public String nextDate()
@@ -132,25 +127,5 @@ class CsvParser
       return -1;
     }
     return (time.charAt(0) - '0') * 600 + (time.charAt(1) - '0') * 60 + (time.charAt(2) - '0') * 10 + (time.charAt(3) - '0');
-  }
-  
-  // This method sets the current position in the data to the begining of the next line
-  public void skipLine()
-  {
-    boolean insideQuotes = false;
-    
-    while (position < bytes.length)
-    {
-      if (bytes[position] == '"')
-      {
-        insideQuotes = !insideQuotes;
-      }
-      else if (bytes[position] == '\n' && !insideQuotes)
-      {
-        ++position;
-        break;
-      }
-      ++position;
-    }
   }
 }
