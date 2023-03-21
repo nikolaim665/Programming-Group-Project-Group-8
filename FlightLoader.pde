@@ -10,12 +10,9 @@ class FlightLoader
   
   public ArrayList<Flight> load()
   {
-    ArrayList<Flight> flights = new ArrayList<Flight>();
-    CsvParser parser = new CsvParser(loadBytes(filepath));
-    
-    // Skip the first line, which contains names of the fields, not information about any flight.
-    parser.skipLine();
-    
+    CsvParser parser = new CsvParser(filepath, 1);
+    ArrayList<Flight> flights = new ArrayList<Flight>(parser.lineCount());
+
     while (!parser.reachedEnd())
     {
       String flightDate = parser.nextDate();
