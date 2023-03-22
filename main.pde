@@ -43,7 +43,8 @@ void draw()
   
   rect(MAP_WIDTH+390, 0, SCREEN_WIDTH-MAP_WIDTH-10, SCREEN_HEIGHT); // C. O'Sull updated the screen to show the 3 parts. 
   textFont(f,16);
-  fill(0);  
+  textAlign(LEFT, BASELINE);
+  fill(0);
   text("FlightDate: " + flight.flightDate, 700, 25);
   text("carrierCode: " + flight.carrierCode, 700, 50);
   text("flightNumber: " + flight.flightNumber, 700, 75);
