@@ -8,7 +8,7 @@ class FlightLoader
     this.filepath = filepath;
   }
   
-  public ArrayList<Flight> load()
+  public Flights load()
   {
     CsvParser parser = new CsvParser(filepath, 1);
     ArrayList<Flight> flights = new ArrayList<Flight>(parser.lineCount());
@@ -44,6 +44,6 @@ class FlightLoader
       flights.add(flight);
     }
     
-    return flights;
+    return new Flights(flights);
   }
 }

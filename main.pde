@@ -1,4 +1,4 @@
-ArrayList<Flight> flights;
+Flights flights;
 PImage usaMap;
 PFont f;
 int flightCountClick = 0;
