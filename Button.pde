@@ -2,6 +2,7 @@ class Button
 {
   private int x, y, w, h;
   private String label;
+  private boolean wasPressed = false;
   
   public Button(int x, int y, int w, int h, String label)
   {
@@ -21,12 +22,12 @@ class Button
     }
     else
     {
-      noStroke();
-      fill(240);
+      stroke(130);
+      fill(230);
     }
     
     rect(x, y, w, h);
-    fill(255);
+    fill(0);
     textAlign(CENTER, CENTER);
     text(label, x, y, w, h);
   }
@@ -38,6 +39,8 @@ class Button
   
   public boolean isClicked()
   {
-    return isMouseOver() && mousePressed;
+    boolean clicked = isMouseOver() && mousePressed && !wasPressed;
+    wasPressed = mousePressed;
+    return clicked;
   }  
 }

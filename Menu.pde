@@ -4,9 +4,9 @@ class Menu
   private int x, y, buttonH, padding, spacing;
   private int lastX;
   
-  public Menu(ArrayList<Button> buttons, int x, int y, int buttonH, int padding, int spacing)
+  public Menu(int x, int y, int buttonH, int padding, int spacing)
   {
-    this.buttons = buttons;
+    this.buttons = new ArrayList<Button>();
     this.x = x;
     this.y = y;
     this.padding = padding;

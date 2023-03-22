@@ -1,5 +1,6 @@
 ArrayList<Flight> flights;
 PImage usaMap;
+Menu menu;
 
 
 void settings()
@@ -48,12 +49,20 @@ void setup()
     println("isDiverted:", flight.isDiverted);
     println("distance:", flight.distance);
   }
+  
+  menu = new Menu(MAP_WIDTH+290, 0, 40, 30, 10);
+  menu.addButton("Delayed flights");
+  menu.addButton("Cancelled flight");
+  menu.addButton("Flight avg. speed");
 }
 
 void draw()
 {
+  noStroke();
   fill(255, 255, 0);
   rect(MAP_WIDTH-10, 0, 300, SCREEN_HEIGHT);
   fill(255);
   rect(MAP_WIDTH+290, 0, SCREEN_WIDTH-MAP_WIDTH-10, SCREEN_HEIGHT); // C. O'Sull updated the screen to show the 3 parts. 
+  
+  menu.draw();
 }
