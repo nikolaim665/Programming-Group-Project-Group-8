@@ -46,23 +46,23 @@ void draw()
   textAlign(LEFT, BASELINE);
   fill(0);
   text("FlightDate: " + flight.flightDate, 700, 25);
-  text("carrierCode: " + flight.carrierCode, 700, 50);
-  text("flightNumber: " + flight.flightNumber, 700, 75);
-  text("originAirportCode: " + flight.originAirportCode, 700, 100);
-  text("originCityName: " + flight.originCityName, 700, 125);
-  text("originStateCode: " + flight.originStateCode, 700, 150);
-  text("originWorldAreaCode: " + flight.originWorldAreaCode, 700, 175);
-  text("destinationAirportCode: " + flight.destinationAirportCode, 700, 200);
-  text("destinationCityName: " + flight.destinationCityName, 700, 225);
-  text("destinationStateCode: " + flight.destinationStateCode, 700, 250);
-  text("destinationWorldAreaCode: " + flight.destinationWorldAreaCode, 700, 275);
-  text("scheduledDeparture: " + flight.scheduledDeparture, 700, 300);
-  text("actualDeparture: " + flight.actualDeparture, 700, 325);
-  text("scheduledArrival: " + flight.scheduledArrival, 700, 350);
-  text("actualArrival: " + flight.actualArrival, 700, 375);
-  text("isCancelled: " + flight.isCancelled, 700, 400);
-  text("isDiverted: " + flight.isDiverted, 700, 425);
-  text("distance: " + flight.distance, 700, 450);
+  text("CarrierCode: " + flight.carrierCode, 700, 50);
+  text("Flight Number: " + flight.flightNumber, 700, 75);
+  text("Origin Airport Code: " + flight.originAirportCode, 700, 100);
+  text("Origin City Name: " + flight.originCityName, 700, 125);
+  text("Origin State Code: " + flight.originStateCode, 700, 150);
+  text("Origin World Area Code: " + flight.originWorldAreaCode, 700, 175);
+  text("Destination Airport Code: " + flight.destinationAirportCode, 700, 200);
+  text("Destination City Name: " + flight.destinationCityName, 700, 225);
+  text("Destination State Code: " + flight.destinationStateCode, 700, 250);
+  text("Destination World Area Code: " + flight.destinationWorldAreaCode, 700, 275);
+  text("Scheduled Departure: " + flight.scheduledDeparture, 700, 300);
+  text("Actual Departure: " + flight.actualDeparture, 700, 325);
+  text("Scheduled Arrival: " + flight.scheduledArrival, 700, 350);
+  text("Actual Arrival: " + flight.actualArrival, 700, 375);
+  text("Is Cancelled: " + flight.isCancelled, 700, 400);
+  text("Is Diverted: " + flight.isDiverted, 700, 425);
+  text("Distance: " + flight.distance, 700, 450);
   
   rect(MAP_WIDTH+290, 0, SCREEN_WIDTH-MAP_WIDTH-10, SCREEN_HEIGHT); // C. O'Sull updated the screen to show the 3 parts. 
   
@@ -81,11 +81,11 @@ void keyReleased()
 }
 void mouseReleased()
 {
-  if (flightCountClick < flights.size() - 1)
+  if (flightCountClick < flights.size() - 1 && mouseX < 1100 && mouseX > 700)
     {
       flightCountClick++;
     }
-   else
+   else if (flightCountClick == flights.size() - 1)
    {
      flightCountClick = 0;
    }
