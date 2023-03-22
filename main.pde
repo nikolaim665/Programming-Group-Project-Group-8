@@ -27,7 +27,7 @@ void setup()
 
   println("Flight count:", flights.size());
   
-  menu = new Menu(MAP_WIDTH+290, 0, 40, 30, 10);
+  menu = new Menu(MAP_WIDTH+390, 0, 40, 30, 10);
   menu.addButton("Delayed flights");
   menu.addButton("Cancelled flight");
   menu.addButton("Flight avg. speed");
@@ -45,8 +45,8 @@ void draw()
   textFont(f,16);
   textAlign(LEFT, BASELINE);
   fill(0);
-  text("FlightDate: " + flight.flightDate, 700, 25);
-  text("CarrierCode: " + flight.carrierCode, 700, 50);
+  text("Flight Date: " + flight.flightDate, 700, 25);
+  text("Carrier Code: " + flight.carrierCode, 700, 50);
   text("Flight Number: " + flight.flightNumber, 700, 75);
   text("Origin Airport Code: " + flight.originAirportCode, 700, 100);
   text("Origin City Name: " + flight.originCityName, 700, 125);
@@ -64,7 +64,7 @@ void draw()
   text("Is Diverted: " + flight.isDiverted, 700, 425);
   text("Distance: " + flight.distance, 700, 450);
   
-  rect(MAP_WIDTH+290, 0, SCREEN_WIDTH-MAP_WIDTH-10, SCREEN_HEIGHT); // C. O'Sull updated the screen to show the 3 parts. 
+  rect(MAP_WIDTH+390, 0, SCREEN_WIDTH-MAP_WIDTH-10, SCREEN_HEIGHT); // C. O'Sull updated the screen to show the 3 parts. 
   
   menu.draw();
 }
@@ -81,7 +81,7 @@ void keyReleased()
 }
 void mouseReleased()
 {
-  if (flightCountClick < flights.size() - 1 && mouseX < 1100 && mouseX > 700)
+  if (flightCountClick < flights.size() - 1 && mouseX < 1090 && mouseX > 690)
     {
       flightCountClick++;
     }
