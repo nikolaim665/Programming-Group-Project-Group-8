@@ -4,6 +4,7 @@ PFont font;
 int flightCountClick = 0;
 Menu menu;
 DataView dataView;
+TextInput textInput;
 
 void settings()
 {
@@ -28,6 +29,7 @@ void setup()
   menu = new Menu(MAP_EDGE, 0, SCREEN_WIDTH - MAP_EDGE, MENU_HEIGHT, 30, 10);
   menu.addButton("Flight info");
   menu.addButton("Delayed flights");
+<<<<<<< HEAD
   menu.addButton("Flight avg. speed");
   menu.addButton("In. flights to states");
 
@@ -36,6 +38,13 @@ void setup()
   //don't remove, need to be in the same scope as flights
   assignFlightsToStates(flights.flights, stateCodes);
   //drawIncomingFlightsBarchart();
+=======
+  menu.addButton("Statistics");
+
+  dataView = new DataView(flights, MAP_WIDTH + MAP_OFFSET, MENU_HEIGHT, SCREEN_WIDTH - MAP_EDGE, SCREEN_HEIGHT - MENU_HEIGHT);
+  
+  textInput = new TextInput(SCREEN_WIDTH - 250, 0, 240, MENU_HEIGHT);
+>>>>>>> a9d134e140bba0c67e743199559efea9287908be
 }
 
 void draw()
@@ -43,8 +52,13 @@ void draw()
   background(0);
   image(usaMap, MAP_OFFSET, 0);
   
-  dataView.draw(flightCountClick);
+  dataView.draw(flightCountClick, textInput.getText());
   menu.draw();
+  
+  if (dataView.getView() != 0)
+  {
+    textInput.draw();
+  }
   
   int clickedButton = menu.clickedButton();
   if (clickedButton >= 0)
@@ -55,30 +69,32 @@ void draw()
   
    //drawIncomingFlightsBarchart();
 }
-void keyReleased()
-{
-  if (flightCountClick < flights.size() - 1 && dataView.getView() == 0)
-  {
-    flightCountClick++;
-  }
-  else if (flightCountClick == flights.size() - 1)
-  {
-    flightCountClick = 0;
-  }
-}
 void mouseReleased()
 {
-  if (flightCountClick < flights.size() - 1 && dataView.getView() == 0 && dataView.isMouseOver())
+  if (dataView.getView() == 0 && dataView.isMouseOver())
   {
-    flightCountClick++;
+    flightCountClick = (flightCountClick + 1) % flights.size();
   }
-  else if (flightCountClick == flights.size() - 1)
+}
+void keyPressed()
+{
+  if (dataView.getView() != 0)
   {
-    flightCountClick = 0;
+    textInput.handleInput(key, keyCode);
+  }
+  else if (key == CODED)
+  {
+    if (keyCode == LEFT)
+    {
+      flightCountClick = (flightCountClick - 1 + flights.size()) % flights.size();
+    }
+    else if (keyCode == RIGHT)
+    {
+      flightCountClick = (flightCountClick + 1) % flights.size();
+    }
   }
   
   //System.out.println(mouseX);
   //System.out.println(mouseY);
   
 }
-  

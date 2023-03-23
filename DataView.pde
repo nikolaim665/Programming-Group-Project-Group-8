@@ -60,31 +60,55 @@ class DataView
     text("Actual Departure: " + formatTime(flight.actualDeparture), x, y + 300);
     text("Scheduled Arrival: " + formatTime(flight.scheduledArrival), x, y + 325);
     text("Actual Arrival: " + formatTime(flight.actualArrival), x, y + 350);
-    text("Is Cancelled: " + flight.isCancelled, x, y + 375);
-    text("Is Diverted: " + flight.isDiverted, x, y + 400);
-    text("Distance: " + flight.distance, x, y + 425);
-  }
+    text("Distance: " + flight.distance, x, y + 375);
+    if (flight.isCancelled)
+    {
+      text("Flight has been cancelled", x, y + 400);
+    }
+    else if (flight.isDiverted)
+    {
+      text("Flight has been diverted", x, y + 400); //C O'Sull added true/false conditions for text output originally made by richard and nicolas
+    }  
+}
+  
 
-  private void drawDelayedChart()
+  private void drawDelayedChart(String inputText)
   {
-    int totalCount = flights.size();
-    int delayedCount = flights.countDelayed();
+    Flights.Stats st = flights.stats(inputText);
 
-    float angle = 2 * PI * delayedCount / totalCount;
+    float angle = 2 * PI * st.delayedCount / st.totalCount;
     float shift = -PI / 2;
     int size = (w < h ? w : h);
     
     fill(255, 0, 0);
-    arc(x + size / 2, y + size / 2, size - 20, size - 20, shift, angle + shift);
+    arc(x + size / 2, y + size / 2, size - 100, size - 100, shift, angle + shift);
     fill(0, 255, 0);
-    arc(x + size / 2, y + size / 2, size - 20, size - 20, angle + shift, 2 * PI + shift);
+    arc(x + size / 2, y + size / 2, size - 100, size - 100, angle + shift, 2 * PI + shift);
+    
+    text("Green = flights running on time: ("+(st.totalCount-st.delayedCount)+")", x+50 ,y+10);
+    fill(255,0,0);
+    text("Red = delayed flights: ("+st.delayedCount+")", x+50,y+30);
+  }
+  
+  private void drawStats(String inputText)
+  {
+    fill(0);
+    textAlign(LEFT, TOP);
+    Flights.Stats st = flights.stats(inputText);
+
+    text("Flights from: " + (inputText.length() > 0 ? inputText + "..." : "anywhere"), x, y);
+    text("Average flight delay: " + round(st.avgDelay) + " mins", x, y + 25);
+    text("Average flight distance: " + round(st.avgDistance) + " miles", x, y + 50);
+    text("Delayed flights: " + st.delayedCount, x, y + 75);
+    text("Total flights: " + st.totalCount, x, y + 100);
   }
 
-  public void draw(int selectedFlight)
+  public void draw(int selectedFlight, String inputText)
   {
     fill(255, 255, 180);
     noStroke();
     rect(x, y, w, h);
+    inputText = inputText.trim();
 
     if (currentView == 0)
     {
@@ -92,11 +116,11 @@ class DataView
     }
     else if (currentView == 1)
     {
-      drawDelayedChart();
+      drawDelayedChart(inputText);
     }
     else if (currentView == 2)
     {
-      // Draw some other cool stuff
+      drawStats(inputText);
     }
   }
   
