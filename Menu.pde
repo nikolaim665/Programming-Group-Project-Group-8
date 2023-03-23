@@ -26,7 +26,7 @@ class Menu
   
   public void draw()
   {
-    fill(255);
+    fill(255, 255, 180);
     noStroke();
     rect(x, y, w, h);
     for (int i = 0; i < buttons.size(); ++i)

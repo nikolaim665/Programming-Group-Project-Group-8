@@ -49,24 +49,24 @@ void draw()
 }
 void keyReleased()
 {
-  if (flightCountClick < flights.size() - 1)
-    {
-      flightCountClick++;
-    }
-   else
-   {
-     flightCountClick = 0;
-   }
+  if (flightCountClick < flights.size() - 1 && dataView.getView() == 0)
+  {
+    flightCountClick++;
+  }
+  else if (flightCountClick == flights.size() - 1)
+  {
+    flightCountClick = 0;
+  }
 }
 void mouseReleased()
 {
-  if (flightCountClick < flights.size() - 1 && dataView.isMouseOver())
-    {
-      flightCountClick++;
-    }
-   else if (flightCountClick == flights.size() - 1)
-   {
-     flightCountClick = 0;
-   }
+  if (flightCountClick < flights.size() - 1 && dataView.getView() == 0 && dataView.isMouseOver())
+  {
+    flightCountClick++;
+  }
+  else if (flightCountClick == flights.size() - 1)
+  {
+    flightCountClick = 0;
+  }
 }
   

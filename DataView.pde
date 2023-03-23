@@ -18,6 +18,11 @@ class DataView
     currentView = newView;
   }
   
+  public int getView()
+  {
+    return currentView;
+  }
+  
   public boolean isMouseOver()
   {
     return x <= mouseX && mouseX <= x + w && y <= mouseY && mouseY <= y + h;
@@ -77,7 +82,7 @@ class DataView
 
   public void draw(int selectedFlight)
   {
-    fill(255, 255, 128);
+    fill(255, 255, 180);
     noStroke();
     rect(x, y, w, h);
 
