@@ -18,6 +18,11 @@ class DataView
     currentView = newView;
   }
   
+  public int getView()
+  {
+    return currentView;
+  }
+  
   public boolean isMouseOver()
   {
     return x <= mouseX && mouseX <= x + w && y <= mouseY && mouseY <= y + h;
@@ -67,12 +72,11 @@ class DataView
 }
   
 
-  private void drawDelayedChart()
+  private void drawDelayedChart(String inputText)
   {
-    int totalCount = flights.size();
-    int delayedCount = flights.countDelayed();
+    Flights.Stats st = flights.stats(inputText);
 
-    float angle = 2 * PI * delayedCount / totalCount;
+    float angle = 2 * PI * st.delayedCount / st.totalCount;
     float shift = -PI / 2;
     int size = (w < h ? w : h);
     
@@ -85,12 +89,26 @@ class DataView
     fill(255,0,0);
     text("Red= delayed flights: ("+delayedCount+")", x+200,y+30);
   }
-
-  public void draw(int selectedFlight)
+  
+  private void drawStats(String inputText)
   {
-    fill(255, 255, 128);
+    fill(0);
+    textAlign(LEFT, TOP);
+    Flights.Stats st = flights.stats(inputText);
+
+    text("Flights from: " + (inputText.length() > 0 ? inputText + "..." : "anywhere"), x, y);
+    text("Average flight delay: " + round(st.avgDelay) + " mins", x, y + 25);
+    text("Average flight distance: " + round(st.avgDistance) + " miles", x, y + 50);
+    text("Delayed flights: " + st.delayedCount, x, y + 75);
+    text("Total flight: " + st.totalCount, x, y + 100);
+  }
+
+  public void draw(int selectedFlight, String inputText)
+  {
+    fill(255, 255, 180);
     noStroke();
     rect(x, y, w, h);
+    inputText = inputText.trim();
 
     if (currentView == 0)
     {
@@ -98,11 +116,11 @@ class DataView
     }
     else if (currentView == 1)
     {
-      drawDelayedChart();
+      drawDelayedChart(inputText);
     }
     else if (currentView == 2)
     {
-      // Draw some other cool stuff
+      drawStats(inputText);
     }
   }
 }
