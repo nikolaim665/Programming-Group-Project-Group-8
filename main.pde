@@ -29,8 +29,13 @@ void setup()
   menu.addButton("Flight info");
   menu.addButton("Delayed flights");
   menu.addButton("Flight avg. speed");
+  menu.addButton("In. flights to states");
 
   dataView = new DataView(flights, MAP_WIDTH + MAP_OFFSET, MENU_HEIGHT, SCREEN_WIDTH - MAP_EDGE, SCREEN_HEIGHT - MENU_HEIGHT);
+  
+  //don't remove, need to be in the same scope as flights
+  assignFlightsToStates(flights.flights, stateCodes);
+  //drawIncomingFlightsBarchart();
 }
 
 void draw()
@@ -46,6 +51,9 @@ void draw()
   {
     dataView.setView(clickedButton);
   }
+  
+  
+   //drawIncomingFlightsBarchart();
 }
 void keyReleased()
 {
@@ -68,5 +76,9 @@ void mouseReleased()
   {
     flightCountClick = 0;
   }
+  
+  //System.out.println(mouseX);
+  //System.out.println(mouseY);
+  
 }
   
