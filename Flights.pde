@@ -34,11 +34,12 @@ class Flights
   
   public Stats stats(String originAirport)
   {
+    originAirport = originAirport.toLowerCase().trim();
     float totalDistance = 0, totalDelay = 0;
     int total = 0, delayed = 0;
     for (Flight flight: flights)
     {
-      if (flight.originCityName.toLowerCase().startsWith(originAirport.toLowerCase().trim()))
+      if (flight.originCityName.toLowerCase().startsWith(originAirport))
       {
         ++total;
         totalDistance += flight.distance;
