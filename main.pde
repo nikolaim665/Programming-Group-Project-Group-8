@@ -4,7 +4,7 @@ PFont font;
 int flightCountClick = 0;
 Menu menu;
 DataView dataView;
-String inputText = "";
+TextInput textInput;
 
 void settings()
 {
@@ -32,6 +32,8 @@ void setup()
   menu.addButton("Statistics");
 
   dataView = new DataView(flights, MAP_WIDTH + MAP_OFFSET, MENU_HEIGHT, SCREEN_WIDTH - MAP_EDGE, SCREEN_HEIGHT - MENU_HEIGHT);
+  
+  textInput = new TextInput(SCREEN_WIDTH - 250, 0, 250, MENU_HEIGHT);
 }
 
 void draw()
@@ -39,14 +41,12 @@ void draw()
   background(0);
   image(usaMap, MAP_OFFSET, 0);
   
-  dataView.draw(flightCountClick, inputText);
+  dataView.draw(flightCountClick, textInput.getText());
   menu.draw();
   
   if (dataView.getView() != 0)
   {
-    fill(0);
-    textAlign(LEFT, TOP);
-    text(inputText, SCREEN_WIDTH - 250, 5);
+    textInput.draw();
   }
   
   int clickedButton = menu.clickedButton();
@@ -64,18 +64,11 @@ void mouseReleased()
 }
 void keyPressed()
 {
-  if (key!=CODED && dataView.getView() != 0)
+  if (dataView.getView() != 0)
   {
-    if (key==BACKSPACE) {
-      if (inputText.length()>0) {
-        inputText=inputText.substring(0, inputText.length()-1);
-      }
-    }
-    else if (key!=RETURN && key!=ENTER) {
-      inputText += key;
-    }
+    textInput.handleInput(key);
   }
-  else if (key == CODED && dataView.getView() == 0)
+  else if (key == CODED)
   {
     if (keyCode == LEFT)
     {
