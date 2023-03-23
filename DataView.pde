@@ -62,7 +62,17 @@ class DataView
 
   private void drawDelayedChart()
   {
-    // To do...
+    int totalCount = flights.size();
+    int delayedCount = flights.countDelayed();
+
+    float angle = 2 * PI * delayedCount / totalCount;
+    float shift = -PI / 2;
+    int size = (w < h ? w : h);
+    
+    fill(255, 0, 0);
+    arc(x + size / 2, y + size / 2, size - 20, size - 20, shift, angle + shift);
+    fill(0, 255, 0);
+    arc(x + size / 2, y + size / 2, size - 20, size - 20, angle + shift, 2 * PI + shift);
   }
 
   public void draw(int selectedFlight)

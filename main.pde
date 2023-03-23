@@ -30,7 +30,7 @@ void setup()
   menu.addButton("Delayed flights");
   menu.addButton("Flight avg. speed");
 
-  dataView = new DataView(flights, MAP_WIDTH + MAP_OFFSET, MENU_HEIGHT, SCREEN_WIDTH - MAP_EDGE, SCREEN_HEIGHT);
+  dataView = new DataView(flights, MAP_WIDTH + MAP_OFFSET, MENU_HEIGHT, SCREEN_WIDTH - MAP_EDGE, SCREEN_HEIGHT - MENU_HEIGHT);
 }
 
 void draw()
