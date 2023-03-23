@@ -85,9 +85,9 @@ class DataView
     fill(0, 255, 0);
     arc(x + size / 2, y + size / 2, size - 100, size - 100, angle + shift, 2 * PI + shift);
     
-    text("Green= flights running on time: ("+(totalCount-delayedCount)+")", x+200 ,y+10);
+    text("Green = flights running on time: ("+(st.totalCount-st.delayedCount)+")", x+50 ,y+10);
     fill(255,0,0);
-    text("Red= delayed flights: ("+delayedCount+")", x+200,y+30);
+    text("Red = delayed flights: ("+st.delayedCount+")", x+50,y+30);
   }
   
   private void drawStats(String inputText)
