@@ -42,9 +42,12 @@ void draw()
   dataView.draw(flightCountClick, inputText);
   menu.draw();
   
-  fill(0);
-  textAlign(LEFT, TOP);
-  text(inputText, SCREEN_WIDTH - 400, 5);
+  if (dataView.getView() != 0)
+  {
+    fill(0);
+    textAlign(LEFT, TOP);
+    text(inputText, SCREEN_WIDTH - 400, 5);
+  }
   
   int clickedButton = menu.clickedButton();
   if (clickedButton >= 0)
@@ -54,18 +57,14 @@ void draw()
 }
 void mouseReleased()
 {
-  if (flightCountClick < flights.size() - 1 && dataView.getView() == 0 && dataView.isMouseOver())
+  if (dataView.getView() == 0 && dataView.isMouseOver())
   {
-    flightCountClick++;
-  }
-  else if (flightCountClick == flights.size() - 1)
-  {
-    flightCountClick = 0;
+    flightCountClick = (flightCountClick + 1) % flights.size();
   }
 }
 void keyPressed()
 {
-  if (key!=CODED)
+  if (key!=CODED && dataView.getView() != 0)
   {
     if (key==BACKSPACE) {
       if (inputText.length()>0) {
@@ -74,6 +73,17 @@ void keyPressed()
     }
     else if (key!=RETURN && key!=ENTER) {
       inputText += key;
+    }
+  }
+  else if (key == CODED && dataView.getView() == 0)
+  {
+    if (keyCode == LEFT)
+    {
+      flightCountClick = (flightCountClick - 1 + flights.size()) % flights.size();
+    }
+    else if (keyCode == RIGHT)
+    {
+      flightCountClick = (flightCountClick + 1) % flights.size();
     }
   }
 }

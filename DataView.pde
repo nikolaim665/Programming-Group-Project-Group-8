@@ -63,11 +63,11 @@ class DataView
     text("Distance: " + flight.distance, x, y + 375);
     if (flight.isCancelled)
     {
-    text("FLight has been cancelled", x, y + 425);
+      text("Flight has been cancelled", x, y + 400);
     }
-    if (flight.isDiverted)
+    else if (flight.isDiverted)
     {
-    text("Flight has been diverted", x, y + 400); //C O'Sull added true/false conditions for text output originally made by richard and nicolas
+      text("Flight has been diverted", x, y + 400); //C O'Sull added true/false conditions for text output originally made by richard and nicolas
     }  
 }
   

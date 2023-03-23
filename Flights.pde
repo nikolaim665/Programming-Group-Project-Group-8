@@ -38,7 +38,7 @@ class Flights
     int total = 0, delayed = 0;
     for (Flight flight: flights)
     {
-      if (flight.originCityName.startsWith(originAirport))
+      if (flight.originCityName.toLowerCase().startsWith(originAirport.toLowerCase().trim()))
       {
         ++total;
         totalDistance += flight.distance;
