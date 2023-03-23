@@ -55,10 +55,17 @@ class DataView
     text("Actual Departure: " + formatTime(flight.actualDeparture), x, y + 300);
     text("Scheduled Arrival: " + formatTime(flight.scheduledArrival), x, y + 325);
     text("Actual Arrival: " + formatTime(flight.actualArrival), x, y + 350);
-    text("Is Cancelled: " + flight.isCancelled, x, y + 375);
-    text("Is Diverted: " + flight.isDiverted, x, y + 400);
-    text("Distance: " + flight.distance, x, y + 425);
-  }
+    text("Distance: " + flight.distance, x, y + 375);
+    if (flight.isCancelled)
+    {
+    text("FLight has been cancelled", x, y + 425);
+    }
+    if (flight.isDiverted)
+    {
+    text("Flight has been diverted", x, y + 400); //C O'Sull added true/false conditions for text output originally made by richard and nicolas
+    }  
+}
+  
 
   private void drawDelayedChart()
   {
@@ -70,9 +77,13 @@ class DataView
     int size = (w < h ? w : h);
     
     fill(255, 0, 0);
-    arc(x + size / 2, y + size / 2, size - 20, size - 20, shift, angle + shift);
+    arc(x + size / 2, y + size / 2, size - 100, size - 100, shift, angle + shift);
     fill(0, 255, 0);
-    arc(x + size / 2, y + size / 2, size - 20, size - 20, angle + shift, 2 * PI + shift);
+    arc(x + size / 2, y + size / 2, size - 100, size - 100, angle + shift, 2 * PI + shift);
+    
+    text("Green= flights running on time: ("+(totalCount-delayedCount)+")", x+200 ,y+10);
+    fill(255,0,0);
+    text("Red= delayed flights: ("+delayedCount+")", x+200,y+30);
   }
 
   public void draw(int selectedFlight)
