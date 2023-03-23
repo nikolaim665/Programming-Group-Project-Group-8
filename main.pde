@@ -33,7 +33,7 @@ void setup()
 
   dataView = new DataView(flights, MAP_WIDTH + MAP_OFFSET, MENU_HEIGHT, SCREEN_WIDTH - MAP_EDGE, SCREEN_HEIGHT - MENU_HEIGHT);
   
-  textInput = new TextInput(SCREEN_WIDTH - 250, 0, 250, MENU_HEIGHT);
+  textInput = new TextInput(SCREEN_WIDTH - 250, 0, 240, MENU_HEIGHT);
 }
 
 void draw()
@@ -66,7 +66,7 @@ void keyPressed()
 {
   if (dataView.getView() != 0)
   {
-    textInput.handleInput(key);
+    textInput.handleInput(key, keyCode);
   }
   else if (key == CODED)
   {

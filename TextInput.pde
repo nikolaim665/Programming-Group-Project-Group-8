@@ -1,6 +1,7 @@
 class TextInput
 {
   private String inputText = "";
+  private int cursorPosition = 0;
   private int x, y, w, h;
   
   public TextInput(int x, int y, int w, int h)
@@ -13,15 +14,21 @@ class TextInput
   
   public void draw()
   {
+    // Box area
     fill(255);
-    noStroke();
+    stroke(128);
     rect(x, y, w, h);
+    
+    // Input text
     fill(0);
     textAlign(LEFT, CENTER);
     text(inputText, x, y, w, h);
+    
+    // Cursor
+    rect(x + textWidth(inputText.substring(0, cursorPosition)), y + h * 0.2, 1, h * 0.6);
   }
   
-  public void handleInput(char pressedKey)
+  public void handleInput(char pressedKey, char pressedKeyCode)
   {
     if (pressedKey != CODED)
     {
@@ -36,6 +43,14 @@ class TextInput
       {
         inputText += pressedKey;
       }
+    }
+    else if (pressedKeyCode == LEFT && cursorPosition > 0)
+    {
+      --cursorPosition;
+    }
+    else if (pressedKeyCode == RIGHT && cursorPosition < inputText.length())
+    {
+      ++cursorPosition;
     }
   }
   
