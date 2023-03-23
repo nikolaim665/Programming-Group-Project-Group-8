@@ -65,12 +65,11 @@ class DataView
     text("Distance: " + flight.distance, x, y + 425);
   }
 
-  private void drawDelayedChart()
+  private void drawDelayedChart(String inputText)
   {
-    int totalCount = flights.size();
-    int delayedCount = flights.countDelayed();
+    Flights.Stats st = flights.stats(inputText);
 
-    float angle = 2 * PI * delayedCount / totalCount;
+    float angle = 2 * PI * st.delayedCount / st.totalCount;
     float shift = -PI / 2;
     int size = (w < h ? w : h);
     
@@ -79,12 +78,26 @@ class DataView
     fill(0, 255, 0);
     arc(x + size / 2, y + size / 2, size - 20, size - 20, angle + shift, 2 * PI + shift);
   }
+  
+  private void drawStats(String inputText)
+  {
+    fill(0);
+    textAlign(LEFT, TOP);
+    Flights.Stats st = flights.stats(inputText);
 
-  public void draw(int selectedFlight)
+    text("Flights from: " + (inputText.length() > 0 ? inputText + "..." : "anywhere"), x, y);
+    text("Average flight delay: " + round(st.avgDelay) + " mins", x, y + 25);
+    text("Average flight distance: " + round(st.avgDistance) + " miles", x, y + 50);
+    text("Delayed flights: " + st.delayedCount, x, y + 75);
+    text("Total flight: " + st.totalCount, x, y + 100);
+  }
+
+  public void draw(int selectedFlight, String inputText)
   {
     fill(255, 255, 180);
     noStroke();
     rect(x, y, w, h);
+    inputText = inputText.trim();
 
     if (currentView == 0)
     {
@@ -92,11 +105,11 @@ class DataView
     }
     else if (currentView == 1)
     {
-      drawDelayedChart();
+      drawDelayedChart(inputText);
     }
     else if (currentView == 2)
     {
-      // Draw some other cool stuff
+      drawStats(inputText);
     }
   }
 }
