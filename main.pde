@@ -46,7 +46,7 @@ void draw()
   {
     fill(0);
     textAlign(LEFT, TOP);
-    text(inputText, SCREEN_WIDTH - 400, 5);
+    text(inputText, SCREEN_WIDTH - 250, 5);
   }
   
   int clickedButton = menu.clickedButton();
