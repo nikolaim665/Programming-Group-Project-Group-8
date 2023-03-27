@@ -39,7 +39,6 @@ void setup()
   
   //don't remove, need to be in the same scope as flights
   assignFlightsToStates(flights.flights, stateCodes);
-  //drawIncomingFlightsBarchart();
 
   menu.addButton("Statistics");
 
@@ -67,8 +66,7 @@ void draw()
     dataView.setView(clickedButton);
   }
   
-  
-   //determineTypeOfBarchart("Cumulative");
+  //determineTypeOfBarchart("Incoming");
 }
 void mouseReleased()
 {
@@ -95,7 +93,6 @@ void keyPressed()
     }
   }
   
-  //System.out.println(mouseX);
-  //System.out.println(mouseY);
+
   
 }

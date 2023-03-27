@@ -122,6 +122,19 @@ class DataView
     {
       drawStats(inputText);
     }
+    else if (currentView == 3)
+    {
+      determineTypeOfBarchart("Incoming");
+    }
+    else if (currentView == 4)
+    {
+      determineTypeOfBarchart("Outgoing");
+    }
+    else if (currentView == 5)
+    {
+      determineTypeOfBarchart("Cumulative");
+    }
+    
   }
   
   
