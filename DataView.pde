@@ -1,7 +1,7 @@
 class DataView
 {
   private Flights flights;
-  private int x, y, w, h;
+  private int x, y, w, h; //starting X, Starting y, ending x, ending y
   private int currentView = 0;
 
   public DataView(Flights flights, int x, int y, int w, int h)
@@ -12,22 +12,22 @@ class DataView
     this.w = w;
     this.h = h;
   }
-  
+
   public void setView(int newView)
   {
     currentView = newView;
   }
-  
+
   public int getView()
   {
     return currentView;
   }
-  
+
   public boolean isMouseOver()
   {
     return x <= mouseX && mouseX <= x + w && y <= mouseY && mouseY <= y + h;
   }
-  
+
   private String formatTime(int sinceMidnight)
   {
     if (sinceMidnight < 0)
@@ -60,36 +60,60 @@ class DataView
     text("Actual Departure: " + formatTime(flight.actualDeparture), x, y + 300);
     text("Scheduled Arrival: " + formatTime(flight.scheduledArrival), x, y + 325);
     text("Actual Arrival: " + formatTime(flight.actualArrival), x, y + 350);
-    text("Distance: " + flight.distance, x, y + 375);
+    text("Distance: " + flight.distance+" miles", x, y + 375);
     if (flight.isCancelled)
     {
-    text("FLight has been cancelled", x, y + 425);
+      text("FLight has been cancelled", x, y + 425);
     }
     if (flight.isDiverted)
     {
-    text("Flight has been diverted", x, y + 400); //C O'Sull added true/false conditions for text output originally made by richard and nicolas
-    }  
-}
-  
+      text("Flight has been diverted", x, y + 400); //C O'Sull added true/false conditions for text output originally made by richard and nicolas
+    }
+  }
+
 
   private void drawDelayedChart(String inputText)
   {
     Flights.Stats st = flights.stats(inputText);
 
+
     float angle = 2 * PI * st.delayedCount / st.totalCount;
     float shift = -PI / 2;
     int size = (w < h ? w : h);
-    
+    float x1= x + size / 2;
+    float x2=x + 1.5*size;
+    float y1=y + size/2 +20;
+
     fill(255, 0, 0);
-    arc(x + size / 2, y + size / 2, size - 100, size - 100, shift, angle + shift);
+    arc(x1, y1, size - 100, size - 100, shift, angle + shift);
     fill(0, 255, 0);
-    arc(x + size / 2, y + size / 2, size - 100, size - 100, angle + shift, 2 * PI + shift);
+    arc(x1, y1, size - 100, size - 100, angle + shift, 2 * PI + shift);
+
+    text("Green = flights running on time: ("+(st.totalCount-st.delayedCount)+")", x+50, y+10);
+    fill(255, 0, 0);
+    text("Red = delayed flights: ("+st.delayedCount+")", x+50, y+27);
+
+
+    float diverted = 2 * PI * st.totalDiverted / st.totalCount;
+    float cancelled = 2*PI *st.totalCancelled / st.totalCount;
+    float remainder= (2*PI *(st.totalCount-(st.totalDiverted+st.totalCancelled))/st.totalCount);
+
+    fill(255, 0, 0);
+    arc(x2, y1, size - 100, size - 100, 0+shift, diverted+shift );//width,height,diameter,diameter,start from angle, angle of sector,       diverted flights
+    fill(0, 255, 0);
+    arc(x2, y1, size - 100, size - 100, diverted+shift, diverted+cancelled+shift); // cancelled
+    fill(0, 0, 255);
+    arc(x2, y1, size - 100, size - 100, diverted + cancelled+shift, diverted+cancelled+remainder+shift);
+    text("Blue= Non-cancelled/diverted flights: ("+(st.totalCount-(st.totalDiverted+st.totalCancelled))+")", x2-30, y+10);
+    fill(255, 0, 0);
+    text("Red = diverted flights: ("+st.totalDiverted+")", x2-30, y+27);
+    fill(0, 255, 0);
+    text("Green = cancelled flights: ("+(st.totalCancelled)+")", x2-30, y+45);
     
-    text("Green = flights running on time: ("+(st.totalCount-st.delayedCount)+")", x+50 ,y+10);
-    fill(255,0,0);
-    text("Red = delayed flights: ("+st.delayedCount+")", x+50,y+30);
+    fill(0);
+    text("Flights from: " + (inputText.length() > 0 ? inputText + "..." : "anywhere"), ((x2+x1)/2)-60, y+30);
+    // C. O'Sull added a second pie chart and adjusted parameters for this screen
   }
-  
   private void drawStats(String inputText)
   {
     fill(0);
@@ -113,12 +137,10 @@ class DataView
     if (currentView == 0)
     {
       drawTextInfo(selectedFlight);
-    }
-    else if (currentView == 1)
+    } else if (currentView == 1)
     {
       drawDelayedChart(inputText);
-    }
-    else if (currentView == 2)
+    } else if (currentView == 2)
     {
       drawStats(inputText);
     }

@@ -28,9 +28,8 @@ void setup()
   // The menu for switching between displayed content in DataView
   menu = new Menu(MAP_EDGE, 0, SCREEN_WIDTH - MAP_EDGE, MENU_HEIGHT, 30, 10);
   menu.addButton("Flight info");
-  menu.addButton("Delayed flights");
-  menu.addButton("Statistics");
-
+  menu.addButton("Successful flight Paths");
+  menu.addButton("Statistics");  
   dataView = new DataView(flights, MAP_WIDTH + MAP_OFFSET, MENU_HEIGHT, SCREEN_WIDTH - MAP_EDGE, SCREEN_HEIGHT - MENU_HEIGHT);
 }
 

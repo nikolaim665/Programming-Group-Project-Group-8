@@ -16,27 +16,32 @@ class Flights
   {
     return flights.get(i);
   }
-  
+
   class Stats
   {
     public final float avgDistance;
     public final float avgDelay;
     public final int delayedCount;
     public final int totalCount;
-    public Stats(float avgDistance, float avgDelay, int delayedCount, int totalCount)
+    public final int totalDiverted;
+    public final int totalCancelled;
+   
+    public Stats(float avgDistance, float avgDelay, int delayedCount, int totalCount, int divertedCount, int cancelledCount)
     {
       this.avgDistance = avgDistance;
       this.avgDelay = avgDelay;
       this.delayedCount = delayedCount;
       this.totalCount = totalCount;
+      this.totalDiverted=divertedCount;
+      this.totalCancelled=cancelledCount;
     }
   }
-  
+
   public Stats stats(String originAirport)
   {
     float totalDistance = 0, totalDelay = 0;
-    int total = 0, delayed = 0;
-    for (Flight flight: flights)
+    int total = 0, delayed = 0, diverted=0, cancelled=0;
+    for (Flight flight : flights)
     {
       if (flight.originCityName.startsWith(originAirport))
       {
@@ -47,38 +52,20 @@ class Flights
           ++delayed;
           totalDelay += flight.actualArrival - flight.scheduledArrival;
         }
-      }
-    }
-    if (total == 0)
-    {
-      return new Stats(0, 0, 0, 0);
-    }
-    return new Stats(totalDistance / total, totalDelay / total, delayed, total);
-  }
-
-  public int countCancelled()
-  {
-    int cancelled = 0;
-    for (Flight flight : flights)
-    {
-      if (flight.isCancelled)
-      {
-        ++cancelled;
-      }
-    }
-    return cancelled;
-  }
-  
-    public int countDiverted()
-    {
-      int diverted = 0;
-      for (Flight flight : flights)
-      {
         if (flight.isDiverted)
         {
           ++diverted;
         }
+        if (flight.isCancelled)
+        {
+          ++cancelled;
+        }
       }
-      return diverted;
     }
+    if (total == 0)
+    {
+      return new Stats(0, 0, 0, 0, 0, 0);
+    }
+    return new Stats(totalDistance / total, totalDelay / total, delayed, total, cancelled, diverted); //R. Blazek wrote code, C O'Sull made changes to add cancelled and diverted flights
   }
+}
