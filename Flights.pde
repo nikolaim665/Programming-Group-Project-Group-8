@@ -25,12 +25,17 @@ class Flights
     public final float avgDelay;
     public final int delayedCount;
     public final int totalCount;
-    public AirportFlightData(float avgDistance, float avgDelay, int delayedCount, int totalCount)
+    public final int totalDiverted;
+    public final int totalCancelled;
+   
+    public AirportFlightData(float avgDistance, float avgDelay, int delayedCount, int totalCount, int divertedCount, int cancelledCount)
     {
       this.avgDistance = avgDistance;
       this.avgDelay = avgDelay;
       this.delayedCount = delayedCount;
       this.totalCount = totalCount;
+      this.totalDiverted=divertedCount;
+      this.totalCancelled=cancelledCount;
     }
   }
   
@@ -38,25 +43,34 @@ class Flights
   {
     airport = airport.toLowerCase().trim();
     float totalDistance = 0, totalDelay = 0;
-    int total = 0, delayed = 0;
-    for (Flight flight: flights)
+    int total = 0, delayed = 0, diverted=0, cancelled=0;
+    for (Flight flight : flights)
     {
       if (flight.originCityName.toLowerCase().startsWith(airport) || flight.destinationCityName.toLowerCase().startsWith(airport))
       {
         ++total;
         totalDistance += flight.distance;
+        
         if (flight.actualArrival > flight.scheduledArrival && flight.scheduledArrival >= 0)
         {
           ++delayed;
           totalDelay += flight.actualArrival - flight.scheduledArrival;
         }
+        if (flight.isDiverted)
+        {
+          ++diverted;
+        }
+        if (flight.isCancelled)
+        {
+          ++cancelled;
+        }
       }
     }
     if (total == 0)
     {
-      return new AirportFlightData(0, 0, 0, 0);
+      return new AirportFlightData(0, 0, 0, 0, 0, 0);
     }
-    return new AirportFlightData(totalDistance / total, totalDelay / total, delayed, total);
+    return new AirportFlightData(totalDistance / total, totalDelay / total, delayed, total, cancelled, diverted);
   }
 
   public class StateFlightData
