@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 class Flights
 {
   private ArrayList<Flight> flights;
@@ -57,29 +59,50 @@ class Flights
     return new Stats(totalDistance / total, totalDelay / total, delayed, total);
   }
 
-  public int countCancelled()
+  public class StateStats
   {
-    int cancelled = 0;
-    for (Flight flight : flights)
+    public final String stateCode;
+    public final int incomingFlights;
+    public final int outgoingFlights;
+    public final int totalFlights;
+
+    public StateStats(String stateCode, int incomingFlights, int outgoingFlights, int totalFlights)
     {
-      if (flight.isCancelled)
-      {
-        ++cancelled;
-      }
-    }
-    return cancelled;
-  }
-  
-    public int countDiverted()
-    {
-      int diverted = 0;
-      for (Flight flight : flights)
-      {
-        if (flight.isDiverted)
-        {
-          ++diverted;
-        }
-      }
-      return diverted;
+      this.stateCode = stateCode;
+      this.incomingFlights = incomingFlights;
+      this.outgoingFlights = outgoingFlights;
+      this.totalFlights = totalFlights;
     }
   }
+  public StateStats[] getFlightsByStates()
+  {
+    final String[] stateCodes = new String[] {
+      "AK","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN","IA","KS","KY","LA",
+      "ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ", "NM","NY","NC","ND",
+      "OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"
+    }; 
+    var incoming = new HashMap<String, Integer>(stateCodes.length);
+    var outgoing = new HashMap<String, Integer>(stateCodes.length);
+    var total = new HashMap<String, Integer>(stateCodes.length);
+    
+    for (Flight flight: flights)
+    {
+      incoming.put(flight.originStateCode, incoming.getOrDefault(flight.originStateCode, 0) + 1);
+      outgoing.put(flight.destinationStateCode, outgoing.getOrDefault(flight.destinationStateCode, 0) + 1);
+
+      total.put(flight.destinationStateCode, total.getOrDefault(flight.destinationStateCode, 0) + 1);
+      if (!flight.originStateCode.equals(flight.destinationStateCode))
+      {
+        total.put(flight.originStateCode, total.getOrDefault(flight.originStateCode, 0) + 1);
+      }
+    }
+
+    StateStats[] result = new StateStats[stateCodes.length];
+    for (int i = 0; i < stateCodes.length; ++i)
+    {
+      String code = stateCodes[i];
+      result[i] = new StateStats(code, incoming.get(code), outgoing.get(code), total.get(code));
+    }
+    return result;
+  }
+}

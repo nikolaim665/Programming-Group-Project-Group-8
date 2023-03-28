@@ -8,8 +8,8 @@
 //-------------
 
 
-
-void determineTypeOfBarchart(String flightType) {
+void determineTypeOfBarchart(String flightType)
+{
   if (flightType.equals("Incoming"))
     drawFlightsBarchart(50000, 6, "Incoming");
   else if (flightType.equals("Outgoing"))
@@ -22,8 +22,10 @@ void determineTypeOfBarchart(String flightType) {
 //I will figure out how to increase the y-axis labels when I have more time
 
 
+int[] colours = {#F00000, #00F000, #0000F0}; //each bar will be distinguishable from the other
 
 void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String flightType) {
+  Flights.StateStats[] listOfStatesWithFlights = flights.getFlightsByStates();
   
   //max incoming == 50,000
   //max outgoing == 59,129
@@ -74,7 +76,7 @@ void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String fli
     int markerXPos = xPosition + (i*barWidth);
     float markerYPos = yPosition+barChartHeight;
     
-    String text = listOfStatesWithFlights.get(i).code;
+    String text = listOfStatesWithFlights[i].stateCode;
     int textYPos = yPosition+barChartHeight + 2 + 15; //the + 2 + 15 is for the height of the x-axis + marker height
     
     fill(0); stroke(0);
@@ -92,13 +94,13 @@ void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String fli
     int flights =1;
     
       if (flightType.equals("Incoming")) {
-        flights = listOfStatesWithFlights.get(i).numberOfIncomingFlights;                       //determines whether we want outgoing, incoming or cumu flights
+        flights = listOfStatesWithFlights[i].incomingFlights;                       //determines whether we want outgoing, incoming or cumu flights
       }
       else if (flightType.equals("Outgoing")) {
-        flights = listOfStatesWithFlights.get(i).numberOfOutgoingFlights;
+        flights = listOfStatesWithFlights[i].outgoingFlights;
       } 
       else if (flightType.equals("Cumulative")) {
-        flights = listOfStatesWithFlights.get(i).cumulativeNumberOfFlights;
+        flights = listOfStatesWithFlights[i].totalFlights;
       }
     
     
@@ -109,10 +111,10 @@ void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String fli
     
     
     int roundedHeightOfBar = round(heightOfBar);
-    fill(listOfStatesWithFlights.get(i).barChartColour); noStroke();
+    fill(colours[i % colours.length]); noStroke();
     
     rect(markerXPos, (markerYPos), barWidth, -roundedHeightOfBar);
-    displayCurrentState(markerXPos, markerYPos, barWidth, roundedHeightOfBar, listOfStatesWithFlights.get(i).code);
+    displayCurrentState(markerXPos, markerYPos, barWidth, roundedHeightOfBar, listOfStatesWithFlights[i].stateCode);
     
   }
   
@@ -120,22 +122,14 @@ void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String fli
 }
 
 
-void displayCurrentState(int x, float y, int w, int h, String stateCode) {                       //displays the name of the current state that the user is hovering over 
+void displayCurrentState(int x, float y, int w, int h, String stateCode)
+{                       //displays the name of the current state that the user is hovering over 
                                                                                                   //in the barchart, as it's currently very hard to see
-  if (x < mouseX && mouseX< x+w) {
-    if(y-h <mouseY && mouseY< y) {
-      
+  if (x < mouseX && mouseX< x+w && y-h <mouseY && mouseY< y) {      
       font = createFont("Arial",4,true);
       textFont(font, 30);
       fill(0);
-      text(stateCode, 1200, 275 ); //int barChartHeight = 420;
-                                   //int barChartWidth = 450;
-                         
-                                   //750+ 450, 50+(barChartHeight/2)
-                                   //int xPosition = 750;  //xpos of barchart
-                                   //int yPosition = 50;
-      
-    }
+      text(stateCode, 1200, 275 );
   }
 
 
