@@ -19,13 +19,13 @@ class Flights
     return flights.get(i);
   }
   
-  class Stats
+  class AirportFlightData
   {
     public final float avgDistance;
     public final float avgDelay;
     public final int delayedCount;
     public final int totalCount;
-    public Stats(float avgDistance, float avgDelay, int delayedCount, int totalCount)
+    public AirportFlightData(float avgDistance, float avgDelay, int delayedCount, int totalCount)
     {
       this.avgDistance = avgDistance;
       this.avgDelay = avgDelay;
@@ -34,14 +34,14 @@ class Flights
     }
   }
   
-  public Stats stats(String originAirport)
+  public AirportFlightData flightsFromAirport(String airport)
   {
-    originAirport = originAirport.toLowerCase().trim();
+    airport = airport.toLowerCase().trim();
     float totalDistance = 0, totalDelay = 0;
     int total = 0, delayed = 0;
     for (Flight flight: flights)
     {
-      if (flight.originCityName.toLowerCase().startsWith(originAirport))
+      if (flight.originCityName.toLowerCase().startsWith(airport) || flight.destinationCityName.toLowerCase().startsWith(airport))
       {
         ++total;
         totalDistance += flight.distance;
@@ -54,23 +54,23 @@ class Flights
     }
     if (total == 0)
     {
-      return new Stats(0, 0, 0, 0);
+      return new AirportFlightData(0, 0, 0, 0);
     }
-    return new Stats(totalDistance / total, totalDelay / total, delayed, total);
+    return new AirportFlightData(totalDistance / total, totalDelay / total, delayed, total);
   }
 
-  public class StateStats
+  public class StateFlightData
   {
     public final String stateCode;
     public final int flights;
 
-    public StateStats(String stateCode, int flights)
+    public StateFlightData(String stateCode, int flights)
     {
       this.stateCode = stateCode;
       this.flights = flights;
     }
   }
-  public StateStats[] getFlightsByStates()
+  public StateFlightData[] getFlightsByStates()
   {
     final String[] stateCodes = new String[] {
       "AK","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN","IA","KS","KY","LA",
@@ -88,10 +88,10 @@ class Flights
       }
     }
 
-    StateStats[] result = new StateStats[stateCodes.length];
+    StateFlightData[] result = new StateFlightData[stateCodes.length];
     for (int i = 0; i < stateCodes.length; ++i)
     {
-      result[i] = new StateStats(stateCodes[i], flightsByStates.get(stateCodes[i]));
+      result[i] = new StateFlightData(stateCodes[i], flightsByStates.get(stateCodes[i]));
     }
     return result;
   }

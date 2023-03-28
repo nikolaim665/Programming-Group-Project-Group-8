@@ -1,6 +1,4 @@
-Flights flights;
 PImage usaMap;
-PFont font;
 Menu menu;
 DataViews dataViews;
 TextInput textInput;
@@ -11,11 +9,10 @@ void settings()
 }
 void setup()
 {
-  flights = new FlightLoader("flights_sample.csv").load();
+  Flights flights = new FlightLoader("flights_sample.csv").load();
   
-  font = createFont("Arial",16,true); // Arial, 16 point, anti-aliasing on
-  textFont(font, 16);
-
+  // Arial, 16 point, anti-aliasing on
+  textFont(createFont("Arial", 16, true)); 
 
   //usa map image width = 600, height = 400
   //make sure to add usa_map_with_airports.jpeg file
@@ -31,15 +28,14 @@ void setup()
   menu.addButton("Statistics");
   menu.addButton("Flights by state");
 
-  int dataViewX = MAP_WIDTH + MAP_OFFSET, dataViewY = MENU_HEIGHT, dataViewW = SCREEN_WIDTH - MAP_EDGE, dataViewH = SCREEN_HEIGHT - MENU_HEIGHT;
+  // The DataViews showing various information, statistics, etc.
   dataViews = new DataViews();
-  dataViews.add(new TextInfoDataView(flights, dataViewX, dataViewY, dataViewW, dataViewH));
-  dataViews.add(new DelayedChartDataView(flights, dataViewX, dataViewY, dataViewW, dataViewH));
-  dataViews.add(new StatisticsDataView(flights, dataViewX, dataViewY, dataViewW, dataViewH));
-  dataViews.add(new FlightsByStateDataView(flights, dataViewX, dataViewY, dataViewW, dataViewH, flights.getFlightsByStates()));
+  dataViews.add(new TextInfoDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  dataViews.add(new DelayedChartDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  dataViews.add(new StatisticsDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  dataViews.add(new FlightsByStateDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT, flights.getFlightsByStates()));
   
   textInput = new TextInput(SCREEN_WIDTH - 250, 0, 240, MENU_HEIGHT);
-
 }
 
 void draw()
@@ -55,6 +51,7 @@ void draw()
     textInput.draw();
   }
 }
+
 void mouseReleased()
 {
   int clickedButton = menu.buttonAt(mouseX, mouseY);
@@ -67,11 +64,15 @@ void mouseReleased()
     dataViews.handleClick(mouseX, mouseY);
   }
 }
+
 void keyPressed()
 {
   if (dataViews.showTextInput())
   {
     textInput.handleInput(key, keyCode);
   }
-  dataViews.handleKey(key, keyCode);
+  else
+  {
+    dataViews.handleKey(key, keyCode);
+  }
 }
