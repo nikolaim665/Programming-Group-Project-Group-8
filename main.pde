@@ -1,9 +1,6 @@
-Flights flights;
 PImage usaMap;
-PFont font;
-int flightCountClick = 0;
 Menu menu;
-DataView dataView;
+DataViews dataViews;
 TextInput textInput;
 
 void settings()
@@ -12,11 +9,10 @@ void settings()
 }
 void setup()
 {
-  flights = new FlightLoader("flights_sample.csv").load();
+  Flights flights = new FlightLoader("flights_sample.csv").load();
   
-  font = createFont("Arial",16,true); // Arial, 16 point, anti-aliasing on
-  textFont(font, 16);
-
+  // Arial, 16 point, anti-aliasing on
+  textFont(createFont("Arial", 16, true)); 
 
   //usa map image width = 600, height = 400
   //make sure to add usa_map_with_airports.jpeg file
@@ -25,26 +21,21 @@ void setup()
   usaMap = loadImage("usa_map_with_airports.jpeg");
   usaMap.resize(MAP_WIDTH, MAP_HEIGHT);
   
-  // The menu for switching between displayed content in DataView
+  // The menu for switching between displayed content in DataViews
   menu = new Menu(MAP_EDGE, 0, SCREEN_WIDTH - MAP_EDGE, MENU_HEIGHT, 30, 10);
   menu.addButton("Flight info");
   menu.addButton("Delayed flights");
-  menu.addButton("Flight avg. speed");
-  
-  menu.addButton("In. flights to states");
-  menu.addButton("Out. flights from states");
-  menu.addButton("Cum. flights in states");
-
-  dataView = new DataView(flights, MAP_WIDTH + MAP_OFFSET, MENU_HEIGHT, SCREEN_WIDTH - MAP_EDGE, SCREEN_HEIGHT - MENU_HEIGHT);
-  
-  //don't remove, need to be in the same scope as flights
-  assignFlightsToStates(flights.flights, stateCodes);
-
   menu.addButton("Statistics");
+  menu.addButton("Flights by state");
 
-  dataView = new DataView(flights, MAP_WIDTH + MAP_OFFSET, MENU_HEIGHT, SCREEN_WIDTH - MAP_EDGE, SCREEN_HEIGHT - MENU_HEIGHT);
+  // The DataViews showing various information, statistics, etc.
+  dataViews = new DataViews();
+  dataViews.add(new TextInfoDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  dataViews.add(new DelayedChartDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  dataViews.add(new StatisticsDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  dataViews.add(new FlightsByStateDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT, flights.getFlightsByStates()));
+  
   textInput = new TextInput(SCREEN_WIDTH - 250, 0, 240, MENU_HEIGHT);
-
 }
 
 void draw()
@@ -52,47 +43,36 @@ void draw()
   background(0);
   image(usaMap, MAP_OFFSET, 0);
   
-  dataView.draw(flightCountClick, textInput.getText());
+  dataViews.draw(textInput.getText());
   menu.draw();
   
-  if (dataView.getView() != 0)
+  if (dataViews.showTextInput())
   {
     textInput.draw();
   }
-  
-  int clickedButton = menu.clickedButton();
-  if (clickedButton >= 0)
-  {
-    dataView.setView(clickedButton);
-  }
-  
-  //determineTypeOfBarchart("Incoming");
 }
+
 void mouseReleased()
 {
-  if (dataView.getView() == 0 && dataView.isMouseOver())
+  int clickedButton = menu.buttonAt(mouseX, mouseY);
+  if (clickedButton >= 0)
   {
-    flightCountClick = (flightCountClick + 1) % flights.size();
+    dataViews.setView(clickedButton);
+  }
+  else
+  {
+    dataViews.handleClick(mouseX, mouseY);
   }
 }
+
 void keyPressed()
 {
-  if (dataView.getView() != 0)
+  if (dataViews.showTextInput())
   {
     textInput.handleInput(key, keyCode);
   }
-  else if (key == CODED)
+  else
   {
-    if (keyCode == LEFT)
-    {
-      flightCountClick = (flightCountClick - 1 + flights.size()) % flights.size();
-    }
-    else if (keyCode == RIGHT)
-    {
-      flightCountClick = (flightCountClick + 1) % flights.size();
-    }
+    dataViews.handleKey(key, keyCode);
   }
-  
-
-  
 }

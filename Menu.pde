@@ -35,11 +35,11 @@ class Menu
     }
   }
   
-  public int clickedButton()
+  public int buttonAt(int posX, int posY)
   {
     for (int i = 0; i < buttons.size(); ++i)
     {
-      if (buttons.get(i).isClicked())
+      if (buttons.get(i).contains(posX, posY))
       {
         return i;
       }

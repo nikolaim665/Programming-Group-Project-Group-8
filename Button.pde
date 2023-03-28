@@ -15,7 +15,7 @@ class Button
   
   public void draw()
   { 
-    if (isMouseOver())
+    if (contains(mouseX, mouseY))
     {
       stroke(0);
       fill(210);
@@ -32,15 +32,8 @@ class Button
     text(label, x, y, w, h);
   }
   
-  private boolean isMouseOver()
+  public boolean contains(int posX, int posY)
   {
-    return y <= mouseY && mouseY <= y + h && x <= mouseX && mouseX <= x + w;
+    return y <= posY && posY <= y + h && x <= posX && posX <= x + w;
   }
-  
-  public boolean isClicked()
-  {
-    boolean clicked = isMouseOver() && mousePressed && !wasPressed;
-    wasPressed = mousePressed;
-    return clicked;
-  }  
 }

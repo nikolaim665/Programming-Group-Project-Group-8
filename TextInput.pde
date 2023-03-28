@@ -11,21 +11,33 @@ class TextInput
     this.w = w;
     this.h = h;
   }
-  
-  public void draw()
+
+  private void drawInputBox()
   {
-    // Box area
     fill(255);
     stroke(128);
     rect(x, y, w, h);
-    
-    // Input text
+  }
+
+  private void drawInputText()
+  {
     fill(0);
     textAlign(LEFT, CENTER);
     text(inputText, x, y, w, h);
-    
-    // Cursor
+  }
+
+  private void drawCursor()
+  {
+    fill(0);
+    noStroke();
     rect(x + textWidth(inputText.substring(0, cursorPosition)), y + h * 0.2, 1, h * 0.6);
+  }
+  
+  public void draw()
+  {
+    drawInputBox();
+    drawInputText();
+    drawCursor();
   }
   
   public void handleInput(char pressedKey, int pressedKeyCode)
@@ -34,16 +46,16 @@ class TextInput
     {
       if (pressedKey == BACKSPACE && cursorPosition > 0)
       {
-        inputText = inputText.substring(0, cursorPosition - 1) + (cursorPosition == inputText.length() ? "" : inputText.substring(cursorPosition, inputText.length()));
+        inputText = inputText.substring(0, cursorPosition - 1) + inputText.substring(cursorPosition);
         --cursorPosition;
       }
       else if (pressedKey == DELETE && cursorPosition < inputText.length())
       {
-        inputText = inputText.substring(0, cursorPosition) + (cursorPosition == inputText.length() - 1 ? "" : inputText.substring(cursorPosition + 1, inputText.length()));
+        inputText = inputText.substring(0, cursorPosition) + inputText.substring(cursorPosition + 1);
       }
       else if (pressedKey >= 32 && pressedKey < 127)
       {
-        inputText += pressedKey;
+        inputText = inputText.substring(0, cursorPosition) + pressedKey + inputText.substring(cursorPosition);
         ++cursorPosition;
       }
     }
