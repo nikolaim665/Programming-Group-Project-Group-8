@@ -2,15 +2,6 @@ class DataViews
 {
   private ArrayList<DataView> dataViews = new ArrayList<DataView>();
   private int currentView = 0;
-  public final int x, y, w, h;
-
-  public DataViews(int x, int y, int w, int h)
-  {
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-  }
   
   public void setView(int newView)
   {

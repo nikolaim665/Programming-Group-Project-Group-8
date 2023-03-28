@@ -1,7 +1,7 @@
 abstract class DataView
 {
-    protected Flights flights;
-    protected int x, y, w, h;
+    protected final Flights flights;
+    protected final int x, y, w, h;
 
     public DataView(Flights flights, int x, int y, int w, int h)
     {

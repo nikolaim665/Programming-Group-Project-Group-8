@@ -62,16 +62,12 @@ class Flights
   public class StateStats
   {
     public final String stateCode;
-    public final int incomingFlights;
-    public final int outgoingFlights;
-    public final int totalFlights;
+    public final int flights;
 
-    public StateStats(String stateCode, int incomingFlights, int outgoingFlights, int totalFlights)
+    public StateStats(String stateCode, int flights)
     {
       this.stateCode = stateCode;
-      this.incomingFlights = incomingFlights;
-      this.outgoingFlights = outgoingFlights;
-      this.totalFlights = totalFlights;
+      this.flights = flights;
     }
   }
   public StateStats[] getFlightsByStates()
@@ -80,28 +76,22 @@ class Flights
       "AK","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN","IA","KS","KY","LA",
       "ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ", "NM","NY","NC","ND",
       "OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"
-    }; 
-    var incoming = new HashMap<String, Integer>(stateCodes.length);
-    var outgoing = new HashMap<String, Integer>(stateCodes.length);
-    var total = new HashMap<String, Integer>(stateCodes.length);
+    };
+    var flightsByStates = new HashMap<String, Integer>(stateCodes.length);
     
     for (Flight flight: flights)
     {
-      incoming.put(flight.originStateCode, incoming.getOrDefault(flight.originStateCode, 0) + 1);
-      outgoing.put(flight.destinationStateCode, outgoing.getOrDefault(flight.destinationStateCode, 0) + 1);
-
-      total.put(flight.destinationStateCode, total.getOrDefault(flight.destinationStateCode, 0) + 1);
+      flightsByStates.put(flight.destinationStateCode, flightsByStates.getOrDefault(flight.destinationStateCode, 0) + 1);
       if (!flight.originStateCode.equals(flight.destinationStateCode))
       {
-        total.put(flight.originStateCode, total.getOrDefault(flight.originStateCode, 0) + 1);
+        flightsByStates.put(flight.originStateCode, flightsByStates.getOrDefault(flight.originStateCode, 0) + 1);
       }
     }
 
     StateStats[] result = new StateStats[stateCodes.length];
     for (int i = 0; i < stateCodes.length; ++i)
     {
-      String code = stateCodes[i];
-      result[i] = new StateStats(code, incoming.get(code), outgoing.get(code), total.get(code));
+      result[i] = new StateStats(stateCodes[i], flightsByStates.get(stateCodes[i]));
     }
     return result;
   }

@@ -1,7 +1,6 @@
 Flights flights;
 PImage usaMap;
 PFont font;
-int flightCountClick = 0;
 Menu menu;
 DataViews dataViews;
 TextInput textInput;
@@ -29,21 +28,15 @@ void setup()
   menu = new Menu(MAP_EDGE, 0, SCREEN_WIDTH - MAP_EDGE, MENU_HEIGHT, 30, 10);
   menu.addButton("Flight info");
   menu.addButton("Delayed flights");
-  menu.addButton("Flight avg. speed");
-  
-  menu.addButton("In. flights to states");
-  menu.addButton("Out. flights from states");
-  menu.addButton("Cum. flights in states");
   menu.addButton("Statistics");
+  menu.addButton("Flights by state");
 
-  dataViews = new DataViews(MAP_WIDTH + MAP_OFFSET, MENU_HEIGHT, SCREEN_WIDTH - MAP_EDGE, SCREEN_HEIGHT - MENU_HEIGHT);
-  dataViews.add(new TextInfoDataView(flights, dataViews.x, dataViews.y, dataViews.w, dataViews.h));
-  dataViews.add(new DelayedChartDataView(flights, dataViews.x, dataViews.y, dataViews.w, dataViews.h));
-  dataViews.add(new StatisticsDataView(flights, dataViews.x, dataViews.y, dataViews.w, dataViews.h));
-  var stateStats = flights.getFlightsByStates();
-  dataViews.add(new IncomingFlightsDataView(flights, dataViews.x, dataViews.y, dataViews.w, dataViews.h, stateStats));
-  dataViews.add(new OutgoingFlightsDataView(flights, dataViews.x, dataViews.y, dataViews.w, dataViews.h, stateStats));
-  dataViews.add(new TotalFlightsDataView(flights, dataViews.x, dataViews.y, dataViews.w, dataViews.h, stateStats));
+  int dataViewX = MAP_WIDTH + MAP_OFFSET, dataViewY = MENU_HEIGHT, dataViewW = SCREEN_WIDTH - MAP_EDGE, dataViewH = SCREEN_HEIGHT - MENU_HEIGHT;
+  dataViews = new DataViews();
+  dataViews.add(new TextInfoDataView(flights, dataViewX, dataViewY, dataViewW, dataViewH));
+  dataViews.add(new DelayedChartDataView(flights, dataViewX, dataViewY, dataViewW, dataViewH));
+  dataViews.add(new StatisticsDataView(flights, dataViewX, dataViewY, dataViewW, dataViewH));
+  dataViews.add(new FlightsByStateDataView(flights, dataViewX, dataViewY, dataViewW, dataViewH, flights.getFlightsByStates()));
   
   textInput = new TextInput(SCREEN_WIDTH - 250, 0, 240, MENU_HEIGHT);
 

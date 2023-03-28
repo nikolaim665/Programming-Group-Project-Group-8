@@ -91,18 +91,8 @@ void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String fli
     textFont(font, 16);
     
     //need to make rectangle related to barchart height
-    int flights =1;
-    
-      if (flightType.equals("Incoming")) {
-        flights = listOfStatesWithFlights[i].incomingFlights;                       //determines whether we want outgoing, incoming or cumu flights
-      }
-      else if (flightType.equals("Outgoing")) {
-        flights = listOfStatesWithFlights[i].outgoingFlights;
-      } 
-      else if (flightType.equals("Cumulative")) {
-        flights = listOfStatesWithFlights[i].totalFlights;
-      }
-    
+    int flights =listOfStatesWithFlights[i].flights;
+        
     
     
     float heightOfBar = barChartHeight * (flights); 

@@ -66,11 +66,11 @@ class TextInfoDataView extends DataView
         {
             if (keyCodePressed == LEFT)
             {
-                flightCountClick = (flightCountClick - 1 + flights.size()) % flights.size();
+                currentFlight = (currentFlight - 1 + flights.size()) % flights.size();
             }
             else if (keyCodePressed == RIGHT)
             {
-                flightCountClick = (flightCountClick + 1) % flights.size();
+                currentFlight = (currentFlight + 1) % flights.size();
             }
         }
     }
