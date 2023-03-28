@@ -63,7 +63,6 @@ void draw()
   text("Is Cancelled: " + flight.isCancelled, MAP_WIDTH, 400);
   text("Is Diverted: " + flight.isDiverted, MAP_WIDTH, 425);
   text("Distance: " + flight.distance, MAP_WIDTH, 450);
-  
   rect(MAP_WIDTH+390, 0, SCREEN_WIDTH-MAP_WIDTH-10, SCREEN_HEIGHT); // C. O'Sull updated the screen to show the 3 parts. 
   
   menu.draw();
