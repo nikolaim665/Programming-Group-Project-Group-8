@@ -31,7 +31,7 @@ void setup()
   // The DataViews showing various information, statistics, etc.
   dataViews = new DataViews();
   dataViews.add(new TextInfoDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
-  dataViews.add(new DelayedChartDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  dataViews.add(new PieChartDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new StatisticsDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new FlightsByStateDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT, flights.getFlightsByStates()));
   

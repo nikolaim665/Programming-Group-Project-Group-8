@@ -1,6 +1,6 @@
-class DelayedChartDataView extends DataView
+class PieChartDataView extends DataView
 {
-  public DelayedChartDataView(Flights flights, int x, int y, int w, int h)
+  public PieChartDataView(Flights flights, int x, int y, int w, int h)
   {
     super(flights, x, y, w, h);
   }
