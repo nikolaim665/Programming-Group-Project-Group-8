@@ -1,3 +1,4 @@
+import java.io.FileReader;
 
 class FlightLoader
 {
@@ -7,43 +8,57 @@ class FlightLoader
   {
     this.filepath = filepath;
   }
-  
+    
   public Flights load()
   {
-    CsvParser parser = new CsvParser(filepath, 1);
-    ArrayList<Flight> flights = new ArrayList<Flight>(parser.lineCount());
-
-    while (!parser.reachedEnd())
+    try (BufferedReader reader = new BufferedReader(new FileReader(filepath)))
     {
-      String flightDate = parser.nextDate();
-      String carrierCode = parser.next();
-      int flightNumber = parser.nextInt();
+      var flights = new ArrayList<Flight>();
       
-      String originAirportCode = parser.next();
-      String originCityName = parser.next();
-      String originStateCode = parser.next();
-      int originWorldAreaCode = parser.nextInt();
-      
-      String destinationAirportCode = parser.next();
-      String destinationCityName = parser.next();
-      String destinationStateCode = parser.next();
-      int destinationWorldAreaCode = parser.nextInt();
-      
-      int scheduledDeparture = parser.nextTime();
-      int actualDeparture = parser.nextTime();
-      int scheduledArrival = parser.nextTime();
-      int actualArrival = parser.nextTime();
-       
-      boolean isCancelled = parser.nextBoolean();
-      boolean isDiverted  = parser.nextBoolean();
-      double distance = parser.nextDouble();
-      
-      Flight flight = new Flight(flightDate, carrierCode, flightNumber, originAirportCode, originCityName, originStateCode, originWorldAreaCode,
-        destinationAirportCode, destinationCityName, destinationStateCode, destinationWorldAreaCode, scheduledDeparture, actualDeparture,
-        scheduledArrival, actualArrival, isCancelled, isDiverted, distance, width/2, height/2); //the width and height are temporary, will be linked to origin city
-      flights.add(flight);
+      String flightDate, carrierCode;
+      int flightNumber;
+      String originAirportCode, originCityName, originStateCode;
+      int originWorldAreaCode;
+      String destinationAirportCode, destinationCityName, destinationStateCode;
+      int destinationWorldAreaCode;
+      int scheduledDeparture, actualDeparture, scheduledArrival, actualArrival;
+      boolean isCancelled, isDiverted;
+      float distance;
+
+      String firstLine = reader.readLine();
+      while (firstLine != null)
+      {
+        flightDate = firstLine;
+        carrierCode = reader.readLine();
+        flightNumber = parseInt(reader.readLine());
+        originAirportCode = reader.readLine();
+        originCityName = reader.readLine();
+        originStateCode = reader.readLine();
+        originWorldAreaCode = parseInt(reader.readLine());
+        destinationAirportCode = reader.readLine();
+        destinationCityName = reader.readLine();
+        destinationStateCode = reader.readLine();
+        destinationWorldAreaCode = parseInt(reader.readLine());
+        scheduledDeparture = parseInt(reader.readLine());
+        actualDeparture = parseInt(reader.readLine());
+        scheduledArrival = parseInt(reader.readLine());
+        actualArrival = parseInt(reader.readLine());
+        isCancelled = reader.read() == '1'; reader.readLine();
+        isDiverted = reader.read() == '1'; reader.readLine();
+        distance = parseFloat(reader.readLine());
+
+        flights.add(new Flight(
+          flightDate, carrierCode, flightNumber, originAirportCode, originCityName, originStateCode, originWorldAreaCode,
+          destinationAirportCode, destinationCityName, destinationStateCode, destinationWorldAreaCode,
+          scheduledDeparture, actualDeparture, scheduledArrival, actualArrival, isCancelled, isDiverted, distance
+        ));
+        firstLine = reader.readLine();
+      }
+      return new Flights(flights);
     }
-    
-    return new Flights(flights);
+    catch (Exception e)
+    {
+      return new Flights(new ArrayList<Flight>());
+    }
   }
 }

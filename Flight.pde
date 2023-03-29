@@ -31,32 +31,25 @@ class Flight
   public final int actualDeparture;
   public final int scheduledArrival;
   public final int actualArrival;
-  
-  // X-Position and Y-Position of planes on map
-  public int xPosition;
-  public int yPosition;
- 
+   
   // Cancelled flight indicator
   public final boolean isCancelled;
   // Diverted flight indicator
   public final boolean isDiverted;
   // Distance between the origin and destination airports in miles
-  public final double distance;
+  public final float distance;
   
   // Just a constructor which takes all the values as arguments and initializes all the fields.
   public Flight(String flightDate, String carrierCode, int flightNumber,
     String originAirportCode, String originCityName, String originStateCode, int originWorldAreaCode,
     String destinationAirportCode, String destinationCityName, String destinationStateCode, int destinationWorldAreaCode,
     int scheduledDeparture, int actualDeparture, int scheduledArrival, int actualArrival,
-    boolean isCancelled, boolean isDiverted, double distance, int xPosition, int yPosition)
+    boolean isCancelled, boolean isDiverted, float distance)
   {
     this.flightDate = flightDate;
     this.carrierCode = carrierCode;
     this.flightNumber = flightNumber;
-    
-    this.xPosition = xPosition;
-    this.yPosition = yPosition;
-    
+        
     this.originAirportCode = originAirportCode;
     this.originCityName = originCityName;
     this.originStateCode = originStateCode;

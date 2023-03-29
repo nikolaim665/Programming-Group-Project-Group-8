@@ -9,7 +9,9 @@ void settings()
 }
 void setup()
 {
-  Flights flights = new FlightLoader("flights_sample.csv").load();
+  int start = millis();
+  Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
+  println(millis() - start, "ms");
   
   // Arial, 16 point, anti-aliasing on
   textFont(createFont("Arial", 16, true)); 
@@ -65,7 +67,7 @@ void mouseReleased()
 void keyPressed()
 {
   textInput.handleInput(key, keyCode);
-  dataViews.setInputText(textInput.getText());
+  dataViews.setFilterText(textInput.getText());
   
   dataViews.handleKey(key, keyCode);
 }

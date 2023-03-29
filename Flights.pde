@@ -39,7 +39,7 @@ class Flights
     }
   }
   
-  public CarrierFlightData flightsByCarrier(String carrierCode)
+  public CarrierFlightData flightsOfCarrier(String carrierCode)
   {
     carrierCode = carrierCode.toLowerCase().trim();
     float totalDistance = 0, totalDelay = 0;

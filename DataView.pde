@@ -2,7 +2,7 @@ abstract class DataView
 {
   protected final Flights flights;
   protected final int x, y, w, h;
-  protected String inputText = "";
+  protected String filterText = "";
 
   public DataView(Flights flights, int x, int y, int w, int h)
   {
@@ -25,11 +25,13 @@ abstract class DataView
     rect(x, y, w, h);
   }
 
-  public void setInputText(String inputText) 
+  public void setFilterText(String filterText) 
   {
-    this.inputText = inputText;
+    this.filterText = filterText;
+    this.handleFilterTextUpdate();
   }
 
+  protected void handleFilterTextUpdate() {}
   public void handleKey(int keyPressed, int keyCodePressed) {}
   public void handleClick(int x, int y) {}
 }

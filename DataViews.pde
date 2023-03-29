@@ -18,11 +18,11 @@ class DataViews
     dataViews.get(currentView).draw();
   }
 
-  public void setInputText(String inputText)
+  public void setFilterText(String filterText)
   {
     for (DataView dataView: dataViews)
     {
-      dataView.setInputText(inputText);
+      dataView.setFilterText(filterText);
     }
   }
 
