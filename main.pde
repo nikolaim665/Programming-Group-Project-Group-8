@@ -32,19 +32,33 @@ void setup()
   menu.addButton("Flight avg. speed");
   
   menu.addButton("In. flights to states");
-  menu.addButton("Out. flights from states");
-  menu.addButton("Cum. flights in states");
+  //menu.addButton("Out. flights from states");
+  //menu.addButton("Cum. flights in states");
+  menu.addButton("In. flights to airports");
 
   dataView = new DataView(flights, MAP_WIDTH + MAP_OFFSET, MENU_HEIGHT, SCREEN_WIDTH - MAP_EDGE, SCREEN_HEIGHT - MENU_HEIGHT);
   
   //don't remove, need to be in the same scope as flights
   assignFlightsToStates(flights.flights, stateCodes);
+  createListOfAirports(flights.flights);
 
   menu.addButton("Statistics");
 
   dataView = new DataView(flights, MAP_WIDTH + MAP_OFFSET, MENU_HEIGHT, SCREEN_WIDTH - MAP_EDGE, SCREEN_HEIGHT - MENU_HEIGHT);
   textInput = new TextInput(SCREEN_WIDTH - 250, 0, 240, MENU_HEIGHT);
-
+  
+  //assignFlightsToStates(flights.flights, stateCodes);
+  createListOfAirports(flights.flights);
+  sortAirports("Incoming");
+  
+  int total=0;
+  for (int g=0; g<orderedAirports.size(); g++) {
+    //System.out.println(orderedAirports.get(0).numberOfIncomingFlights + orderedAirports.get(0).code);
+    total += orderedAirports.get(g).numberOfIncomingFlights;
+  }
+  System.out.println(total);
+  
+  
 }
 
 void draw()
@@ -66,7 +80,7 @@ void draw()
     dataView.setView(clickedButton);
   }
   
-  //determineTypeOfBarchart("Incoming");
+  
 }
 void mouseReleased()
 {

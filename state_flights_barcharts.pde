@@ -8,8 +8,7 @@
 //-------------
 
 
-
-void determineTypeOfBarchart(String flightType) {
+void determineTypeOfStatesBarchart(String flightType) {
   if (flightType.equals("Incoming"))
     drawFlightsBarchart(50000, 6, "Incoming");
   else if (flightType.equals("Outgoing"))
@@ -24,10 +23,9 @@ void determineTypeOfBarchart(String flightType) {
 
 
 void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String flightType) {
-  
-  //max incoming == 50,000
-  //max outgoing == 59,129
-  //max cumulative == 103798
+  //max incoming == 50,928
+  //max outgoing == 50,960
+  //max cumulative == 101,800 (roughly)
   
   //max height of chart == 450 (-30 for labelling x-axis)
   //max width of chart == 450
@@ -48,7 +46,6 @@ void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String fli
   
   //draw number markers
   
-  //max outgoing from one state== 59,129
   
   //draw markers for x axis
   for (int i=0; i<numberOfMarkers;i++ ) {
@@ -60,16 +57,16 @@ void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String fli
     int markerYPos = yPosition + (i*spaceBetweenMarkers);
     
     fill(0); stroke(0);
-    rect(markerXPos, markerYPos, 10, 1);  //for x axis, width =10, length = 1
+    rect(markerXPos, markerYPos, 10, 1);  //for y axis, width =10, length = 1
     
     text(text, textXPos, markerYPos);
   }
   
   int numberOfStates = 48;
-  int barWidth = barChartWidth/numberOfStates;  //there are 48 US states, not including Alaska and Hawaii
+  int barWidth = barChartWidth/numberOfStates;
   
   
-  for ( int i=0; i<numberOfStates;i++ ) {        //for y axis, width = 1, length = 10
+  for ( int i=0; i<numberOfStates;i++ ) {        //for x axis, width = 1, length = 10
     
     int markerXPos = xPosition + (i*barWidth);
     float markerYPos = yPosition+barChartHeight;
@@ -104,7 +101,7 @@ void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String fli
     
     
     float heightOfBar = barChartHeight * (flights); 
-    heightOfBar /= maxNumberOfFlights; // if a state has 30,000 flights coming in, the bar will fill halfway
+    heightOfBar /= maxNumberOfFlights; // if an airport has 30,000 flights coming in, the bar will fill halfway
     
     
     
@@ -113,10 +110,10 @@ void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String fli
     
     rect(markerXPos, (markerYPos), barWidth, -roundedHeightOfBar);
     displayCurrentState(markerXPos, markerYPos, barWidth, roundedHeightOfBar, listOfStatesWithFlights.get(i).code);
-    
+    //rect(markerXPos, (markerYPos-1), barWidth, -200);
   }
+ 
   
-
 }
 
 
@@ -134,7 +131,7 @@ void displayCurrentState(int x, float y, int w, int h, String stateCode) {      
                                    //750+ 450, 50+(barChartHeight/2)
                                    //int xPosition = 750;  //xpos of barchart
                                    //int yPosition = 50;
-      
+      textFont(font, 16);
     }
   }
 

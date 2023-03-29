@@ -124,15 +124,11 @@ class DataView
     }
     else if (currentView == 3)
     {
-      determineTypeOfBarchart("Incoming");
+      determineTypeOfStatesBarchart("Incoming");
     }
     else if (currentView == 4)
     {
-      determineTypeOfBarchart("Outgoing");
-    }
-    else if (currentView == 5)
-    {
-      determineTypeOfBarchart("Cumulative");
+      determineTypeOfAirportBarchart("Incoming");
     }
     
   }

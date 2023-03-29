@@ -46,7 +46,6 @@ void createStates () {
 void assignFlightsToStates(ArrayList<Flight> flights, String[] stateCodes) {
   createStates();
   
-  //ArrayList<Flight> flights;
   
   for (int i =0; i<flights.size(); i++) {
     
