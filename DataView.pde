@@ -2,6 +2,7 @@ abstract class DataView
 {
   protected final Flights flights;
   protected final int x, y, w, h;
+  protected String inputText = "";
 
   public DataView(Flights flights, int x, int y, int w, int h)
   {
@@ -17,17 +18,18 @@ abstract class DataView
     return x <= posX && posX <= x + w && y <= posY && posY <= y + h;
   }
 
-  public boolean showTextInput()
-  {
-    return false;
-  }
-
-  public void draw(String textInput)
+  public void draw()
   {
     fill(255, 255, 180);
     noStroke();
     rect(x, y, w, h);
   }
+
+  public void setInputText(String inputText) 
+  {
+    this.inputText = inputText;
+  }
+
   public void handleKey(int keyPressed, int keyCodePressed) {}
   public void handleClick(int x, int y) {}
 }

@@ -1,17 +1,32 @@
 class FlightsByStateDataView extends DataView
 {
-  private final Flights.StateFlightData[] stateFlightData;
-  private final int upperLimit, markerStep;
+  private Flights.StateFlightData[] stateFlightData = {};
+  private int upperLimit = 1, markerStep = 1;
   private final color[] colors = {#F80000, #00EE00, #0000FF};
 
-  public FlightsByStateDataView(Flights flights, int x, int y, int w, int h, Flights.StateFlightData[] stateFlightData)
+  public FlightsByStateDataView(Flights flights, int x, int y, int w, int h)
   {
     super(flights, x, y, w, h);
-    this.stateFlightData = stateFlightData;
+    setInputText("");
+  }
+
+  public void setInputText(String inputText)
+  {
+    super.setInputText(inputText);
+
+    stateFlightData = flights.getFlightsByStates(inputText);
 
     int maxFlightCount = getMaxFlightCount();
-    this.markerStep = floor(pow(10, floor(log(maxFlightCount / 5) / log(10))));
-    this.upperLimit = (maxFlightCount + markerStep - 1) / markerStep * markerStep;
+    markerStep = floor(pow(10, floor(log(maxFlightCount / 5) / log(10))));
+    if (maxFlightCount > markerStep * 15)
+    {
+      markerStep *= 5;
+    }
+    if (maxFlightCount > markerStep * 10)
+    {
+      markerStep *= 2;
+    }
+    upperLimit = (maxFlightCount + markerStep - 1) / markerStep * markerStep;
   }
   
   private int getMaxFlightCount()
@@ -73,9 +88,9 @@ class FlightsByStateDataView extends DataView
     rect(chartX - 2, chartY + chartH, chartW + 2, 2);
   }
   
-  public void draw(String inputText)
+  public void draw()
   {
-    super.draw(inputText);
+    super.draw();
 
     int marginLeft = 80, marginRight = 20;
     int marginTop = 20, marginBottom = 30;

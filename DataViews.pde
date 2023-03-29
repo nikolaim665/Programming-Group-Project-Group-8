@@ -13,14 +13,17 @@ class DataViews
     return currentView;
   }
   
-  public void draw(String inputText)
+  public void draw()
   {
-    dataViews.get(currentView).draw(inputText);
+    dataViews.get(currentView).draw();
   }
 
-  public boolean showTextInput()
+  public void setInputText(String inputText)
   {
-      return dataViews.get(currentView).showTextInput();
+    for (DataView dataView: dataViews)
+    {
+      dataView.setInputText(inputText);
+    }
   }
 
   public void handleKey(int keyPressed, int keyCodePressed)

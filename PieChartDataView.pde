@@ -5,22 +5,17 @@ class PieChartDataView extends DataView
     super(flights, x, y, w, h);
   }
 
-  public boolean showTextInput()
-  {
-    return true;
-  }
-  
   private void drawPiePiece(int offsetX, int offsetY, int size, int begin, int count, int total, color fillColor)
   {
     fill(fillColor);
     arc(x + offsetX + size / 2, y + offsetY + size / 2, size, size, 2 * PI * begin / total - PI / 2, 2 * PI * (begin + count) / total - PI / 2);
   }
   
-  public void draw(String inputText)
+  public void draw()
   {
-    super.draw(inputText);
+    super.draw();
 
-    var airportData = flights.flightsFromAirport(inputText);
+    var airportData = flights.flightsByCarrier(inputText);
     
     // Delayed flights
     drawPiePiece(20, 100, 200, 0, airportData.delayedCount, airportData.totalCount, #F80000);

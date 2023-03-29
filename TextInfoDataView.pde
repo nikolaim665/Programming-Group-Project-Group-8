@@ -18,9 +18,9 @@ class TextInfoDataView extends DataView
     return "" + hours + (minutes < 10 ? ":0" : ":") + minutes;
   }
 
-  public void draw(String inputText)
+  public void draw()
   {
-    super.draw(inputText);
+    super.draw();
 
     fill(0);
     textAlign(LEFT, TOP);

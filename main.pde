@@ -1,4 +1,4 @@
-PShape usaMap;
+Map map;
 Menu menu;
 DataViews dataViews;
 TextInput textInput;
@@ -18,7 +18,8 @@ void setup()
   //make sure to add usa_map_with_airports.jpeg file
   //the weird width and x-position of the map are to make the image fit perfectly
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
-  usaMap = loadShape("usa.svg");
+
+  map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT);
   
   // The menu for switching between displayed content in DataViews
   menu = new Menu(MAP_WIDTH, 0, DATAVIEW_WIDTH, MENU_HEIGHT, 30, 10);
@@ -32,7 +33,7 @@ void setup()
   dataViews.add(new TextInfoDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new PieChartDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new StatisticsDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
-  dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT, flights.getFlightsByStates()));
+  dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   
   textInput = new TextInput(SCREEN_WIDTH - 250, 0, 240, MENU_HEIGHT);
 }
@@ -40,15 +41,12 @@ void setup()
 void draw()
 {
   background(0);
-  shape(usaMap, 0, 0, MAP_WIDTH, MAP_HEIGHT);
+  map.draw();
   
-  dataViews.draw(textInput.getText());
+  dataViews.draw();
   menu.draw();
   
-  if (dataViews.showTextInput())
-  {
-    textInput.draw();
-  }
+  textInput.draw();
 }
 
 void mouseReleased()
@@ -66,12 +64,8 @@ void mouseReleased()
 
 void keyPressed()
 {
-  if (dataViews.showTextInput())
-  {
-    textInput.handleInput(key, keyCode);
-  }
-  else
-  {
-    dataViews.handleKey(key, keyCode);
-  }
+  textInput.handleInput(key, keyCode);
+  dataViews.setInputText(textInput.getText());
+  
+  dataViews.handleKey(key, keyCode);
 }
