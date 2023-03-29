@@ -2,7 +2,6 @@ class Button
 {
   private int x, y, w, h;
   private String label;
-  private boolean wasPressed = false;
   
   public Button(int x, int y, int w, int h, String label)
   {

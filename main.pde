@@ -1,4 +1,4 @@
-PImage usaMap;
+PShape usaMap;
 Menu menu;
 DataViews dataViews;
 TextInput textInput;
@@ -18,11 +18,10 @@ void setup()
   //make sure to add usa_map_with_airports.jpeg file
   //the weird width and x-position of the map are to make the image fit perfectly
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
-  usaMap = loadImage("usa_map_with_airports.jpeg");
-  usaMap.resize(MAP_WIDTH, MAP_HEIGHT);
+  usaMap = loadShape("usa.svg");
   
   // The menu for switching between displayed content in DataViews
-  menu = new Menu(MAP_EDGE, 0, SCREEN_WIDTH - MAP_EDGE, MENU_HEIGHT, 30, 10);
+  menu = new Menu(MAP_WIDTH, 0, DATAVIEW_WIDTH, MENU_HEIGHT, 30, 10);
   menu.addButton("Flight info");
   menu.addButton("Delayed flights");
   menu.addButton("Statistics");
@@ -30,10 +29,10 @@ void setup()
 
   // The DataViews showing various information, statistics, etc.
   dataViews = new DataViews();
-  dataViews.add(new TextInfoDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
-  dataViews.add(new PieChartDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
-  dataViews.add(new StatisticsDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
-  dataViews.add(new FlightsByStateDataView(flights, MAP_EDGE, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT, flights.getFlightsByStates()));
+  dataViews.add(new TextInfoDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  dataViews.add(new PieChartDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  dataViews.add(new StatisticsDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT, flights.getFlightsByStates()));
   
   textInput = new TextInput(SCREEN_WIDTH - 250, 0, 240, MENU_HEIGHT);
 }
@@ -41,7 +40,7 @@ void setup()
 void draw()
 {
   background(0);
-  image(usaMap, MAP_OFFSET, 0);
+  shape(usaMap, 0, 0, MAP_WIDTH, MAP_HEIGHT);
   
   dataViews.draw(textInput.getText());
   menu.draw();
