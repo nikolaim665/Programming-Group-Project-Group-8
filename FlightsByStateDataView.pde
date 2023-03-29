@@ -10,7 +10,7 @@ class FlightsByStateDataView extends DataView
     this.handleFilterTextUpdate();
   }
 
-  public void handleFilterTextUpdate()
+  protected void handleFilterTextUpdate()
   {
     stateFlightData = flights.getFlightsByStates(filterText);
 

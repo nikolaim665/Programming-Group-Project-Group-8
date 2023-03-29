@@ -16,7 +16,7 @@ class TextInput
   {
     fill(255);
     stroke(128);
-    rect(x, y, w, h);
+    rect(x, y, w, h - 1);
   }
 
   private void drawInputText()
