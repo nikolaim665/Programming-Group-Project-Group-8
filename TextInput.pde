@@ -23,7 +23,7 @@ class TextInput
   {
     fill(0);
     textAlign(LEFT, CENTER);
-    text(inputText, x, y, w, h);
+    text(inputText, x + 2, y, w, h);
   }
 
   private void drawCursor()
@@ -32,7 +32,7 @@ class TextInput
     {
       fill(0);
       noStroke();
-      rect(x + max(textWidth(inputText.substring(0, cursorPosition)), 4), y + h * 0.2, 1, h * 0.6);
+      rect(x + textWidth(inputText.substring(0, cursorPosition)) + 2, y + h * 0.2, 1, h * 0.6);
     }
   }
   

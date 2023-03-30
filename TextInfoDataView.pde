@@ -1,17 +1,19 @@
 class TextInfoDataView extends DataView
 {
-  private int flightIndex;
+  private int flightIndex = 0;
 
   public TextInfoDataView(Flights flights, int x, int y, int w, int h)
   {
     super(flights, x, y, w, h);
-    filterUpdated();
+    flightIndex = min(0, flights.size() - 1);
   }
 
   protected void filterUpdated()
   {
-    flightIndex = -1;
-    step(1);
+    if (flightIndex < 0 || filter.matches(flights.get(flightIndex)))
+    {
+      flightIndex = flights.firstMatching(filter, 0, 1);
+    }
   }
 
   private void step(int direction)
@@ -21,7 +23,7 @@ class TextInfoDataView extends DataView
 
   private String formatTime(int sinceMidnight)
   {
-    if (sinceMidnight < 0)
+    if (sinceMidnight < 0 || sinceMidnight > 1440)
     {
       return "N/A";
     }
@@ -57,7 +59,7 @@ class TextInfoDataView extends DataView
       text("Actual Departure: " + formatTime(flight.actualDeparture), textX, y + 300);
       text("Scheduled Arrival: " + formatTime(flight.scheduledArrival), textX, y + 325);
       text("Actual Arrival: " + formatTime(flight.actualArrival), textX, y + 350);
-      text("Distance: " + flight.distance, textX, y + 375);
+      text("Distance: " + flight.distance + " miles", textX, y + 375);
       if (flight.isCancelled)
       {
         text("Flight has been cancelled", textX, y + 400);

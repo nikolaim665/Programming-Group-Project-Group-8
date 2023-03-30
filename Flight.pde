@@ -37,14 +37,14 @@ class Flight
   // Diverted flight indicator
   public final boolean isDiverted;
   // Distance between the origin and destination airports in miles
-  public final float distance;
+  public final int distance;
   
   // Just a constructor which takes all the values as arguments and initializes all the fields.
   public Flight(String flightDate, String carrierCode, int flightNumber,
     String originAirportCode, String originCityName, String originStateCode, int originWorldAreaCode,
     String destinationAirportCode, String destinationCityName, String destinationStateCode, int destinationWorldAreaCode,
     int scheduledDeparture, int actualDeparture, int scheduledArrival, int actualArrival,
-    boolean isCancelled, boolean isDiverted, float distance)
+    boolean isCancelled, boolean isDiverted, int distance)
   {
     this.flightDate = flightDate;
     this.carrierCode = carrierCode;

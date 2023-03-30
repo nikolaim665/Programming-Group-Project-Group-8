@@ -115,11 +115,12 @@ class Flights
 
   public int firstMatching(Filter filter, int i, int direction)
   {
-    int begin = i;
+    int begin = i, len = flights.size();
     boolean ok = true;
+    i = (i + len) % len;
     while (!(ok = filter.matches(flights.get(i))))
     {
-      i = (i + direction + flights.size()) % flights.size();
+      i = (i + direction + len) % len;
       if (i == begin)
       {
         break;

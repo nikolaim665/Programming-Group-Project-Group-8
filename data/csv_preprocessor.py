@@ -8,26 +8,25 @@ def fmt_int(integer: str):
     try:
         return str(int(integer))
     except:
-        return -1
+        return str(0x7fff_ffff)
 
 def fmt_time(time: str):
     try:
         return str(int(time[:2]) * 60 + int(time[2:]))
     except:
-        return -1
+        return str(0x7fff_ffff)
 
 def fmt_float(num: str):
     try:
-        return str(float(num))
+        return str(int(float(num)))
     except:
-        return -1
+        return str(0x7fff_ffff)
 
 def fmt_bool(boolean: str):
     return '1' if boolean.startswith('1') else '0'
 
 
 with open('flights_lines.txt', mode='w') as output:
-    print(len(lines), file=output)
     for line in lines:
         print(fmt_date(line[0]), file=output)
         print(line[1], file=output)
