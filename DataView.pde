@@ -27,8 +27,11 @@ abstract class DataView
 
   public void setFilterText(String filterText) 
   {
-    this.filterText = filterText;
-    this.handleFilterTextUpdate();
+    if (!this.filterText.equals(filterText))
+    {
+      this.filterText = filterText;
+      this.handleFilterTextUpdate();
+    }
   }
 
   protected void handleFilterTextUpdate() {}

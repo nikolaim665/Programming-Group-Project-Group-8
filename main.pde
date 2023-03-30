@@ -36,8 +36,8 @@ void setup()
 void draw()
 {
   map.draw();
-  textInput.draw();
   menu.draw();
+  textInput.draw();
   dataViews.draw();
 }
 
