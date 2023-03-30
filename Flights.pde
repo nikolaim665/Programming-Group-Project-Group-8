@@ -108,4 +108,21 @@ class Flights
     }
     return result;
   }
+
+  public String dateRange()
+  {
+    String minDate = "9999-99-99", maxDate = "0000-00-00";
+    for (Flight flight: flights)
+    {
+      if (minDate.compareTo(flight.flightDate) > 0)
+      {
+        minDate = flight.flightDate;
+      }
+      if (maxDate.compareTo(flight.flightDate) < 0)
+      {
+        maxDate = flight.flightDate;
+      }
+    }
+    return minDate + "-" + maxDate;
+  }
 }

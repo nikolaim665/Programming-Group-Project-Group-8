@@ -2,6 +2,7 @@ Map map;
 Menu menu;
 DataViews dataViews;
 TextInput textInput;
+DatePicker datePicker;
 
 void settings()
 {
@@ -31,14 +32,21 @@ void setup()
   dataViews.add(new PieChartDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new StatisticsDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  
+  datePicker = new DatePicker(flights, SCREEN_WIDTH - 250, 0, 240, MENU_HEIGHT);
 }
 
 void draw()
 {
   map.draw();
   menu.draw();
-  textInput.draw();
+  /*textInput.draw();*/ datePicker.draw();
   dataViews.draw();
+}
+
+void mousePressed()
+{
+  datePicker.handlePress(mouseX, mouseY);
 }
 
 void mouseReleased()
