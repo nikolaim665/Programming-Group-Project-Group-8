@@ -130,7 +130,14 @@ class DataView
     {
       determineTypeOfAirportBarchart("Incoming");
     }
-    
+    //else if (currentView == 5)
+    //{
+    //  determineTypeOfAirportBarchart("Outgoing");
+    //}
+    //else if (currentView == 6)
+    //{
+    //  determineTypeOfAirportBarchart("Cumulative");
+    //}
   }
   
   

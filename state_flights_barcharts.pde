@@ -84,6 +84,7 @@ void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String fli
      
     text(text, markerXPos, textYPos);
     textFont(font, 16);
+   
     
     //need to make rectangle related to barchart height
     int flights =1;
@@ -109,6 +110,7 @@ void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String fli
     fill(listOfStatesWithFlights.get(i).barChartColour); noStroke();
     
     rect(markerXPos, (markerYPos), barWidth, -roundedHeightOfBar);
+    
     displayCurrentState(markerXPos, markerYPos, barWidth, roundedHeightOfBar, listOfStatesWithFlights.get(i).code);
     //rect(markerXPos, (markerYPos-1), barWidth, -200);
   }
@@ -118,12 +120,11 @@ void drawFlightsBarchart(int maxNumberOfFlights, int numberOfMarkers, String fli
 
 
 void displayCurrentState(int x, float y, int w, int h, String stateCode) {                       //displays the name of the current state that the user is hovering over 
-                                                                                                  //in the barchart, as it's currently very hard to see
+                                                                                                 //in the barchart, as it's currently very hard to see
   if (x < mouseX && mouseX< x+w) {
     if(y-h <mouseY && mouseY< y) {
       
-      font = createFont("Arial",4,true);
-      textFont(font, 30);
+      font = createFont("Arial",30,true);
       fill(0);
       text(stateCode, 1200, 275 ); //int barChartHeight = 420;
                                    //int barChartWidth = 450;

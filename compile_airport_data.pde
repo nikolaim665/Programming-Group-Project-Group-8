@@ -7,15 +7,20 @@ class Airport {
   int numberOfIncomingFlights;
   int numberOfOutgoingFlights;
   int cumulativeNumberOfFlights;// = numberOfIncomingFlights+numberOfOutgoingFlights;
+  int xPosition;
+  int yPosition;
   
   String code;     
   int barChartColour;     
   
-  public Airport(String abbrev, int incoming, int outgoing, int colour) {
+  public Airport(String abbrev, int incoming, int outgoing, int colour, int xpos, int ypos) {
     this.numberOfIncomingFlights = incoming;
     this.numberOfOutgoingFlights = outgoing;
     this.code = abbrev;
     this.barChartColour = colour;  //to distinguish one bar from another
+    
+    this.xPosition = xpos;
+    this.yPosition = ypos;
     
   }
 
@@ -61,15 +66,13 @@ void createListOfAirports(ArrayList<Flight> flights) {
    
   }
   
-  int c=0; //c=colour of bar
-  for (int j=0; j<airportNames.size(); j++, c++) {
-      if (c==3)
-        c=0;
-      
-      airports.add(new Airport(airportNames.get(j), 0, 0, airportColours[c]) );
-    }
+  for (int j=0; j<airportNames.size();j++) {
+    //will not colour airport bars now anyway since it will be re-coloured later anyway      
+    airports.add(new Airport(airportNames.get(j), 0, 0, 0, 0, 0) );
+  }
   
   assignFlightsToAirports(flights);
+  sortAirports();
   
   
   

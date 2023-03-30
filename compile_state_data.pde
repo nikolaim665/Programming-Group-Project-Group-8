@@ -60,6 +60,8 @@ void assignFlightsToStates(ArrayList<Flight> flights, String[] stateCodes) {
     
     for (int j=0; j<stateCodes.length && finished<2; j++) {
       
+      //if (originState!=destinationState)
+      
       if (listOfStatesWithFlights.get(j).code.equals(originState) ) { //.equals(destinationState)
         listOfStatesWithFlights.get(j).numberOfOutgoingFlights++;
         finished++;
