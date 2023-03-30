@@ -231,7 +231,7 @@ void displayCurrentAirport(int x, float y, int w, int h, String airportCode, int
   if (x < mouseX && mouseX< x+w) {
     if(y-h <mouseY && mouseY< y) {
       
-      font = createFont("Arial",30,true);
+      PFont font = createFont("Arial",30,true);
       //textFont(font, 30);
       fill(0);
       text(airportCode, 1200, 275 ); //int barChartHeight = 420;
