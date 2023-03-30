@@ -18,7 +18,7 @@ class Map
   {
     shape(shape, x, y, w, h); 
   }
-}   
+
 
 
 
@@ -29,5 +29,8 @@ class Map
 for (int i=0; (i<data.length); i++)
 {
     String code =data[i].stateCode;
-    int noFlig= data[i].flights;
+    int numbFlights= data[i].flights;
+    println(numbFlights);
+}
+
 }
