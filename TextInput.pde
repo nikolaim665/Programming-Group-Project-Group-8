@@ -28,9 +28,12 @@ class TextInput
 
   private void drawCursor()
   {
-    fill(0);
-    noStroke();
-    rect(x + textWidth(inputText.substring(0, cursorPosition)), y + h * 0.2, 1, h * 0.6);
+    if (millis() / 500 % 2 == 0)
+    {
+      fill(0);
+      noStroke();
+      rect(x + max(textWidth(inputText.substring(0, cursorPosition)), 4), y + h * 0.2, 1, h * 0.6);
+    }
   }
   
   public void draw()
@@ -71,6 +74,6 @@ class TextInput
   
   public String getText()
   {
-    return inputText;
+    return inputText.trim();
   }
 }

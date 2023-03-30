@@ -5,10 +5,10 @@ class TextInfoDataView extends DataView
   public TextInfoDataView(Flights flights, int x, int y, int w, int h)
   {
     super(flights, x, y, w, h);
-    handleFilterTextUpdate();
+    handleFilterUpdate();
   }
 
-  protected void handleFilterTextUpdate()
+  protected void handleFilterUpdate()
   {
     flightIndex = -1;
     step(1);
@@ -16,17 +16,7 @@ class TextInfoDataView extends DataView
 
   private void step(int direction)
   {
-    String carrierCode = filterText.trim().toLowerCase();
-    int begin = flightIndex + direction;
-    do
-    {
-      flightIndex = (flightIndex + direction + flights.size()) % flights.size();
-    } while (!flights.get(flightIndex).carrierCode.toLowerCase().startsWith(carrierCode) && flightIndex != begin);
-
-    if (!flights.get(flightIndex).carrierCode.toLowerCase().startsWith(carrierCode))
-    {
-      flightIndex = -1;
-    }
+    flightIndex = flights.firstMatching(filter, flightIndex < 0 ? 0 : flightIndex + direction, direction);
   }
 
   private String formatTime(int sinceMidnight)

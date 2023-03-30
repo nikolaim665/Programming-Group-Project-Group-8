@@ -7,12 +7,12 @@ class FlightsByStateDataView extends DataView
   public FlightsByStateDataView(Flights flights, int x, int y, int w, int h)
   {
     super(flights, x, y, w, h);
-    this.handleFilterTextUpdate();
+    this.handleFilterUpdate();
   }
 
-  protected void handleFilterTextUpdate()
+  protected void handleFilterUpdate()
   {
-    stateFlightData = flights.getFlightsByStates(filterText);
+    stateFlightData = flights.getFlightsByStates(filter);
 
     int maxFlightCount = getMaxFlightCount();
     markerStep = max(1, floor(pow(10, floor(log(maxFlightCount / 5) / log(10)))));
