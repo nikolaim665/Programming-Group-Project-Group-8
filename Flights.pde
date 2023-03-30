@@ -19,7 +19,7 @@ class Flights
     return flights.get(i);
   }
   
-  class CarrierFlightData
+  class FlightStats
   {
     public final float avgDistance;
     public final float avgDelay;
@@ -28,25 +28,24 @@ class Flights
     public final int totalDiverted;
     public final int totalCancelled;
    
-    public CarrierFlightData(float avgDistance, float avgDelay, int delayedCount, int totalCount, int divertedCount, int cancelledCount)
+    public FlightStats(float avgDistance, float avgDelay, int delayedCount, int totalCount, int divertedCount, int cancelledCount)
     {
       this.avgDistance = avgDistance;
       this.avgDelay = avgDelay;
       this.delayedCount = delayedCount;
       this.totalCount = totalCount;
-      this.totalDiverted=divertedCount;
-      this.totalCancelled=cancelledCount;
+      this.totalDiverted = divertedCount;
+      this.totalCancelled = cancelledCount;
     }
   }
   
-  public CarrierFlightData flightsOfCarrier(String carrierCode)
+  public FlightStats getFlightStats(Filter filter)
   {
-    carrierCode = carrierCode.toLowerCase().trim();
     float totalDistance = 0, totalDelay = 0;
-    int total = 0, delayed = 0, diverted=0, cancelled=0;
+    int total = 0, delayed = 0, diverted = 0, cancelled = 0;
     for (Flight flight : flights)
     {
-      if (flight.carrierCode.toLowerCase().startsWith(carrierCode))
+      if (filter.matches(flight))
       {
         ++total;
         totalDistance += flight.distance;
@@ -68,9 +67,9 @@ class Flights
     }
     if (total == 0)
     {
-      return new CarrierFlightData(0, 0, 0, 0, 0, 0);
+      return new FlightStats(0, 0, 0, 0, 0, 0);
     }
-    return new CarrierFlightData(totalDistance / total, totalDelay / total, delayed, total, cancelled, diverted);
+    return new FlightStats(totalDistance / total, totalDelay / total, delayed, total, cancelled, diverted);
   }
 
   public class StateFlightData
@@ -84,14 +83,14 @@ class Flights
       this.flights = flights;
     }
   }
-  public StateFlightData[] getFlightsByStates(String carrierCode)
+
+  public StateFlightData[] getFlightsByStates(Filter filter)
   {
-    carrierCode = carrierCode.toLowerCase().trim();
     var flightsByStates = new HashMap<String, Integer>(STATE_CODES.length);
     
     for (Flight flight: flights)
     {
-      if (flight.carrierCode.toLowerCase().startsWith(carrierCode))
+      if (filter.matches(flight))
       {
         flightsByStates.put(flight.destinationStateCode, flightsByStates.getOrDefault(flight.destinationStateCode, 0) + 1);
         if (!flight.originStateCode.equals(flight.destinationStateCode))
@@ -107,6 +106,26 @@ class Flights
       result[i] = new StateFlightData(STATE_CODES[i], flightsByStates.getOrDefault(STATE_CODES[i], 0));
     }
     return result;
+  }
+
+  public StateFlightData[] getFlightsByStates()
+  {
+    return getFlightsByStates(new Filter());
+  }
+
+  public int firstMatching(Filter filter, int i, int direction)
+  {
+    int begin = i;
+    boolean ok = true;
+    while (!(ok = filter.matches(flights.get(i))))
+    {
+      i = (i + direction + flights.size()) % flights.size();
+      if (i == begin)
+      {
+        break;
+      }
+    }
+    return ok ? i : -1;
   }
 
   public String dateRange()

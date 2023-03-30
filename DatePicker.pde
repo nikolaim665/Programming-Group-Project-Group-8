@@ -39,7 +39,26 @@ class DatePicker
   
   private int posToDays(int xPos)
   {
-    return (int)((xPos - x) * (long)dateToDays(maxYear, maxMonth, maxDay) / w);
+    return round(float(xPos - x) * dateToDays(maxYear, maxMonth, maxDay) / w);
+  }
+
+  private String formatDate(int y, int m, int d)
+  {
+    int january = y % 4 == 0 && (y % 100 != 0 || y % 400 == 0) ? 29 : 28;
+    int[] monthLengths = {31, january, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    m = max(1, min(m, 12));
+    d = max(1, min(d, monthLengths[m - 1]));
+    return y + (m < 10 ? "-0" : "-") + m + (d < 10 ? "-0" : "-") + d;
+  }
+
+  public String beginDate()
+  {
+    return formatDate(beginYear, beginMonth, beginDay);
+  }
+
+  public String endDate()
+  {
+    return formatDate(endYear, endMonth, endDay);
   }
 
   public void draw()
@@ -49,17 +68,17 @@ class DatePicker
     int to = dateToPos(endYear, endMonth, endDay);
 
     fill(#707070);
-    rect(x, y, from - x, 8);
-    rect(to, y, x + w - to, 8);
+    rect(x, y, from - x, 9);
+    rect(to, y, x + w - to, 9);
 
     fill(#0080FF);
-    rect(from, y, to - from, 8);
+    rect(from, y, to - from, 9);
 
     fill(0);
     textAlign(LEFT, TOP);
-    text(beginYear + "-" + beginMonth + "-" + beginDay, x, y + 8);
+    text(beginDate(), x, y + 9, w, h - 9);
     textAlign(RIGHT, TOP);
-    text(endYear + "-" + endMonth + "-" + endDay, x + w, y + 8);
+    text(endDate(), x, y + 9, w, h - 9);
   }
   
   public void handlePress(int posX, int posY)

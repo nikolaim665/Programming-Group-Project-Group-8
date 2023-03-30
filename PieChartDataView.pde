@@ -1,11 +1,11 @@
 class PieChartDataView extends DataView
 {
-  private Flights.CarrierFlightData flightData;
+  private Flights.FlightStats flightData;
 
   public PieChartDataView(Flights flights, int x, int y, int w, int h)
   {
     super(flights, x, y, w, h);
-    this.handleFilterTextUpdate();
+    this.handleFilterUpdate();
   }
 
   private void drawPiePiece(int offsetX, int offsetY, int size, int begin, int count, int total, color fillColor)
@@ -14,9 +14,9 @@ class PieChartDataView extends DataView
     arc(x + offsetX + size / 2, y + offsetY + size / 2, size, size, 2 * PI * begin / total - PI / 2, 2 * PI * (begin + count) / total - PI / 2);
   }
 
-  protected void handleFilterTextUpdate()
+  protected void handleFilterUpdate()
   {
-    flightData = flights.flightsOfCarrier(filterText);
+    flightData = flights.getFlightStats(filter);
   }
   
   public void draw()
@@ -24,6 +24,7 @@ class PieChartDataView extends DataView
     super.draw();
 
     // Delayed flights
+    textAlign(LEFT, TOP);
     drawPiePiece(20, 100, 200, 0, flightData.delayedCount, flightData.totalCount, #F80000);
     text("Delayed flights (" + flightData.delayedCount + ")", x + 15, y + 20);
     drawPiePiece(20, 100, 200, flightData.delayedCount, flightData.totalCount - flightData.delayedCount, flightData.totalCount, #00EE00);

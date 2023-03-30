@@ -2,7 +2,7 @@ abstract class DataView
 {
   protected final Flights flights;
   protected final int x, y, w, h;
-  protected String filterText = "";
+  protected Filter filter;
 
   public DataView(Flights flights, int x, int y, int w, int h)
   {
@@ -11,6 +11,7 @@ abstract class DataView
     this.y = y;
     this.w = w;
     this.h = h;
+    this.filter = new Filter();
   }
 
   public boolean contains(int posX, int posY)
@@ -25,16 +26,16 @@ abstract class DataView
     rect(x, y, w, h);
   }
 
-  public void setFilterText(String filterText) 
+  public final void setFilter(Filter newFilter) 
   {
-    if (!this.filterText.equals(filterText))
+    if (!filter.equals(newFilter))
     {
-      this.filterText = filterText;
-      this.handleFilterTextUpdate();
+      filter = newFilter;
+      this.handleFilterUpdate();
     }
   }
 
-  protected void handleFilterTextUpdate() {}
+  protected void handleFilterUpdate() {}
   public void handleKey(int keyPressed, int keyCodePressed) {}
   public void handleClick(int x, int y) {}
 }
