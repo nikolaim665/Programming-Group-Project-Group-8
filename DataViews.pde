@@ -26,13 +26,13 @@ class DataViews
     }
   }
 
-  public void handleKey(int keyPressed, int keyCodePressed)
+  public void keyPressed(int keyPressed, int keyCodePressed)
   {
-    dataViews.get(currentView).handleKey(keyPressed, keyCodePressed);
+    dataViews.get(currentView).keyPressed(keyPressed, keyCodePressed);
   }
-  public void handleClick(int x, int y)
+  public void mouseClicked(int x, int y)
   {
-    dataViews.get(currentView).handleClick(x, y);
+    dataViews.get(currentView).mouseClicked(x, y);
   }
 
   public void add(DataView dataView)

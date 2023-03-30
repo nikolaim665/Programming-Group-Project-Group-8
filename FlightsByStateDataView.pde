@@ -7,10 +7,10 @@ class FlightsByStateDataView extends DataView
   public FlightsByStateDataView(Flights flights, int x, int y, int w, int h)
   {
     super(flights, x, y, w, h);
-    this.handleFilterUpdate();
+    this.filterUpdated();
   }
 
-  protected void handleFilterUpdate()
+  protected void filterUpdated()
   {
     stateFlightData = flights.getFlightsByStates(filter);
 

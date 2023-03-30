@@ -23,19 +23,19 @@ class Flights
   {
     public final float avgDistance;
     public final float avgDelay;
-    public final int delayedCount;
-    public final int totalCount;
-    public final int totalDiverted;
-    public final int totalCancelled;
+    public final int delayed;
+    public final int total;
+    public final int diverted;
+    public final int cancelled;
    
-    public FlightStats(float avgDistance, float avgDelay, int delayedCount, int totalCount, int divertedCount, int cancelledCount)
+    public FlightStats(float avgDistance, float avgDelay, int delayed, int total, int diverted, int cancelled)
     {
       this.avgDistance = avgDistance;
       this.avgDelay = avgDelay;
-      this.delayedCount = delayedCount;
-      this.totalCount = totalCount;
-      this.totalDiverted = divertedCount;
-      this.totalCancelled = cancelledCount;
+      this.delayed = delayed;
+      this.total = total;
+      this.diverted = diverted;
+      this.cancelled = cancelled;
     }
   }
   

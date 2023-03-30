@@ -31,11 +31,11 @@ abstract class DataView
     if (!filter.equals(newFilter))
     {
       filter = newFilter;
-      this.handleFilterUpdate();
+      this.filterUpdated();
     }
   }
 
-  protected void handleFilterUpdate() {}
-  public void handleKey(int keyPressed, int keyCodePressed) {}
-  public void handleClick(int x, int y) {}
+  protected void filterUpdated() {}
+  public void keyPressed(int keyPressed, int keyCodePressed) {}
+  public void mouseClicked(int x, int y) {}
 }

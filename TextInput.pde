@@ -43,7 +43,7 @@ class TextInput
     drawCursor();
   }
   
-  public void handleInput(char pressedKey, int pressedKeyCode)
+  public void keyPressed(char pressedKey, int pressedKeyCode)
   {
     if (pressedKey != CODED)
     {

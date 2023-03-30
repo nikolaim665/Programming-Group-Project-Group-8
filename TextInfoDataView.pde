@@ -5,10 +5,10 @@ class TextInfoDataView extends DataView
   public TextInfoDataView(Flights flights, int x, int y, int w, int h)
   {
     super(flights, x, y, w, h);
-    handleFilterUpdate();
+    filterUpdated();
   }
 
-  protected void handleFilterUpdate()
+  protected void filterUpdated()
   {
     flightIndex = -1;
     step(1);
@@ -73,7 +73,7 @@ class TextInfoDataView extends DataView
     }
   }
 
-  public void handleClick(int x, int y)
+  public void mouseClicked(int x, int y)
   {
     if (contains(x, y))
     {
@@ -81,7 +81,7 @@ class TextInfoDataView extends DataView
     }
   }
 
-  public void handleKey(int keyPressed, int keyCodePressed)
+  public void keyPressed(int keyPressed, int keyCodePressed)
   {
     if (keyPressed == CODED && keyCodePressed == LEFT)
     {

@@ -81,7 +81,7 @@ class DatePicker
     text(endDate(), x, y + 9, w, h - 9);
   }
   
-  public void handlePress(int posX, int posY)
+  public void mousePressed(int posX, int posY)
   {
     if (posX > x && posX < x + w && posY > y && posY < y + h)
     {
