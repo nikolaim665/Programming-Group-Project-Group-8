@@ -12,8 +12,10 @@ void setup()
   // Arial, 16 point, anti-aliasing on
   textFont(createFont("Arial", 16, true));
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-  map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT);
+  Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
+  
+  
+  map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT, flights);
   textInput = new TextInput(SCREEN_WIDTH - 250, 0, 240, MENU_HEIGHT);
   
   // The menu for switching between displayed content in DataViews
@@ -23,8 +25,7 @@ void setup()
   menu.addButton("Statistics");
   menu.addButton("Flights by state");
   
-  Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
-  
+
   // The DataViews showing various information, statistics, etc.
   dataViews = new DataViews();
   dataViews.add(new TextInfoDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
