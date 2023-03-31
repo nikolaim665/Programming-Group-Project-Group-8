@@ -2,21 +2,37 @@ import java.util.HashMap;
 
 class Flights
 {
-  private ArrayList<Flight> flights;
+  private Flight[] flights;
+  public final String minDate, maxDate;
 
-  public Flights(ArrayList<Flight> flights)
+  public Flights(Flight[] flights)
   {
     this.flights = flights;
+    
+    String minDate = "9999-99-99", maxDate = "0000-00-00";
+    for (Flight flight: flights)
+    {
+      if (minDate.compareTo(flight.flightDate) > 0)
+      {
+        minDate = flight.flightDate;
+      }
+      if (maxDate.compareTo(flight.flightDate) < 0)
+      {
+        maxDate = flight.flightDate;
+      }
+    }
+    this.minDate = minDate;
+    this.maxDate = maxDate;
   }
 
   public int size()
   {
-    return flights.size();
+    return flights.length;
   }
 
   public Flight get(int i)
   {
-    return flights.get(i);
+    return flights[i];
   }
   
   class FlightStats
@@ -115,10 +131,10 @@ class Flights
 
   public int firstMatching(Filter filter, int i, int direction)
   {
-    int begin = i, len = flights.size();
+    int begin = i, len = flights.length;
     boolean ok = true;
     i = (i + len) % len;
-    while (!(ok = filter.matches(flights.get(i))))
+    while (!(ok = filter.matches(flights[i])))
     {
       i = (i + direction + len) % len;
       if (i == begin)
@@ -127,22 +143,5 @@ class Flights
       }
     }
     return ok ? i : -1;
-  }
-
-  public String dateRange()
-  {
-    String minDate = "9999-99-99", maxDate = "0000-00-00";
-    for (Flight flight: flights)
-    {
-      if (minDate.compareTo(flight.flightDate) > 0)
-      {
-        minDate = flight.flightDate;
-      }
-      if (maxDate.compareTo(flight.flightDate) < 0)
-      {
-        maxDate = flight.flightDate;
-      }
-    }
-    return minDate + "-" + maxDate;
   }
 }

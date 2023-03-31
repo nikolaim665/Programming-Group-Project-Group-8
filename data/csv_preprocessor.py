@@ -1,48 +1,65 @@
+import io
+
 lines = [line.split(',') for line in open('flights_sample.csv').read().strip().split('\n')[1:]]
 
 def fmt_date(date: str):
     month, day, year = date.split(' ')[0].split('/')
-    return year.zfill(4) + '-' + month.zfill(2) + '-' + day.zfill(2)
+    return (year.zfill(4) + '-' + month.zfill(2) + '-' + day.zfill(2)).encode()
 
 def fmt_int(integer: str):
     try:
-        return str(int(integer))
+        return str(int(integer)).encode()
     except:
-        return str(0x7fff_ffff)
+        return str(0x7fff_ffff).encode()
 
 def fmt_time(time: str):
     try:
-        return str(int(time[:2]) * 60 + int(time[2:]))
+        return str(int(time[:2]) * 60 + int(time[2:])).encode()
     except:
-        return str(0x7fff_ffff)
+        return str(0x7fff_ffff).encode()
 
 def fmt_float(num: str):
     try:
-        return str(int(float(num)))
+        return str(int(float(num))).encode()
     except:
-        return str(0x7fff_ffff)
+        return str(0x7fff_ffff).encode()
 
 def fmt_bool(boolean: str):
-    return '1' if boolean.startswith('1') else '0'
+    return b'1' if boolean.startswith('1') else b'0'
 
+def raw_int(num: int):
+    result = ''
+    for i in range(8):
+        result = chr(ord('0') + num % 16) + result
+        num //= 16
+    return result.encode()
 
-with open('flights_lines.txt', mode='w') as output:
-    for line in lines:
-        print(fmt_date(line[0]), file=output)
-        print(line[1], file=output)
-        print(fmt_int(line[2]), file=output)
-        print(line[3], file=output)
-        print(line[4][1:] + ',' + line[5][:-1], file=output)
-        print(line[6], file=output)
-        print(fmt_int(line[7]), file=output)
-        print(line[8], file=output)
-        print(line[9][1:] + ',' + line[10][:-1], file=output)
-        print(line[11], file=output)
-        print(fmt_int(line[12]), file=output)
-        print(fmt_time(line[13]), file=output)
-        print(fmt_time(line[14]), file=output)
-        print(fmt_time(line[15]), file=output)
-        print(fmt_time(line[16]), file=output)
-        print(fmt_bool(line[17]), file=output)
-        print(fmt_bool(line[18]), file=output)
-        print(fmt_float(line[19]), file=output)
+def fmt_text(text: str):
+    return text.encode()
+
+output = io.BytesIO()
+for line in lines:
+    output.write(fmt_date(line[0])+ b'\n')
+    output.write(fmt_text(line[1])+ b'\n')
+    output.write(fmt_int(line[2])+ b'\n')
+    output.write(fmt_text(line[3])+ b'\n')
+    output.write(fmt_text(line[4][1:] + ',' + line[5][:-1])+ b'\n')
+    output.write(fmt_text(line[6])+ b'\n')
+    output.write(fmt_int(line[7])+ b'\n')
+    output.write(fmt_text(line[8])+ b'\n')
+    output.write(fmt_text(line[9][1:] + ',' + line[10][:-1])+ b'\n')
+    output.write(fmt_text(line[11])+ b'\n')
+    output.write(fmt_int(line[12])+ b'\n')
+    output.write(fmt_time(line[13])+ b'\n')
+    output.write(fmt_time(line[14])+ b'\n')
+    output.write(fmt_time(line[15])+ b'\n')
+    output.write(fmt_time(line[16])+ b'\n')
+    output.write(fmt_bool(line[17])+ b'\n')
+    output.write(fmt_bool(line[18])+ b'\n')
+    output.write(fmt_float(line[19])+ b'\n')
+
+with open('flights_lines.txt', mode='wb') as file:
+    data = output.getvalue()
+    file.write(raw_int(len(data))+ b'\n')
+    file.write(raw_int(len(lines))+ b'\n')
+    file.write(data)

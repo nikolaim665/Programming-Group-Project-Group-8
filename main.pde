@@ -14,12 +14,14 @@ void setup()
   textFont(createFont("Arial", 16, true));
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
   
+  int m = millis();
   Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
+  println(millis() - m, "ms");
 
   map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT);
   textInput = new TextInput(SCREEN_WIDTH - 120, 0, 115, MENU_HEIGHT);
   
-  datePicker = new DatePicker(flights, SCREEN_WIDTH - 380, 0, 220, MENU_HEIGHT);
+  datePicker = new DatePicker(flights.minDate, flights.maxDate, SCREEN_WIDTH - 380, 0, 220, MENU_HEIGHT);
   
   // The menu for switching between displayed content in DataViews
   menu = new Menu(MAP_WIDTH, 0, DATAVIEW_WIDTH, MENU_HEIGHT, 30, 10);

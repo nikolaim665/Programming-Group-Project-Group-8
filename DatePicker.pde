@@ -6,15 +6,14 @@ class DatePicker
   private int endYear, endMonth, endDay;
   private final int x, y, w, h;
 
-  public DatePicker(Flights flights, int x, int y, int w, int h)
+  public DatePicker(String begin, String end, int x, int y, int w, int h)
   {
-    String[] range = flights.dateRange().split("-");
-    beginYear = minYear = parseInt(range[0]);
-    beginMonth = minMonth = parseInt(range[1]);
-    beginDay = minDay = parseInt(range[2]);
-    endYear = maxYear = parseInt(range[3]);
-    endMonth = maxMonth = parseInt(range[4]);
-    endDay = maxDay = parseInt(range[5]);
+    beginYear = minYear = parseInt(begin.substring(0, 4));
+    beginMonth = minMonth = parseInt(begin.substring(5, 7));
+    beginDay = minDay = parseInt(begin.substring(8, 10));
+    endYear = maxYear = parseInt(end.substring(0, 4));
+    endMonth = maxMonth = parseInt(end.substring(5, 7));
+    endDay = maxDay = parseInt(end.substring(8, 10));
     
     this.x = x;
     this.y = y;

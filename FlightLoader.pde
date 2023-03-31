@@ -3,7 +3,7 @@ import java.io.FileInputStream;
 class FlightLoader
 {
   private String filepath;
-  private byte[] buffer = new byte[1024*1024*64];
+  private byte[] buffer = null;
   private int i = 0, len = 0;
   
   public FlightLoader(String filepath)
@@ -47,13 +47,21 @@ class FlightLoader
     
   public Flights load()
   {
+    int lineCount = 0;
     try (FileInputStream reader = new FileInputStream(filepath))
     {
-      len = reader.read(buffer);
+      byte[] tmp = new byte[18];
+      reader.read(tmp);
+      len = (tmp[0] - '0') << 28 | (tmp[1] - '0') << 24 | (tmp[2] - '0') << 20 | (tmp[3] - '0') << 16
+          | (tmp[4] - '0') << 12 | (tmp[5] - '0') <<  8 | (tmp[6] - '0') <<  4 | (tmp[7] - '0');
+      lineCount = (tmp[ 9] - '0') << 28 | (tmp[10] - '0') << 24 | (tmp[11] - '0') << 20 | (tmp[12] - '0') << 16
+                | (tmp[13] - '0') << 12 | (tmp[14] - '0') <<  8 | (tmp[15] - '0') <<  4 | (tmp[16] - '0');
+      buffer = new byte[len];
+      reader.read(buffer);
     }
     catch(Exception exc) {}
     
-    var flights = new ArrayList<Flight>();
+    var flights = new Flight[lineCount];
     
     String flightDate, carrierCode;
     int flightNumber;
@@ -65,7 +73,7 @@ class FlightLoader
     boolean isCancelled, isDiverted;
     int distance;
 
-    while (i < len)
+    for (int line = 0; i < len; ++line)
     {
       flightDate = nextString();
       carrierCode = nextString();
@@ -86,11 +94,11 @@ class FlightLoader
       isDiverted = nextByte() == '1';
       distance = nextInt();
 
-      flights.add(new Flight(
+      flights[line] = new Flight(
         flightDate, carrierCode, flightNumber, originAirportCode, originCityName, originStateCode, originWorldAreaCode,
         destinationAirportCode, destinationCityName, destinationStateCode, destinationWorldAreaCode,
         scheduledDeparture, actualDeparture, scheduledArrival, actualArrival, isCancelled, isDiverted, distance
-      ));
+      );
     }
     return new Flights(flights);
   }
