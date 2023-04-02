@@ -14,7 +14,7 @@ class FlightLoader
   private int nextInt()
   {
     int result = 0;
-    while (i < len && buffer[i] != '\n')
+    while (i < len && buffer[i] != '\t')
     {
       result = result * 10 + buffer[i] - '0';
       ++i;
@@ -23,21 +23,17 @@ class FlightLoader
     return result;
   }
 
-  private byte nextByte()
+  private boolean nextBoolean()
   {
-    byte result = buffer[i];
-    while (i < len && buffer[i] != '\n')
-    {
-      ++i;
-    }
-    ++i;
+    boolean result = buffer[i] == '1';
+    i += 2;
     return result;
   }
     
   private String nextString()
   {
     int begin = i;
-    while (i < len && buffer[i] != '\n')
+    while (i < len && buffer[i] != '\t')
     {
       ++i;
     }
@@ -59,7 +55,7 @@ class FlightLoader
       buffer = new byte[len];
       reader.read(buffer);
     }
-    catch(Exception exc) {}
+    catch (Exception exc) {}
     
     var flights = new Flight[lineCount];
     
@@ -90,8 +86,8 @@ class FlightLoader
       actualDeparture = nextInt();
       scheduledArrival = nextInt();
       actualArrival = nextInt();
-      isCancelled = nextByte() == '1';
-      isDiverted = nextByte() == '1';
+      isCancelled = nextBoolean();
+      isDiverted = nextBoolean();
       distance = nextInt();
 
       flights[line] = new Flight(
