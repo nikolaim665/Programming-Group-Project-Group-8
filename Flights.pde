@@ -66,7 +66,7 @@ class Flights
         ++total;
         totalDistance += flight.distance;
         
-        if (flight.actualArrival > flight.scheduledArrival && flight.scheduledArrival >= 0)
+        if (flight.actualArrival > flight.scheduledArrival && flight.actualArrival <= 1440)
         {
           ++delayed;
           totalDelay += flight.actualArrival - flight.scheduledArrival;

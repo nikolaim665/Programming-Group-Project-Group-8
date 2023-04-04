@@ -10,10 +10,7 @@ class TextInfoDataView extends DataView
 
   protected void filterUpdated()
   {
-    if (flightIndex < 0 || filter.matches(flights.get(flightIndex)))
-    {
-      flightIndex = flights.firstMatching(filter, 0, 1);
-    }
+    flightIndex = flights.firstMatching(filter, 0, 1);
   }
 
   private void step(int direction)
@@ -47,26 +44,24 @@ class TextInfoDataView extends DataView
       text("Flight Date: " + flight.flightDate, textX, y);
       text("Carrier Code: " + flight.carrierCode, textX, y + 25);
       text("Flight Number: " + flight.flightNumber, textX, y + 50);
-      text("Origin Airport Code: " + flight.originAirportCode, textX, y + 75);
-      text("Origin City Name: " + flight.originCityName, textX, y + 100);
-      text("Origin State Code: " + flight.originStateCode, textX, y + 125);
-      text("Origin World Area Code: " + flight.originWorldAreaCode, textX, y + 150);
-      text("Destination Airport Code: " + flight.destinationAirportCode, textX, y + 175);
-      text("Destination City Name: " + flight.destinationCityName, textX, y + 200);
-      text("Destination State Code: " + flight.destinationStateCode, textX, y + 225);
-      text("Destination World Area Code: " + flight.destinationWorldAreaCode, textX, y + 250);
-      text("Scheduled Departure: " + formatTime(flight.scheduledDeparture), textX, y + 275);
-      text("Actual Departure: " + formatTime(flight.actualDeparture), textX, y + 300);
-      text("Scheduled Arrival: " + formatTime(flight.scheduledArrival), textX, y + 325);
-      text("Actual Arrival: " + formatTime(flight.actualArrival), textX, y + 350);
-      text("Distance: " + flight.distance + " miles", textX, y + 375);
+      text("Origin Airport: " + flight.originAirportCode, textX, y + 75);
+      text("Origin City: " + flight.originCityName, textX, y + 100);
+      text("Origin World Area Code: " + flight.originWorldAreaCode, textX, y + 125);
+      text("Destination Airport: " + flight.destinationAirportCode, textX, y + 150);
+      text("Destination City: " + flight.destinationCityName, textX, y + 175);
+      text("Destination World Area Code: " + flight.destinationWorldAreaCode, textX, y + 200);
+      text("Scheduled Departure: " + formatTime(flight.scheduledDeparture), textX, y + 225);
+      text("Actual Departure: " + formatTime(flight.actualDeparture), textX, y + 250);
+      text("Scheduled Arrival: " + formatTime(flight.scheduledArrival), textX, y + 275);
+      text("Actual Arrival: " + formatTime(flight.actualArrival), textX, y + 300);
+      text("Distance: " + flight.distance + " miles", textX, y + 325);
       if (flight.isCancelled)
       {
-        text("Flight has been cancelled", textX, y + 400);
+        text("Flight has been cancelled", textX, y + 350);
       }
       else if (flight.isDiverted)
       {
-        text("Flight has been diverted", textX, y + 400);
+        text("Flight has been diverted", textX, y + 350);
       }
     }
     else
