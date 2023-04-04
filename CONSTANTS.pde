@@ -1,8 +1,8 @@
-final int SCREEN_WIDTH = 1700;
-final int SCREEN_HEIGHT = 500;
+final int SCREEN_WIDTH = 2400;
+final int SCREEN_HEIGHT = 750;
 
-final int MAP_WIDTH = 750;
-final int MAP_HEIGHT = 500;
+final int MAP_WIDTH = 1250;
+final int MAP_HEIGHT = 750;
 
 final int MENU_HEIGHT = 40;
 final int DATAVIEW_WIDTH = SCREEN_WIDTH - MAP_WIDTH;
