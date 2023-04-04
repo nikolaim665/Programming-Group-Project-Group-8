@@ -10,6 +10,7 @@
 
 ArrayList<Airport> orderedIncomingFlightsOfAirports= new ArrayList<Airport>();
 ArrayList<Airport> orderedOutgoingFlightsOfAirports= new ArrayList<Airport>();
+
 ArrayList<Airport> orderedCumulativeFlightsOfAirports= new ArrayList<Airport>();
 
 
@@ -225,7 +226,7 @@ void drawAirportChart(int maxFlights, int numberOfMarkers, String flightType) {
   
   
 }
-
+PFont font;
 void displayCurrentAirport(int x, float y, int w, int h, String airportCode, int totalPercentageOfAirports) {
   
   if (x < mouseX && mouseX< x+w) {

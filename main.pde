@@ -32,6 +32,12 @@ void setup()
   dataViews.add(new TextInfoDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new IssuesDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  
+  createListOfAirports(flights.flights);
+  
+  for (int i =0; i<orderedCumulativeFlightsOfAirports.size(); i++) {
+    System.out.println(orderedCumulativeFlightsOfAirports.get(i).code );
+  }
 }
 
 void draw()
