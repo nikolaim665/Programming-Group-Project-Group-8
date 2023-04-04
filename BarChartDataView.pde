@@ -58,7 +58,7 @@ abstract class BarChartDataView extends DataView
       if (barX < mouseX && mouseX < barX + barW)
       {
         textSize(25);
-        text(getBarLabel(i), barX + barW / 2, chartY + 2);
+        text(getBarDescription(i), barX + barW / 2, chartY + 2);
       }
     }
   }
