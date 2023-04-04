@@ -27,4 +27,9 @@ class FlightsByStateDataView extends BarChartDataView
   {
     return stateFlightData[i].stateCode;
   }
+
+  protected String getBarDescription(int i)
+  {
+    return stateFlightData[i].stateCode;
+  }
 }

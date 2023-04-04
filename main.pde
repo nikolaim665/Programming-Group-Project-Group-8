@@ -30,12 +30,14 @@ void setup()
   menu.addButton("Flight info");
   menu.addButton("Airline issues");
   menu.addButton("Flights by state");
+  menu.addButton("Flights by airport");
   
   // The DataViews showing various information, statistics, etc.
   dataViews = new DataViews();
   dataViews.add(new TextInfoDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new IssuesDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  dataViews.add(new FlightsByAirportDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   
   dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), datePicker.beginDate(), datePicker.endDate()));
 }

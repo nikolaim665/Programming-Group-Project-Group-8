@@ -144,4 +144,29 @@ class Flights
     }
     return ok ? i : -1;
   }
+
+  public Airport[] getSortedAirports(Filter filter)
+  {
+    var flightsByAirport = new HashMap<String, Integer>();
+    for (Flight flight: flights)
+    {
+      if (filter.matches(flight))
+      {
+        flightsByAirport.put(flight.destinationAirportCode, flightsByAirport.getOrDefault(flight.destinationAirportCode, 0) + 1);
+        if (!flight.originAirportCode.equals(flight.destinationAirportCode))
+        {
+          flightsByAirport.put(flight.originAirportCode, flightsByAirport.getOrDefault(flight.originAirportCode, 0) + 1);
+        }
+      }
+    }
+
+    var airports = new Airport[flightsByAirport.size()];
+    int i = 0;
+    for (var entry: flightsByAirport.entrySet())
+    {
+      airports[i] = new Airport(entry.getKey(), entry.getValue());
+      ++i;
+    }
+    return Airport.sort(airports);
+  }
 }

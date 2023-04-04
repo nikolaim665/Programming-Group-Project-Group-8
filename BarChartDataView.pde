@@ -12,6 +12,7 @@ abstract class BarChartDataView extends DataView
   protected abstract int getBarCount();
   protected abstract int getBarValue(int i);
   protected abstract String getBarLabel(int i);
+  protected abstract String getBarDescription(int i);
 
   protected void filterUpdated()
   {
