@@ -15,15 +15,17 @@ void setup()
   // Arial, 16 point, anti-aliasing on
   textFont(createFont("Arial", 16, true));
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
+  
+  int m = millis();
+  Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
+
   airportsPositions();
   airportsCodes();
-  
-  Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
 
   map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT);
   textInput = new TextInput(SCREEN_WIDTH - 120, 0, 115, MENU_HEIGHT);
   
-  datePicker = new DatePicker(flights.minDate, flights.maxDate, SCREEN_WIDTH - 480, 0, 320, MENU_HEIGHT);
+  datePicker = new DatePicker(flights.getMinDate(), flights.getMaxDate(), SCREEN_WIDTH - 480, 0, 320, MENU_HEIGHT);
   
   // The menu for switching between displayed content in DataViews
   menu = new Menu(MAP_WIDTH, 0, DATAVIEW_WIDTH, MENU_HEIGHT, 30, 10);
@@ -39,7 +41,9 @@ void setup()
   dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new FlightsByAirportDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   
-  dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), datePicker.beginDate(), datePicker.endDate()));
+  dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), flights.getMinDate(), flights.getMaxDate()));
+  
+  println(millis() - m, "ms");
 }
 
 void draw()

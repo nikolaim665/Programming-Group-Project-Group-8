@@ -3,26 +3,20 @@ import java.util.HashMap;
 class Flights
 {
   private Flight[] flights;
-  public final String minDate, maxDate;
 
   public Flights(Flight[] flights)
   {
     this.flights = flights;
-    
-    String minDate = "9999-99-99", maxDate = "0000-00-00";
-    for (Flight flight: flights)
-    {
-      if (minDate.compareTo(flight.flightDate) > 0)
-      {
-        minDate = flight.flightDate;
-      }
-      if (maxDate.compareTo(flight.flightDate) < 0)
-      {
-        maxDate = flight.flightDate;
-      }
-    }
-    this.minDate = minDate;
-    this.maxDate = maxDate;
+  }
+  
+  public String getMinDate()
+  {
+    return flights[0].flightDate;
+  }
+  
+  public String getMaxDate()
+  {
+    return flights[flights.length - 1].flightDate;
   }
 
   public int size()
@@ -168,5 +162,10 @@ class Flights
       ++i;
     }
     return Airport.sort(airports);
+  }
+
+  public Airport[] getSortedAirports()
+  {
+    return getSortedAirports(new Filter());
   }
 }
