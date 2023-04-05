@@ -3,26 +3,20 @@ import java.util.HashMap;
 class Flights
 {
   private Flight[] flights;
-  public final String minDate, maxDate;
 
   public Flights(Flight[] flights)
   {
     this.flights = flights;
-    
-    String minDate = "9999-99-99", maxDate = "0000-00-00";
-    for (Flight flight: flights)
-    {
-      if (minDate.compareTo(flight.flightDate) > 0)
-      {
-        minDate = flight.flightDate;
-      }
-      if (maxDate.compareTo(flight.flightDate) < 0)
-      {
-        maxDate = flight.flightDate;
-      }
-    }
-    this.minDate = minDate;
-    this.maxDate = maxDate;
+  }
+  
+  public int getMinDate()
+  {
+    return flights[0].flightDate;
+  }
+  
+  public int getMaxDate()
+  {
+    return flights[flights.length - 1].flightDate;
   }
 
   public int size()
@@ -85,7 +79,7 @@ class Flights
     {
       return new FlightStats(0, 0, 0, 0, 0, 0);
     }
-    return new FlightStats(totalDistance / total, totalDelay / total, delayed, total, cancelled, diverted);
+    return new FlightStats(totalDistance / total, totalDelay / total, delayed, total, diverted, cancelled);
   }
 
   public class StateFlightData
@@ -143,5 +137,35 @@ class Flights
       }
     }
     return ok ? i : -1;
+  }
+
+  public Airport[] getSortedAirports(Filter filter)
+  {
+    var flightsByAirport = new HashMap<String, Integer>();
+    for (Flight flight: flights)
+    {
+      if (filter.matches(flight))
+      {
+        flightsByAirport.put(flight.destinationAirportCode, flightsByAirport.getOrDefault(flight.destinationAirportCode, 0) + 1);
+        if (!flight.originAirportCode.equals(flight.destinationAirportCode))
+        {
+          flightsByAirport.put(flight.originAirportCode, flightsByAirport.getOrDefault(flight.originAirportCode, 0) + 1);
+        }
+      }
+    }
+
+    var airports = new Airport[flightsByAirport.size()];
+    int i = 0;
+    for (var entry: flightsByAirport.entrySet())
+    {
+      airports[i] = new Airport(entry.getKey(), entry.getValue());
+      ++i;
+    }
+    return Airport.sort(airports);
+  }
+
+  public Airport[] getSortedAirports()
+  {
+    return getSortedAirports(new Filter());
   }
 }

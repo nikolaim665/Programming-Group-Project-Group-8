@@ -15,38 +15,38 @@ void setup()
   // Arial, 16 point, anti-aliasing on
   textFont(createFont("Arial", 16, true));
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
-  airportsPositions();
-  airportsCodes();
   
   Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
+  
+  airportsPositions();
+  airportsCodes();
 
-  map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT);
+  map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT, flights);
   textInput = new TextInput(SCREEN_WIDTH - 120, 0, 115, MENU_HEIGHT);
   
-  datePicker = new DatePicker(flights.minDate, flights.maxDate, SCREEN_WIDTH - 480, 0, 320, MENU_HEIGHT);
+  datePicker = new DatePicker(flights.getMinDate(), flights.getMaxDate(), MAP_WIDTH + MENU_WIDTH + 20, 0, 320, MENU_HEIGHT);
   
   // The menu for switching between displayed content in DataViews
-  menu = new Menu(MAP_WIDTH, 0, DATAVIEW_WIDTH, MENU_HEIGHT, 30, 10);
-  menu.addButton("Flight info");
-  menu.addButton("Airline issues");
-  menu.addButton("Flights by state");
+  menu = new Menu(MAP_WIDTH, 0, MENU_WIDTH, MENU_HEIGHT, "Flight info", "Airline issues", "Flights by state", "Flights by airport");
   
   // The DataViews showing various information, statistics, etc.
   dataViews = new DataViews();
   dataViews.add(new TextInfoDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new IssuesDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
+  dataViews.add(new FlightsByAirportDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   
-  dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), datePicker.beginDate(), datePicker.endDate()));
+  dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), flights.getMinDate(), flights.getMaxDate()));
 }
 
 void draw()
 {
+  background(255, 255, 180);
   map.draw();
-  menu.draw();
   textInput.draw();
   datePicker.draw();
   dataViews.draw();
+  menu.draw();
   text("x= " + mouseX + "/ 1250", 1000, 600);
   text("y= " + mouseY + "/ 750", 1000, 650);
   
@@ -54,34 +54,36 @@ void draw()
   {
     datePicker.mousePressed(mouseX, mouseY);
   }
+
+  int unitRadius = MAP_HEIGHT / 20;
   for (int i = 0; i < 40; i++)
   {
-  if (mouseX > airportsPosition[i][0] * MAP_WIDTH - (airportsPosition[i][2] * (MAP_HEIGHT / 10)) / 2 && mouseX < airportsPosition[i][0] * MAP_WIDTH + 
-  (airportsPosition[i][2] * (MAP_HEIGHT / 10)) / 2 && mouseY > airportsPosition[i][1] * MAP_HEIGHT - (airportsPosition[i][2] * (MAP_HEIGHT / 10)) / 2 && mouseY < airportsPosition[i][1] * 
-  MAP_HEIGHT + (airportsPosition[i][2] * (MAP_HEIGHT / 10)) / 2)
-  {
-    fill(#280137);
-    text(airportsCode[i], (airportsPosition[i][0] * MAP_WIDTH), (airportsPosition[i][1] * MAP_HEIGHT) + 25);
-    for (int j = 0; j < 40; j++)
+    if (mouseX > airportsPosition[i][0] * MAP_WIDTH  - airportsPosition[i][2] * unitRadius
+     && mouseX < airportsPosition[i][0] * MAP_WIDTH  + airportsPosition[i][2] * unitRadius
+     && mouseY > airportsPosition[i][1] * MAP_HEIGHT - airportsPosition[i][2] * unitRadius
+     && mouseY < airportsPosition[i][1] * MAP_HEIGHT + airportsPosition[i][2] * unitRadius)
     {
-      stroke(#4C0013);
-      line( airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[j][0] * MAP_WIDTH, airportsPosition[j][1] * MAP_HEIGHT);
+      fill(#280137);
+      text(airportsCode[i], airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT + 25);
+      for (int j = 0; j < 40; j++)
+      {
+        stroke(#FFD773);
+        line(airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[j][0] * MAP_WIDTH, airportsPosition[j][1] * MAP_HEIGHT);
+      }
     }
-  }
-  else
-  {
-    fill(#9966CB);
-  }
-  circle(airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[i][2] * (MAP_HEIGHT / 10));
+    else
+    {
+      fill(#9966CB);
+    }
+    circle(airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[i][2] * unitRadius * 2);
   }
 }
 
 void mousePressed()
 {
-  int clickedButton = menu.buttonAt(mouseX, mouseY);
-  if (clickedButton >= 0)
+  if (menu.mouseClicked(mouseX, mouseY))
   {
-    dataViews.setView(clickedButton);
+    dataViews.setView(menu.getSelected());
   }
   else
   {

@@ -1,49 +1,81 @@
 class Menu
 {
-  private ArrayList<Button> buttons;
-  private int x, y, w, h, padding, spacing;
-  private int lastX;
+  private int x, y, w, h;
+  private String[] options;
+  private boolean opened = false;
+  private int selected = 0;
   
-  public Menu(int x, int y, int w, int h, int padding, int spacing)
+  public Menu(int x, int y, int w, int h, String ... options)
   {
-    this.buttons = new ArrayList<Button>();
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
-    this.padding = padding;
-    this.spacing = spacing;
-    
-    this.lastX = this.x;
+    this.options = options;
+  }
+
+  public int getSelected()
+  {
+    return selected;
   }
   
-  public void addButton(String label)
+  private boolean inRect(int posX, int posY, int x, int y, int w, int h)
   {
-    int w = ceil(textWidth(label)) + padding;
-    buttons.add(new Button(lastX + spacing, y, w, h - 1, label));
-    lastX += w + spacing;
+    return x <= posX && posX <= x + w && y <= posY && posY <= y + h;
   }
-  
-  public void draw()
+
+  public boolean mouseClicked(int clickX, int clickY)
   {
-    fill(255, 255, 180);
-    noStroke();
-    rect(x, y, w, h);
-    for (int i = 0; i < buttons.size(); ++i)
+    if (opened)
     {
-      buttons.get(i).draw();
-    }
-  }
-  
-  public int buttonAt(int posX, int posY)
-  {
-    for (int i = 0; i < buttons.size(); ++i)
-    {
-      if (buttons.get(i).contains(posX, posY))
+      opened = false;
+      for (int i = 0; i < options.length; ++i)
       {
-        return i;
+        if (inRect(mouseX, mouseY, x, y + h * i, w, h))
+        {
+          selected = i;
+          return true;
+        }
       }
     }
-    return -1;
+    else if (inRect(clickX, clickY, x, y, w, h))
+    {
+      opened = true;
+      return true;
+    }
+    return false;
+  }
+    
+  public void draw()
+  {
+    if (opened)
+    {
+      fill(255);
+      stroke(128);
+      rect(x, y, w, h * options.length);
+  
+      noStroke();
+      textAlign(CENTER, CENTER);
+      for (int i = 0; i < options.length; ++i)
+      {
+        if (inRect(mouseX, mouseY, x, y + h * i, w, h))
+        {
+          fill(#40B0FF);
+          rect(x + 1, y + h * i, w - 1, h);
+        }
+        fill(0);
+        text(options[i], x, y + h * i, w, h);
+      }
+    }
+    else
+    {
+      fill(inRect(mouseX, mouseY, x, y, w, h) ? #80CCFF : #FFFFFF);
+      stroke(128);
+      rect(x, y, w, h - 1);
+  
+      textAlign(CENTER, CENTER);
+      fill(0);
+      text(options[selected], x, y, w, h);
+    }
   }
 }

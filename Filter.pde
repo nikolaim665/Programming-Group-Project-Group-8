@@ -1,8 +1,9 @@
 class Filter
 {
-    public final String carrierCodePrefix, minDate, maxDate;
+    public final String carrierCodePrefix;
+    public final int minDate, maxDate;
 
-    public Filter(String carrierCodePrefix, String minDate, String maxDate)
+    public Filter(String carrierCodePrefix, int minDate, int maxDate)
     {
         this.carrierCodePrefix = carrierCodePrefix;
         this.minDate = minDate;
@@ -11,20 +12,20 @@ class Filter
 
     public Filter()
     {
-        this("", "0000-00-00", "9999-99-99");
+        this("", 0, 0x7FFF_FFFF);
     }
     
     public boolean matches(Flight flight)
     {
         return flight.carrierCode.startsWith(carrierCodePrefix) 
-            && flight.flightDate.compareTo(minDate) >= 0
-            && flight.flightDate.compareTo(maxDate) <= 0;
+            && flight.flightDate >= minDate
+            && flight.flightDate <= maxDate;
     }
 
     public boolean equals(Filter another)
     {
         return carrierCodePrefix.equals(another.carrierCodePrefix)
-            && minDate.equals(another.minDate)
-            && maxDate.equals(another.maxDate);
+            && minDate == another.minDate
+            && maxDate == another.maxDate;
     }
 }

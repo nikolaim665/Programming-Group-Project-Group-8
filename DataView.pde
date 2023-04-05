@@ -19,12 +19,7 @@ abstract class DataView
     return x <= posX && posX <= x + w && y <= posY && posY <= y + h;
   }
 
-  public void draw()
-  {
-    fill(255, 255, 180);
-    noStroke();
-    rect(x, y, w, h);
-  }
+  public abstract void draw();
 
   public final void setFilter(Filter newFilter) 
   {

@@ -1,19 +1,19 @@
 class DatePicker
 {
-  private final int minYear, minMonth, minDay;
-  private final int maxYear, maxMonth, maxDay;
-  private int beginYear, beginMonth, beginDay;
-  private int endYear, endMonth, endDay;
+  private final int minimum, maximum, range;
+  private int begin, end;
+  private String beginStr, endStr;
   private final int x, y, w, h;
 
-  public DatePicker(String begin, String end, int x, int y, int w, int h)
+  public DatePicker(int minimum, int maximum, int x, int y, int w, int h)
   {
-    beginYear = minYear = parseInt(begin.substring(0, 4));
-    beginMonth = minMonth = parseInt(begin.substring(5, 7));
-    beginDay = minDay = parseInt(begin.substring(8, 10));
-    endYear = maxYear = parseInt(end.substring(0, 4));
-    endMonth = maxMonth = parseInt(end.substring(5, 7));
-    endDay = maxDay = parseInt(end.substring(8, 10));
+    this.minimum = minimum;
+    this.maximum = maximum;
+    range = maximum - minimum;
+    begin = minimum;
+    end = maximum;
+    beginStr = Date.format(minimum);
+    endStr = Date.format(maximum);
     
     this.x = x;
     this.y = y;
@@ -21,50 +21,31 @@ class DatePicker
     this.h = h;
   }
   
-  private int dateToDays(int y, int m, int d)
+  private int dateToPos(int days)
   {
-    return y * 366 + m * 31 + d - minYear * 366 - minMonth * 31 - minDay;
-  }
-    
-  private int dateToPos(int y, int m, int d)
-  {
-    return (int)(x + w * (long)dateToDays(y, m, d) / dateToDays(maxYear, maxMonth, maxDay)); 
+    return round(x + w * float(days - minimum) / range);
   }
   
-  private String daysToDate(int days)
+  private int posToDate(int pos)
   {
-    return (minYear + days / 366) + "-" + (minMonth + days % 366 / 31) + "-" + (minDay + days % 366 % 31);
-  }
-  
-  private int posToDays(int xPos)
-  {
-    return round(float(xPos - x) * dateToDays(maxYear, maxMonth, maxDay) / w);
+    return round(minimum + range * float(pos - x) / w);
   }
 
-  private String formatDate(int y, int m, int d)
+  public int beginDate()
   {
-    int january = y % 4 == 0 && (y % 100 != 0 || y % 400 == 0) ? 29 : 28;
-    int[] monthLengths = {31, january, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    m = max(1, min(m, 12));
-    d = max(1, min(d, monthLengths[m - 1]));
-    return y + (m < 10 ? "-0" : "-") + m + (d < 10 ? "-0" : "-") + d;
+    return begin;
   }
 
-  public String beginDate()
+  public int endDate()
   {
-    return formatDate(beginYear, beginMonth, beginDay);
-  }
-
-  public String endDate()
-  {
-    return formatDate(endYear, endMonth, endDay);
+    return end;
   }
 
   public void draw()
   {
     noStroke();
-    int from = dateToPos(beginYear, beginMonth, beginDay);
-    int to = dateToPos(endYear, endMonth, endDay);
+    int from = dateToPos(begin);
+    int to = dateToPos(end);
 
     fill(#707070);
     rect(x, y, from - x, 9);
@@ -75,35 +56,27 @@ class DatePicker
 
     fill(0);
     textAlign(LEFT, TOP);
-    text(beginDate(), x, y + 9, w, h - 9);
+    text(beginStr, x, y + 9, w, h - 9);
     textAlign(RIGHT, TOP);
-    text(endDate(), x, y + 9, w, h - 9);
+    text(endStr, x, y + 9, w, h - 9);
   }
   
   public void mousePressed(int posX, int posY)
   {
     if (posX > x && posX < x + w && posY > y && posY < y + h)
     {
-      int days = posToDays(posX);
-      int beginDays = dateToDays(beginYear, beginMonth, beginDay);
-      int endDays = dateToDays(endYear, endMonth, endDay);
-  
-      String[] date = daysToDate(days).split("-");
-      int year = parseInt(date[0]);
-      int month = parseInt(date[1]);
-      int day = parseInt(date[2]);
+      int date = min(maximum, max(minimum, posToDate(posX)));
+      String dateStr = Date.format(date);
       
-      if (abs(days - beginDays) < abs(days - endDays))
+      if (abs(date - begin) < abs(date - end))
       {
-        beginYear = year;
-        beginMonth = month;
-        beginDay = day;
+        begin = date;
+        beginStr = dateStr;
       }
       else
       {
-        endYear = year;
-        endMonth = month;
-        endDay = day;
+        end = date;
+        endStr = dateStr;
       }
     }
   }
