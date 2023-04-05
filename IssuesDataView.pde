@@ -17,7 +17,7 @@ class IssuesDataView extends DataView
   {
     fill(0);
     textAlign(LEFT, TOP);
-    text(filter.carrierCodePrefix.length() > 0 ? "Airline: " + filter.carrierCodePrefix + "..." : "All airlines", x + offsetX, y + offsetY);
+    text(filter.cityPrefix.length() > 0 ? "Flights from: " + filter.cityPrefix + "..." : "All cities", x + offsetX, y + offsetY);
     text("Average flight delay: " + round(flightData.avgDelay) + " mins", x + offsetX, y + offsetY + 25);
     text("Average flight distance: " + round(flightData.avgDistance) + " miles", x + offsetX, y + offsetY + 50);
     text("Delayed flights: " + flightData.delayed, x + offsetX, y + offsetY + 75);

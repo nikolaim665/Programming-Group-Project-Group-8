@@ -36,7 +36,7 @@ void setup()
   dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new FlightsByAirportDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   
-  dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), flights.getMinDate(), flights.getMaxDate()));
+  dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), "", "", flights.getMinDate(), flights.getMaxDate()));
 }
 
 void draw()
@@ -93,12 +93,12 @@ void mousePressed()
 
 void mouseReleased()
 {
-  dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), datePicker.beginDate(), datePicker.endDate()));
+  dataViews.setFilter(dataViews.getFilter().withDateRange(datePicker.beginDate(), datePicker.endDate()));
 }
 
 void keyReleased()
 {
-  dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), datePicker.beginDate(), datePicker.endDate()));
+  dataViews.setFilter(dataViews.getFilter().withCityPrefix(textInput.getText().toUpperCase()));
 }
 
 void keyPressed()

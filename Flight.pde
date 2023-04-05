@@ -16,14 +16,11 @@ class Flight
   public final String originCityName;
   // Code of the US state
   public final String originStateCode;
-  // Code of the World Area (see: https://en.wikipedia.org/wiki/World_Area_Codes)
-  public final int originWorldAreaCode;
   
   // The same information for the airport, where the flight finished 
   public final String destinationAirportCode;
   public final String destinationCityName;
   public final String destinationStateCode;
-  public final int destinationWorldAreaCode;
   
   // Time of the scheduled/actual departure/arrival, represented as the number of seconds since midnight.
   // -1 (minus one) is used as an indicator, if the value is missing. 
@@ -41,8 +38,8 @@ class Flight
   
   // Just a constructor which takes all the values as arguments and initializes all the fields.
   public Flight(int flightDate, String carrierCode, int flightNumber,
-    String originAirportCode, String originCityName, String originStateCode, int originWorldAreaCode,
-    String destinationAirportCode, String destinationCityName, String destinationStateCode, int destinationWorldAreaCode,
+    String originAirportCode, String originCityName, String originStateCode,
+    String destinationAirportCode, String destinationCityName, String destinationStateCode,
     int scheduledDeparture, int actualDeparture, int scheduledArrival, int actualArrival,
     boolean isCancelled, boolean isDiverted, int distance)
   {
@@ -53,12 +50,10 @@ class Flight
     this.originAirportCode = originAirportCode;
     this.originCityName = originCityName;
     this.originStateCode = originStateCode;
-    this.originWorldAreaCode = originWorldAreaCode;
     
     this.destinationAirportCode = destinationAirportCode;
     this.destinationCityName = destinationCityName;
     this.destinationStateCode = destinationStateCode;
-    this.destinationWorldAreaCode = destinationWorldAreaCode;
     
     this.scheduledDeparture = scheduledDeparture;
     this.actualDeparture = actualDeparture;
