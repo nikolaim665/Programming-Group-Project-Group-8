@@ -1,42 +1,88 @@
-class Map
-{
-  private PShape shape;
-  private int x, y, w, h;
-  private Flights.StateFlightData[] data;
-  
-  private int getMaxFlightCount()
-  {
-    int maximum = 0;
-    for (int i = 0; i < data.length; ++i)
+    class Map
     {
-      maximum = max(maximum, data[i].flights);
+      private PShape shape;
+      private PShape state;
+      private int x, y, w, h;
+      private Flights.StateFlightData[] data;
+      
+        private int getMaxFlightCount()
+      {
+        int maximum = 0;
+        for (int i = 0; i < data.length; ++i)
+        {
+          maximum = max(maximum, data[i].flights);
+        }
+        return maximum;
+      }
+      
+      public Map(String svgPath, int x, int y, int w, int h, Flights flights)
+      {
+        shape = loadShape(svgPath);
+        data= flights.getFlightsByStates();
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h; 
+        
+        int r=255; int g=0; int b=0;
+    for (int i=0; i<data.length; i++)
+    {
+        String code =data[i].stateCode;
+        int flight =data[i].flights;
+        state = shape.getChild(code);
+        
+        int percent = round((100*flight)/getMaxFlightCount());
+        int gAndB= round(percent*4.55);
+        gAndB= gAndB-455;
+        if (gAndB<0)
+        {
+          gAndB=gAndB*-1;
+        }
+        if (gAndB >255 && gAndB<280)
+        {
+            g=255;
+            b=gAndB-255;
+        }
+        if (gAndB>280)
+        {
+          g=255;
+          b=gAndB-230;
+        }
+        else
+        {
+           g=gAndB;
+           b=0;
+        }
+        state.setFill(color(r,g,b));
+  
     }
-    return maximum;
-  }
+      }
     
-  public Map(String svgPath, int x, int y, int w, int h, Flights flights)
-  {
-    shape = loadShape(svgPath);
-    data = flights.getFlightsByStates();
-  
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-  
-    int maxFlightCount = getMaxFlightCount();
-    for (var state: data)
-    {
-      PShape stateShape = shape.getChild(state.stateCode);
-      
-      int gAndB = 455 - 455 * state.flights / maxFlightCount;
-      
-      stateShape.setFill(color(255, min(255, gAndB), max(0, gAndB - 255)));
-    }
-  }
-
-  public void draw()
-  {
-    shape(shape, x, y, w, h);     
-  }
-}
+      public void draw()
+      {
+        shape(shape, x, y, w, h);  
+        //0%, gAndB==455   10%== 405    20%==360      30==315      40==270      50==225, 60==180      70==135     80==90    90==45    0%==0
+        noStroke();
+         fill(255,0,0); rect(MAP_WIDTH-75, MAP_WIDTH-75, 75, 20); //100%
+         fill(255,45,0); rect(MAP_WIDTH-75, MAP_HEIGHT-230, 75, 20); //90&
+         fill(255,90,0); rect(MAP_WIDTH-75, MAP_HEIGHT-210, 75, 20); //80%
+         fill(255,135,0); rect(MAP_WIDTH-75, MAP_HEIGHT-190, 75, 20); //70%
+         fill(255,180,0); rect(MAP_WIDTH-75, MAP_HEIGHT-170, 75, 20); //60%
+         fill(255,225,0); rect(MAP_WIDTH-75, MAP_HEIGHT-150, 75, 20); //50%
+         fill(255,255,45); rect(MAP_WIDTH-75, MAP_HEIGHT-130, 75, 20); //40%
+         fill(255,255,90); rect(MAP_WIDTH-75, MAP_HEIGHT-110, 75, 20); //30%
+         fill(255,255,135); rect(MAP_WIDTH-75, MAP_HEIGHT-90, 75, 20); //20%
+         fill(255,255,180); rect(MAP_WIDTH-75, MAP_HEIGHT-70, 75, 20); //10%
+         fill(255,255,230); rect(MAP_WIDTH-75, MAP_HEIGHT-50, 75, 20); //0%
+       { fill(0);
+        //textSize(128);
+        text("hello world",MAP_WIDTH-75,MAP_WIDTH-75);
+       }
+        
+        
+        
+        
+        
+        println(getMaxFlightCount());
+      }
+    }// C O'Sull implemented heatmap into main 05/04/23
