@@ -21,7 +21,7 @@ void setup()
   airportsPositions();
   airportsCodes();
 
-  map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT);
+  map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT, flights);
   textInput = new TextInput(SCREEN_WIDTH - 120, 0, 115, MENU_HEIGHT);
   
   datePicker = new DatePicker(flights.getMinDate(), flights.getMaxDate(), MAP_WIDTH + MENU_WIDTH + 20, 0, 320, MENU_HEIGHT);
