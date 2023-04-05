@@ -25,14 +25,10 @@ void setup()
   map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT);
   textInput = new TextInput(SCREEN_WIDTH - 120, 0, 115, MENU_HEIGHT);
   
-  datePicker = new DatePicker(flights.getMinDate(), flights.getMaxDate(), SCREEN_WIDTH - 480, 0, 320, MENU_HEIGHT);
+  datePicker = new DatePicker(flights.getMinDate(), flights.getMaxDate(), MAP_WIDTH + MENU_WIDTH + 20, 0, 320, MENU_HEIGHT);
   
   // The menu for switching between displayed content in DataViews
-  menu = new Menu(MAP_WIDTH, 0, DATAVIEW_WIDTH, MENU_HEIGHT, 30, 10);
-  menu.addButton("Flight info");
-  menu.addButton("Airline issues");
-  menu.addButton("Flights by state");
-  menu.addButton("Flights by airport");
+  menu = new Menu(MAP_WIDTH, 0, MENU_WIDTH, MENU_HEIGHT, "Flight info", "Airline issues", "Flights by state", "Flights by airport");
   
   // The DataViews showing various information, statistics, etc.
   dataViews = new DataViews();
@@ -48,11 +44,13 @@ void setup()
 
 void draw()
 {
+  background(255, 255, 180);
+  dataViews.setView(menu.getSelected());
   map.draw();
-  menu.draw();
   textInput.draw();
   datePicker.draw();
   dataViews.draw();
+  menu.draw();
   text("x= " + mouseX + "/ 1250", 1000, 600);
   text("y= " + mouseY + "/ 750", 1000, 650);
   
@@ -84,12 +82,7 @@ void draw()
 
 void mousePressed()
 {
-  int clickedButton = menu.buttonAt(mouseX, mouseY);
-  if (clickedButton >= 0)
-  {
-    dataViews.setView(clickedButton);
-  }
-  else
+  if (!menu.mouseClicked(mouseX, mouseY))
   {
     dataViews.mouseClicked(mouseX, mouseY);
   }

@@ -16,7 +16,7 @@ class FlightLoader
     int result = 0;
     while (i < len && buffer[i] != '\t')
     {
-      result = (result << 4) | (buffer[i] - '0');
+      result = (result << 6) | (buffer[i] - '0');
       ++i;
     }
     ++i;
@@ -25,7 +25,7 @@ class FlightLoader
 
   private int nextTime()
   {
-    int result = buffer[i] - '0' << 4 | buffer[i + 1] - '0';
+    int result = buffer[i] - '0' << 6 | buffer[i + 1] - '0';
     i += 2;
     return result;
   }

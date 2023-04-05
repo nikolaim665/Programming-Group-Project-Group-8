@@ -58,7 +58,9 @@ abstract class BarChartDataView extends DataView
       if (barX < mouseX && mouseX < barX + barW)
       {
         textSize(25);
-        text(getBarDescription(i), barX + barW / 2, chartY + 2);
+        String text = getBarDescription(i);
+        float textW = textWidth(text);
+        text(text, max(chartX + textW / 2 + 5, min(chartX + chartW - textW / 2, barX + barW / 2)), chartY + 2);
       }
     }
   }
@@ -90,7 +92,7 @@ abstract class BarChartDataView extends DataView
   
   public void draw()
   {
-    super.draw();
+    noStroke();
 
     int marginLeft = 80, marginRight = 20;
     int marginTop = 20, marginBottom = 30;

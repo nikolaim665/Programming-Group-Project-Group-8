@@ -31,7 +31,7 @@ class TextInfoDataView extends DataView
 
   public void draw()
   {
-    super.draw();
+    noStroke();
 
     fill(0);
     textAlign(LEFT, TOP);

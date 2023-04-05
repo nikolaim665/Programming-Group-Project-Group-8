@@ -32,7 +32,7 @@ class IssuesDataView extends DataView
   
   public void draw()
   {
-    super.draw();
+    noStroke();
 
     // Text
     drawText(15, 15);
