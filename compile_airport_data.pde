@@ -11,7 +11,8 @@ class Airport {
   int yPosition;
   
   String code;     
-  int barChartColour;     
+  int barChartColour;
+  
   
   public Airport(String abbrev, int incoming, int outgoing, int colour, int xpos, int ypos) {
     this.numberOfIncomingFlights = incoming;
@@ -73,6 +74,7 @@ void createListOfAirports(ArrayList<Flight> flights) {
   
   assignFlightsToAirports(flights);
   sortAirports();
+  createDropDownWidgets();
   
   
   
@@ -121,3 +123,8 @@ void assignFlightsToAirports(ArrayList<Flight> flights) {
   //System.out.println(mostIncoming.code);        //max incoming == 25,464
   //System.out.println(mostOutgoing.code);        //max outgoing == 25,480
   //System.out.println(mostCumulative.code);      //max cumulative == 50944
+  
+  
+  //for (int i =0; i<orderedCumulativeFlightsOfAirports.size(); i++) {
+  //  System.out.println(orderedCumulativeFlightsOfAirports.get(i).code );
+  //}

@@ -26,6 +26,7 @@ void setup()
   menu.addButton("Flight info");
   menu.addButton("Airline issues");
   menu.addButton("Flights by state");
+  menu.addButton("Flights by airport");
   
   // The DataViews showing various information, statistics, etc.
   dataViews = new DataViews();
@@ -33,11 +34,13 @@ void setup()
   dataViews.add(new IssuesDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   
-  createListOfAirports(flights.flights);
+  //dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   
-  for (int i =0; i<orderedCumulativeFlightsOfAirports.size(); i++) {
-    System.out.println(orderedCumulativeFlightsOfAirports.get(i).code );
-  }
+  
+  //dont remove
+  createListOfAirports(flights.flights);
+  drawDropDownWidgets(airportWidgets);
+  
 }
 
 void draw()
@@ -52,6 +55,10 @@ void draw()
   {
     datePicker.mousePressed(mouseX, mouseY);
   }
+  
+  drawDropDownWidgets(airportWidgets);
+  
+  
 }
 
 void mousePressed()
@@ -70,6 +77,9 @@ void mousePressed()
 void mouseReleased()
 {
   dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), datePicker.beginDate(), datePicker.endDate()));
+  //System.out.println(mouseX + " " + mouseY);
+  
+  
 }
 
 void keyReleased()

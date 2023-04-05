@@ -126,7 +126,7 @@ void determineTypeOfAirportBarchart(String flightType) {
 
 void drawAirportChart(int maxFlights, int numberOfMarkers, String flightType) {
   
-  
+  //drawDropDownWidgets(airportWidgets);
   //max height of chart == 450 (-30 for labelling x-axis)
   //max width of chart == 738 (num of airports == 738)
   //xpos = 690 (+50 for labelling y-axis) 
