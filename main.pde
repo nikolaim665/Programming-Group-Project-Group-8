@@ -47,8 +47,8 @@ void draw()
   datePicker.draw();
   dataViews.draw();
   menu.draw();
-  text("x= " + mouseX + "/ 1250", 1000, 600);
-  text("y= " + mouseY + "/ 750", 1000, 650);
+  text("x= " + mouseX + "/ 1250", 1100, 600);
+  text("y= " + mouseY + "/ 750", 1100, 650);
   
   if (mousePressed)
   {
@@ -63,13 +63,15 @@ void draw()
      && mouseY > airportsPosition[i][1] * MAP_HEIGHT - airportsPosition[i][2] * unitRadius
      && mouseY < airportsPosition[i][1] * MAP_HEIGHT + airportsPosition[i][2] * unitRadius)
     {
-      fill(#280137);
-      text(airportsCode[i], airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT + 25);
       for (int j = 0; j < 40; j++)
       {
-        stroke(#FFD773);
+        stroke(#4C0013);
         line(airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[j][0] * MAP_WIDTH, airportsPosition[j][1] * MAP_HEIGHT);
       }
+      fill(255);
+      rect(airportsPosition[i][0] * MAP_WIDTH - 20, airportsPosition[i][1] * MAP_HEIGHT - 30, 40, 20);
+      fill(#280137);
+      text(airportsCode[i], airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT - 20);
     }
     else
     {
