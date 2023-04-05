@@ -79,7 +79,7 @@ class Flights
     {
       return new FlightStats(0, 0, 0, 0, 0, 0);
     }
-    return new FlightStats(totalDistance / total, totalDelay / total, delayed, total, cancelled, diverted);
+    return new FlightStats(totalDistance / total, totalDelay / total, delayed, total, diverted, cancelled);
   }
 
   public class StateFlightData

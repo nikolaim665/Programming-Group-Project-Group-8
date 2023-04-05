@@ -17,7 +17,7 @@ void setup()
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
   
   Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
-
+  
   airportsPositions();
   airportsCodes();
 
@@ -54,25 +54,28 @@ void draw()
   {
     datePicker.mousePressed(mouseX, mouseY);
   }
+
+  int unitRadius = MAP_HEIGHT / 20;
   for (int i = 0; i < 21; i++)
   {
-  if (mouseX > airportsPosition[i][0] * MAP_WIDTH - (airportsPosition[i][2] * (MAP_HEIGHT / 10)) / 2 && mouseX < airportsPosition[i][0] * MAP_WIDTH + 
-  (airportsPosition[i][2] * (MAP_HEIGHT / 10)) / 2 && mouseY > airportsPosition[i][1] * MAP_HEIGHT - (airportsPosition[i][2] * (MAP_HEIGHT / 10)) / 2 && mouseY < airportsPosition[i][1] * 
-  MAP_HEIGHT + (airportsPosition[i][2] * (MAP_HEIGHT / 10)) / 2)
-  {
-    fill(#280137);
-    text(airportsCode[i], (airportsPosition[i][0] * MAP_WIDTH), (airportsPosition[i][1] * MAP_HEIGHT) + 25);
-    for (int j = 0; j < 21; j++)
+    if (mouseX > airportsPosition[i][0] * MAP_WIDTH  - airportsPosition[i][2] * unitRadius
+     && mouseX < airportsPosition[i][0] * MAP_WIDTH  + airportsPosition[i][2] * unitRadius
+     && mouseY > airportsPosition[i][1] * MAP_HEIGHT - airportsPosition[i][2] * unitRadius
+     && mouseY < airportsPosition[i][1] * MAP_HEIGHT + airportsPosition[i][2] * unitRadius)
     {
-      stroke(#FFD773);
-      line( airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[j][0] * MAP_WIDTH, airportsPosition[j][1] * MAP_HEIGHT);
+      fill(#280137);
+      text(airportsCode[i], airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT + 25);
+      for (int j = 0; j < 21; j++)
+      {
+        stroke(#FFD773);
+        line(airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[j][0] * MAP_WIDTH, airportsPosition[j][1] * MAP_HEIGHT);
+      }
     }
-  }
-  else
-  {
-    fill(#9966CB);
-  }
-  circle(airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[i][2] * (MAP_HEIGHT / 10));
+    else
+    {
+      fill(#9966CB);
+    }
+    circle(airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[i][2] * unitRadius * 2);
   }
 }
 

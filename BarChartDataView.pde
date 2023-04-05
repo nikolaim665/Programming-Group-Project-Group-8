@@ -88,7 +88,7 @@ abstract class BarChartDataView extends DataView
     rect(chartX - 2, chartY, 2, chartH);
     rect(chartX - 2, chartY + chartH, chartW + 2, 2);
   }
-  
+
   public void draw()
   {
     noStroke();
