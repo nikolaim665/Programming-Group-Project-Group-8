@@ -16,7 +16,6 @@ void setup()
   textFont(createFont("Arial", 16, true));
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
   
-  int m = millis();
   Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
 
   airportsPositions();
@@ -38,14 +37,11 @@ void setup()
   dataViews.add(new FlightsByAirportDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   
   dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), flights.getMinDate(), flights.getMaxDate()));
-  
-  println(millis() - m, "ms");
 }
 
 void draw()
 {
   background(255, 255, 180);
-  dataViews.setView(menu.getSelected());
   map.draw();
   textInput.draw();
   datePicker.draw();
@@ -82,7 +78,11 @@ void draw()
 
 void mousePressed()
 {
-  if (!menu.mouseClicked(mouseX, mouseY))
+  if (menu.mouseClicked(mouseX, mouseY))
+  {
+    dataViews.setView(menu.getSelected());
+  }
+  else
   {
     dataViews.mouseClicked(mouseX, mouseY);
   }

@@ -5,7 +5,6 @@ class IssuesDataView extends DataView
   public IssuesDataView(Flights flights, int x, int y, int w, int h)
   {
     super(flights, x, y, w, h);
-    this.filterUpdated();
   }
 
   private void drawPiePiece(int offsetX, int offsetY, int size, int begin, int count, int total, color fillColor)

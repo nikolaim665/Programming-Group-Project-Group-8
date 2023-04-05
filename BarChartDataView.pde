@@ -6,7 +6,6 @@ abstract class BarChartDataView extends DataView
   public BarChartDataView(Flights flights, int x, int y, int w, int h)
   {
     super(flights, x, y, w, h);
-    this.filterUpdated();
   }
 
   protected abstract int getBarCount();

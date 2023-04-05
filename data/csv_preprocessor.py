@@ -9,9 +9,22 @@ def int_to_string(num: int):
         num //= 64
     return result.zfill(1)
 
+def is_leap(year: int):
+    return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+
+def month_start(year: int, month: int):
+    month_days = [31, 28 + int(is_leap(year)), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    return sum(month_days[:month - 1])
+
+def year_start(year: int):
+    year -= 1
+    leap_years = year // 4 - year // 100 + year // 400
+    return 365 * year + leap_years
+
 def fmt_date(date: str):
-    month, day, year = date.split(' ')[0].split('/')
-    return (year.zfill(4) + '-' + month.zfill(2) + '-' + day.zfill(2)).encode()
+    month, day, year = [int(part) for part in date.split(' ')[0].split('/')]
+    days = year_start(year) + month_start(year, month) + day - 1
+    return int_to_string(days).encode()
 
 def fmt_int(integer: str):
     try:

@@ -1,6 +1,7 @@
 class TextInfoDataView extends DataView
 {
   private int flightIndex = 0;
+  private String dateStr = "";
 
   public TextInfoDataView(Flights flights, int x, int y, int w, int h)
   {
@@ -11,11 +12,21 @@ class TextInfoDataView extends DataView
   protected void filterUpdated()
   {
     flightIndex = flights.firstMatching(filter, 0, 1);
+    updateDateStr();
   }
 
   private void step(int direction)
   {
     flightIndex = flights.firstMatching(filter, flightIndex < 0 ? 0 : flightIndex + direction, direction);
+    updateDateStr();
+  }
+
+  private void updateDateStr()
+  {
+    if (flightIndex >= 0)
+    {
+      dateStr = Date.format(flights.get(flightIndex).flightDate);
+    }
   }
 
   private String formatTime(int sinceMidnight)
@@ -41,7 +52,7 @@ class TextInfoDataView extends DataView
     {
       Flight flight = flights.get(flightIndex);
 
-      text("Flight Date: " + flight.flightDate, textX, y);
+      text("Flight Date: " + dateStr, textX, y);
       text("Carrier Code: " + flight.carrierCode, textX, y + 25);
       text("Flight Number: " + flight.flightNumber, textX, y + 50);
       text("Origin Airport: " + flight.originAirportCode, textX, y + 75);

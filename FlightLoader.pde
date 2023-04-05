@@ -66,7 +66,8 @@ class FlightLoader
     
     var flights = new Flight[lineCount];
     
-    String flightDate, carrierCode;
+    int flightDate;
+    String carrierCode;
     int flightNumber;
     String originAirportCode, originCityName, originStateCode;
     int originWorldAreaCode;
@@ -78,7 +79,7 @@ class FlightLoader
 
     for (int line = 0; i < len; ++line)
     {
-      flightDate = nextString();
+      flightDate = nextInt();
       carrierCode = nextString();
       flightNumber = nextInt();
       originAirportCode = nextString();

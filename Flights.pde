@@ -9,12 +9,12 @@ class Flights
     this.flights = flights;
   }
   
-  public String getMinDate()
+  public int getMinDate()
   {
     return flights[0].flightDate;
   }
   
-  public String getMaxDate()
+  public int getMaxDate()
   {
     return flights[flights.length - 1].flightDate;
   }

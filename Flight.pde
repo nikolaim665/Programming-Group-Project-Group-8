@@ -3,8 +3,8 @@
 // getter methods for all the fields.
 class Flight
 {
-  // Flight date in the YYYY-MM-DD format
-  public final String flightDate;
+  // Flight date as a number of days since 0001-01-01
+  public final int flightDate;
   // Code to identify the carrier e.g. AA.
   public final String carrierCode;
   // Flight number (combine with the carrier code to obtain the usual format).
@@ -40,7 +40,7 @@ class Flight
   public final int distance;
   
   // Just a constructor which takes all the values as arguments and initializes all the fields.
-  public Flight(String flightDate, String carrierCode, int flightNumber,
+  public Flight(int flightDate, String carrierCode, int flightNumber,
     String originAirportCode, String originCityName, String originStateCode, int originWorldAreaCode,
     String destinationAirportCode, String destinationCityName, String destinationStateCode, int destinationWorldAreaCode,
     int scheduledDeparture, int actualDeparture, int scheduledArrival, int actualArrival,
