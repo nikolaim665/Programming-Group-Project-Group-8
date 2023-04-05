@@ -1,12 +1,12 @@
 class Filter
 {
-  public final String cityPrefix;
+  public final String city;
   public final String airportFrom, airportTo;
   public final int minDate, maxDate;
 
-  public Filter(String cityPrefix, String airportFrom, String airportTo, int minDate, int maxDate)
+  public Filter(String city, String airportFrom, String airportTo, int minDate, int maxDate)
   {
-    this.cityPrefix = cityPrefix;
+    this.city = city.toLowerCase();
     this.airportFrom = airportFrom;
     this.airportTo = airportTo;
     this.minDate = minDate;
@@ -20,21 +20,21 @@ class Filter
   
   public boolean matches(Flight flight)
   {
-    return (flight.destinationCityName.startsWith(cityPrefix) || flight.originCityName.startsWith(cityPrefix))
+    return (flight.destinationCityName.toLowerCase().startsWith(city) || flight.originCityName.toLowerCase().startsWith(city))
         && (flight.destinationAirportCode.startsWith(airportTo) && flight.originAirportCode.startsWith(airportFrom))
         && (flight.flightDate >= minDate && flight.flightDate <= maxDate);
   }
 
   public boolean equals(Filter another)
   {
-    return cityPrefix.equals(another.cityPrefix)
+    return city.equals(another.city)
         && airportTo.equals(another.airportTo) && airportFrom.equals(another.airportFrom)
         && minDate == another.minDate && maxDate == another.maxDate;
   }
 
   public Filter withDateRange(int minimum, int maximum)
   {
-    return new Filter(cityPrefix, airportFrom, airportTo, minimum, maximum);
+    return new Filter(city, airportFrom, airportTo, minimum, maximum);
   }
 
   public Filter withCityPrefix(String newPrefix)
@@ -44,6 +44,6 @@ class Filter
 
   public Filter withAirports(String from, String to)
   {
-    return new Filter(cityPrefix, from, to, minDate, maxDate);
+    return new Filter(city, from, to, minDate, maxDate);
   }
 }
