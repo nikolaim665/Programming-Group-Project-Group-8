@@ -15,11 +15,13 @@ void settings()
 {
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
+
 void setup()
 {
   // Arial, 16 point, anti-aliasing on
   textFont(createFont("Arial", 16, true));
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
+  
   
   Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
   
@@ -105,10 +107,16 @@ void draw()
       }
       if (departureSelected == true && arrivalSelected == false && clicked)
       {
-        arrivalDisplayed = i;
-        arrivalSelected = true;
-        clicked = false;
-        
+        if ( i != departureDisplayed)
+        {
+          arrivalDisplayed = i;
+          arrivalSelected = true;
+          clicked = false;
+        }
+        else
+        {
+          clicked = false;
+        }
       }
       fill(#FFFADA);
       noStroke();
@@ -167,6 +175,7 @@ void keyPressed()
   textInput.keyPressed(key, keyCode);
   dataViews.keyPressed(key, keyCode);
 }
+
 void mouseReleased()
 {
   for (int i = 0; i < airportsPosition.length; i++)
@@ -181,6 +190,31 @@ void mouseReleased()
      }
   }
 }
+
+public int airportCodeFinder(String code)
+{
+  for (int i = 0; i < airportsCode.length; i++)
+  {
+    if (code == airportsCode[i])
+    {
+      return i;
+    }
+  }
+  return -1;
+}
+
+public boolean airportDisplayable(String code)
+{
+  for (int i = 0; i < airportsCode.length; i++)
+  {
+    if (code == airportsCode[i])
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
 void airportsPositions()
 {
   airportsPosition[0][0] = 0.061; 
@@ -364,6 +398,7 @@ void airportsPositions()
   airportsPosition[59][1] = 0.6653;
   airportsPosition[59][2] = 0.15;
 }
+
 void airportsCodes()
 {
   airportsCode[0] = "LAX";
