@@ -1,7 +1,7 @@
 abstract class BarChartDataView extends DataView
 {
   private int upperLimit = 1, markerStep = 1;
-  private final color[] colors = {#F80000, #00EE00, #0000FF};
+  private final color[] colors = {#F80000, #6ded6f, #000b8c};
 
   public BarChartDataView(Flights flights, int x, int y, int w, int h)
   {

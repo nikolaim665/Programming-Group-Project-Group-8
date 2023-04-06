@@ -10,7 +10,9 @@ class IssuesDataView extends DataView
   private void drawPiePiece(int offsetX, int offsetY, int size, int begin, int count, int total, color fillColor)
   {
     fill(fillColor);
+    stroke(0);
     arc(x + offsetX + size / 2, y + offsetY + size / 2, size, size, 2 * PI * begin / total - PI / 2, 2 * PI * (begin + count) / total - PI / 2);
+   noStroke();
   }
 
   private void drawText(int offsetX, int offsetY)
@@ -40,18 +42,18 @@ class IssuesDataView extends DataView
       textAlign(LEFT, TOP);
       drawPiePiece(15, 150, 200, 0, flightData.delayed, flightData.total, #F80000);
       text("Delayed flights (" + flightData.delayed + ")", x + 25, y + 360);
-      drawPiePiece(15, 150, 200, flightData.delayed, flightData.total - flightData.delayed, flightData.total, #00EE00);
+      drawPiePiece(15, 150, 200, flightData.delayed, flightData.total - flightData.delayed, flightData.total, #0000FF);
       text("Flights on time ("+ (flightData.total - flightData.delayed) + ")", x + 25, y + 380);
       
       
       // Diverted flights pie chart
       int divertedOrCancelled = flightData.diverted + flightData.cancelled;
       int normalFlights = flightData.total - divertedOrCancelled;
-      drawPiePiece(300, 150, 200, 0, flightData.diverted, flightData.total, #F80000);
+      drawPiePiece(300, 150, 200, 0, flightData.diverted, flightData.total, #6ded6f);
       text("Diverted flights (" + flightData.diverted + ")", x + 320, y + 360);
-      drawPiePiece(300, 150, 200, flightData.diverted, flightData.cancelled, flightData.total, #0000FF);
+      drawPiePiece(300, 150, 200, flightData.diverted, flightData.cancelled, flightData.total, #F80000);
       text("Cancelled flights (" + flightData.cancelled + ")", x + 320, y + 380);
-      drawPiePiece(300, 150, 200, divertedOrCancelled, normalFlights, flightData.total, #00EE00);
+      drawPiePiece(300, 150, 200, divertedOrCancelled, normalFlights, flightData.total, #0000FF);
       text("Regular flights (" + normalFlights + ")", x + 320, y + 400);
     }
   }
