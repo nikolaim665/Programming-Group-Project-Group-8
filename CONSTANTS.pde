@@ -1,5 +1,10 @@
+<<<<<<< Updated upstream
 final int SCREEN_WIDTH = 1700;
 final int SCREEN_HEIGHT = 500;
+=======
+final int SCREEN_WIDTH = 1920;
+final int SCREEN_HEIGHT = 750;
+>>>>>>> Stashed changes
 
 final int MAP_WIDTH = 750;
 final int MAP_HEIGHT = 500;
