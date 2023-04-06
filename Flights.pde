@@ -96,16 +96,16 @@ class Flights
 
   public StateFlightData[] getFlightsByStates(Filter filter)
   {
-    var flightsByStates = new HashMap<String, Integer>(STATE_CODES.length);
+    int[] flightsByStates = new int[STATE_CODES.length];
     
     for (Flight flight: flights)
     {
       if (filter.matches(flight))
       {
-        flightsByStates.put(flight.destinationStateCode, flightsByStates.getOrDefault(flight.destinationStateCode, 0) + 1);
-        if (!flight.originStateCode.equals(flight.destinationStateCode))
+        flightsByStates[flight.destinationStateCode] += 1;
+        if (flight.originStateCode != flight.destinationStateCode)
         {
-          flightsByStates.put(flight.originStateCode, flightsByStates.getOrDefault(flight.originStateCode, 0) + 1);
+          flightsByStates[flight.originStateCode] += 1;
         }
       }
     }
@@ -113,7 +113,7 @@ class Flights
     StateFlightData[] result = new StateFlightData[STATE_CODES.length];
     for (int i = 0; i < STATE_CODES.length; ++i)
     {
-      result[i] = new StateFlightData(STATE_CODES[i], flightsByStates.getOrDefault(STATE_CODES[i], 0));
+      result[i] = new StateFlightData(STATE_CODES[i], flightsByStates[i]);
     }
     return result;
   }

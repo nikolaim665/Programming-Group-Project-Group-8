@@ -50,6 +50,18 @@ def fmt_bool(boolean: str):
 def fmt_text(text: str):
     return text.encode()
 
+
+states = [
+    "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN",
+    "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH",
+    "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TT", "TX",
+    "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY"
+]
+
+def fmt_state(code: str):
+    return int_to_string(states.index(code)).encode()
+
+
 lines.sort(key=lambda line: fmt_date(line[0]))
 
 output = io.BytesIO()
@@ -59,10 +71,10 @@ for line in lines:
     output.write(fmt_int(line[2]) + b'\t')
     output.write(fmt_text(line[3]) + b'\t')
     output.write(fmt_text(line[4][1:] + ',' + line[5][:-1])+ b'\t')
-    output.write(fmt_text(line[6]) + b'\t')
+    output.write(fmt_state(line[6]))
     output.write(fmt_text(line[8]) + b'\t')
     output.write(fmt_text(line[9][1:] + ',' + line[10][:-1]) + b'\t')
-    output.write(fmt_text(line[11]) + b'\t')
+    output.write(fmt_state(line[11]))
     output.write(fmt_time(line[13]))
     output.write(fmt_time(line[14]))
     output.write(fmt_time(line[15]))

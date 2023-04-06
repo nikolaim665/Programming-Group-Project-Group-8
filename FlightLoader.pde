@@ -30,9 +30,9 @@ class FlightLoader
     return result;
   }
 
-  private boolean nextBoolean()
+  private byte nextByte()
   {
-    boolean result = buffer[i] == '1';
+    byte result = buffer[i];
     ++i;
     return result;
   }
@@ -50,6 +50,7 @@ class FlightLoader
     
   public Flights load()
   {
+    int m = millis();
     int lineCount = 0;
     try (FileInputStream reader = new FileInputStream(filepath))
     {
@@ -63,14 +64,18 @@ class FlightLoader
       reader.read(buffer);
     }
     catch (Exception exc) {}
+    println("reading file:", millis() - m);
+    m = millis();
     
     var flights = new Flight[lineCount];
     
     int flightDate;
     String carrierCode;
     int flightNumber;
-    String originAirportCode, originCityName, originStateCode;
-    String destinationAirportCode, destinationCityName, destinationStateCode;
+    String originAirportCode, originCityName;
+    byte originStateCode;
+    String destinationAirportCode, destinationCityName;
+    byte destinationStateCode;
     int scheduledDeparture, actualDeparture, scheduledArrival, actualArrival;
     boolean isCancelled, isDiverted;
     int distance;
@@ -82,16 +87,16 @@ class FlightLoader
       flightNumber = nextInt();
       originAirportCode = nextString();
       originCityName = nextString();
-      originStateCode = nextString();
+      originStateCode = (byte)(nextByte() - '0');
       destinationAirportCode = nextString();
       destinationCityName = nextString();
-      destinationStateCode = nextString();
+      destinationStateCode = (byte)(nextByte() - '0');
       scheduledDeparture = nextTime();
       actualDeparture = nextTime();
       scheduledArrival = nextTime();
       actualArrival = nextTime();
-      isCancelled = nextBoolean();
-      isDiverted = nextBoolean();
+      isCancelled = nextByte() == '1';
+      isDiverted = nextByte() == '1';
       distance = nextInt();
 
       flights[line] = new Flight(
@@ -100,6 +105,7 @@ class FlightLoader
         scheduledDeparture, actualDeparture, scheduledArrival, actualArrival, isCancelled, isDiverted, distance
       );
     }
+    println("parsing file:", millis() - m);
     return new Flights(flights);
   }
 }

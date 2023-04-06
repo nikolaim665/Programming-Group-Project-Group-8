@@ -13,14 +13,18 @@ void settings()
 void setup()
 {
   // Arial, 16 point, anti-aliasing on
+  int m = millis();
   textFont(createFont("Arial", 16, true));
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
+  println(millis() - m, "ms");
   
   Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
   
+  println(millis() - m, "ms");
   airportsPositions();
   airportsCodes();
 
+  println(millis() - m, "ms");
   map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT, flights);
   textInput = new TextInput(SCREEN_WIDTH - 245, 0, 240, MENU_HEIGHT, "City: ", "City: ", "Carrier code: ", "Carrier code: ");
   
@@ -29,6 +33,7 @@ void setup()
   // The menu for switching between displayed content in DataViews
   menu = new Menu(MAP_WIDTH, 0, MENU_WIDTH, MENU_HEIGHT, "Flight info", "Airport issues", "Flights by state", "Flights by airport");
   
+  println(millis() - m, "ms");
   // The DataViews showing various information, statistics, etc.
   dataViews = new DataViews();
   dataViews.add(new TextInfoDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
@@ -36,7 +41,9 @@ void setup()
   dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new FlightsByAirportDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   
+  println(millis() - m, "ms");
   updateFilter();
+  println(millis() - m, "ms");
 }
 
 void draw()
