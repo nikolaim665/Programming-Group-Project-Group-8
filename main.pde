@@ -11,6 +11,10 @@ int departureDisplayed = 0;
 int arrivalDisplayed = 0;
 boolean clicked = false;
 PImage planeIcon;
+float startX, startY;
+float endX, endY;
+float currentX, currentY;
+float speed = 1;
 void settings()
 {
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -75,15 +79,22 @@ void draw()
       }
    }
     if (departureSelected == true)
-  {
+    {
       fill(#FFFADA);
       noStroke();
       rect(airportsPosition[departureDisplayed][0] * MAP_WIDTH - 20, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30, 40, 20);
       fill(#4B0076);
       text(airportsCode[departureDisplayed], airportsPosition[departureDisplayed][0] * MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 20);
-  }
+      startX = airportsPosition[departureDisplayed][0] * MAP_WIDTH - 50; // set the starting X position
+      startY = airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 50; // set the starting Y position
+    }
+    if(departureSelected == true && arrivalSelected == false)
+    {
+      currentX = startX; // set the current X position to the starting X position
+      currentY = startY; // set the current Y position to the starting Y position
+    }
     if (arrivalSelected == true)
-  {
+    {
       fill(#FFFADA);
       noStroke();
       rect(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 20, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30, 40, 20);
@@ -92,8 +103,15 @@ void draw()
       stroke(0);
       line(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT, airportsPosition[departureDisplayed][0] * 
       MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT);
-      image(planeIcon, airportsPosition[arrivalDisplayed][0] * MAP_WIDTH, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT);
-  }
+      endX = airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 50; // set the end X position
+      endY = airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 50; // set the end Y position
+      image(planeIcon, currentX, currentY); // draw the image at its current position
+      moveImage(); // move the image
+      if(currentX == endX && currentY == endY)
+      {
+        speed = -100;
+      }
+    }
   for (int i = 0; i < airportsPosition.length; i++)
   {
     int unitRadius = SCREEN_HEIGHT / 20;
@@ -144,6 +162,16 @@ void draw()
   }
 }
 
+void moveImage()
+{
+  float dx = endX - startX; // calculate the X distance between the starting and end points
+  float dy = endY - startY; // calculate the Y distance between the starting and end points
+  float distance = sqrt(dx*dx + dy*dy); // calculate the total distance of the line
+  float ratio = speed / distance; // calculate the ratio of the speed to the total distance
+  currentX += dx * ratio; // move the image along the X axis
+  currentY += dy * ratio; // move the image along the Y axis
+}
+
 void mousePressed()
 {
   if (menu.mouseClicked(mouseX, mouseY))
@@ -162,11 +190,11 @@ void updateFilter()
   int start = millis();
   if (menu.getSelected() >= 2)
   {
-    dataViews.setFilter(new Filter(textInput.getText(), "", "", "", datePicker.beginDate(), datePicker.endDate()));
+    dataViews.setFilter(new Filter(textInput.getText(), "", departureSelected ? airportsCode[departureDisplayed] :"", arrivalSelected ? airportsCode[arrivalDisplayed] :"", datePicker.beginDate(), datePicker.endDate()));
   }
   else
   {
-    dataViews.setFilter(new Filter("", textInput.getText(), "", "", datePicker.beginDate(), datePicker.endDate()));
+    dataViews.setFilter(new Filter("", textInput.getText(), departureSelected ? airportsCode[departureDisplayed] :"", arrivalSelected ? airportsCode[arrivalDisplayed] :"", datePicker.beginDate(), datePicker.endDate()));
   }
   
   delay(max(500 - millis() + start, 0));
