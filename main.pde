@@ -11,7 +11,6 @@ int departureDisplayed = 0;
 int arrivalDisplayed = 0;
 boolean clicked = false;
 
-
 void settings()
 {
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -60,6 +59,17 @@ void draw()
   {
     datePicker.mousePressed(mouseX, mouseY);
   }
+  if (departureSelected == true && arrivalSelected == false)
+  {
+    for (int j = 0; j < airportsPosition.length; j++)
+      {
+         if ( departureDisplayed != j)
+         {
+            stroke(#4C0013);
+            line(airportsPosition[departureDisplayed][0] * MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT, airportsPosition[j][0] * MAP_WIDTH, airportsPosition[j][1] * MAP_HEIGHT);
+         }
+      }
+   }
     if (departureSelected == true)
   {
       fill(#FFFADA);
@@ -79,9 +89,9 @@ void draw()
       line(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT, airportsPosition[departureDisplayed][0] * 
       MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT);
   }
-  int unitRadius = MAP_HEIGHT / 20;
   for (int i = 0; i < airportsPosition.length; i++)
   {
+    int unitRadius = SCREEN_HEIGHT / 20;
     if (mouseX > airportsPosition[i][0] * MAP_WIDTH  - airportsPosition[i][2] * unitRadius
      && mouseX < airportsPosition[i][0] * MAP_WIDTH  + airportsPosition[i][2] * unitRadius
      && mouseY > airportsPosition[i][1] * MAP_HEIGHT - airportsPosition[i][2] * unitRadius
@@ -98,14 +108,7 @@ void draw()
         arrivalDisplayed = i;
         arrivalSelected = true;
         clicked = false;
-      }
-      for (int j = 0; j < airportsPosition.length; j++)
-      {
-        if ( i != j)
-        {
-          stroke(#4C0013);
-          line(airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[j][0] * MAP_WIDTH, airportsPosition[j][1] * MAP_HEIGHT);
-        }
+        
       }
       fill(#FFFADA);
       noStroke();
@@ -117,6 +120,7 @@ void draw()
     {
       fill(#9966CB);
     }
+    stroke(0);
     circle(airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[i][2] * unitRadius * 2);
   }
   if (departureSelected == true && arrivalSelected ==  true && clicked)
@@ -165,7 +169,17 @@ void keyPressed()
 }
 void mouseReleased()
 {
-  clicked = true;
+  for (int i = 0; i < airportsPosition.length; i++)
+  {
+    int unitRadius = SCREEN_HEIGHT / 20;
+    if (mouseX > airportsPosition[i][0] * MAP_WIDTH  - airportsPosition[i][2] * unitRadius
+     && mouseX < airportsPosition[i][0] * MAP_WIDTH  + airportsPosition[i][2] * unitRadius
+     && mouseY > airportsPosition[i][1] * MAP_HEIGHT - airportsPosition[i][2] * unitRadius
+     && mouseY < airportsPosition[i][1] * MAP_HEIGHT + airportsPosition[i][2] * unitRadius)
+     {
+      clicked = true;
+     }
+  }
 }
 void airportsPositions()
 {
