@@ -61,9 +61,11 @@ class Map
   public void draw()
   {
     shape(shape, x, y, w, h);  
-    //0%, gAndB==455   10%== 405    20%==360      30==315      40==270      50==225, 60==180      70==135     80==90    90==45    0%==0
+    //0%==480, 10%== 430, 20%==385,  30%==340,  40%==270,  50%==225, 60%==180,  70%==135,   80==90, 90%==45,   0%==0
     noStroke();
-    fill(255,0,0); rect(MAP_WIDTH-75, MAP_WIDTH-75, 75, 20); //100%
+    fill(255);
+    rect(MAP_WIDTH-75, MAP_HEIGHT-280, 75, 30);
+    fill(255,0,0); rect(MAP_WIDTH-75, MAP_HEIGHT-250, 75, 20); //100%
     fill(255,45,0); rect(MAP_WIDTH-75, MAP_HEIGHT-230, 75, 20); //90&
     fill(255,90,0); rect(MAP_WIDTH-75, MAP_HEIGHT-210, 75, 20); //80%
     fill(255,135,0); rect(MAP_WIDTH-75, MAP_HEIGHT-190, 75, 20); //70%
@@ -74,9 +76,28 @@ class Map
     fill(255,255,135); rect(MAP_WIDTH-75, MAP_HEIGHT-90, 75, 20); //20%
     fill(255,255,180); rect(MAP_WIDTH-75, MAP_HEIGHT-70, 75, 20); //10%
     fill(255,255,230); rect(MAP_WIDTH-75, MAP_HEIGHT-50, 75, 20); //0%
-    fill(0);
+    
     //textSize(128);
-    text("hello world",MAP_WIDTH-75,MAP_WIDTH-75);
+  //  //stroke(0);
+  //  rect(MAP_WIDTH-120, MAP_HEIGHT-250, 45, 220);
+ //   rect(MAP_WIDTH-120, MAP_HEIGHT-280, 120, 30);
+  //  fill(0); rect(MAP_WIDTH-120, MAP_HEIGHT-250, 45, 1);
+  //  //noStroke();
+    fill(0);
+    text("Flights:", MAP_WIDTH-50, MAP_HEIGHT-265);
+      text((getMaxFlightCount()/1000)*1000, MAP_WIDTH-50, MAP_HEIGHT-240);
+      text(round((getMaxFlightCount()*0.9)/1000)*1000, MAP_WIDTH-50, MAP_HEIGHT-220);
+      text(round((getMaxFlightCount()*0.8)/1000)*1000, MAP_WIDTH-50, MAP_HEIGHT-200);
+      text(round((getMaxFlightCount()*0.7)/1000)*1000, MAP_WIDTH-50, MAP_HEIGHT-180);
+      text(round((getMaxFlightCount()*0.6)/1000)*1000, MAP_WIDTH-50, MAP_HEIGHT-160);
+      text(round((getMaxFlightCount()*0.5)/1000)*1000, MAP_WIDTH-50, MAP_HEIGHT-140);
+      text(round((getMaxFlightCount()*0.4)/1000)*1000, MAP_WIDTH-50, MAP_HEIGHT-120);
+      text(round((getMaxFlightCount()*0.3)/1000)*1000, MAP_WIDTH-50, MAP_HEIGHT-100);
+      text(round((getMaxFlightCount()*0.2)/1000)*1000, MAP_WIDTH-50, MAP_HEIGHT-80);
+      text(round((getMaxFlightCount()*0.1)/1000)*1000, MAP_WIDTH-50, MAP_HEIGHT-60);
+      text(round(getMaxFlightCount()*0), MAP_WIDTH-68, MAP_HEIGHT-40);
+      
+      
 
   }
 }// C O'Sull implemented heatmap into main 05/04/23
