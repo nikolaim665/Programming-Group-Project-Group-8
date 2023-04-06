@@ -30,6 +30,13 @@ class FlightLoader
     return result;
   }
 
+  private int nextDate()
+  {
+    int result = buffer[i] << 14 | buffer[i + 1] << 7 | buffer[i + 2];
+    i += 3;
+    return result;
+  }
+
   private byte nextByte()
   {
     byte result = buffer[i];
@@ -80,7 +87,7 @@ class FlightLoader
 
     for (int line = 0; i < len; ++line)
     {
-      flightDate = nextInt();
+      flightDate = nextDate();
       carrierCode = nextString();
       flightNumber = nextInt();
       originAirportCode = nextString();

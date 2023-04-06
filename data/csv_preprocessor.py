@@ -2,12 +2,12 @@ import io
 
 lines = [line.split(',') for line in open('flights_sample.csv').read().strip().split('\n')[1:]]
 
-def int_to_bytes(num: int):
+def int_to_bytes(num: int, w: int):
     result = b''
     while num > 0:
         result = bytes([num % 128]) + result
         num //= 128
-    return result.rjust(1, b'\0')
+    return result.rjust(w, b'\0')
 
 def is_leap(year: int):
     return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
@@ -24,25 +24,25 @@ def year_start(year: int):
 def fmt_date(date: str):
     month, day, year = [int(part) for part in date.split(' ')[0].split('/')]
     days = year_start(year) + month_start(year, month) + day - 1
-    return int_to_bytes(days)
+    return int_to_bytes(days, 3)
 
 def fmt_int(integer: str):
     try:
-        return int_to_bytes(int(integer))
+        return int_to_bytes(int(integer), 1)
     except:
-        return int_to_bytes(0x7fff_ffff)
+        return int_to_bytes(0x7fff_ffff, 1)
 
 def fmt_time(time: str):
     try:
-        return int_to_bytes(int(time[:2]) * 60 + int(time[2:])).rjust(2, b'\0')
+        return int_to_bytes(int(time[:2]) * 60 + int(time[2:]), 2)
     except:
-        return int_to_bytes(1500)
+        return int_to_bytes(1500, 2)
 
 def fmt_float(num: str):
     try:
-        return int_to_bytes(int(float(num)))
+        return int_to_bytes(int(float(num)), 1)
     except:
-        return int_to_bytes(0x7fff_ffff)
+        return int_to_bytes(0x7fff_ffff, 1)
 
 def fmt_bool(boolean: str):
     return b'1' if boolean.startswith('1') else b'0'
@@ -59,14 +59,14 @@ states = [
 ]
 
 def fmt_state(code: str):
-    return int_to_bytes(states.index(code))
+    return int_to_bytes(states.index(code), 1)
 
 
 lines.sort(key=lambda line: fmt_date(line[0]))
 
 output = io.BytesIO()
 for line in lines:
-    output.write(fmt_date(line[0]) + bytes([255]))
+    output.write(fmt_date(line[0]))
     output.write(fmt_text(line[1]) + bytes([255]))
     output.write(fmt_int(line[2]) + bytes([255]))
     output.write(fmt_text(line[3]) + bytes([255]))
@@ -85,6 +85,6 @@ for line in lines:
 
 with open('flights_lines.txt', mode='wb') as file:
     data = output.getvalue()
-    file.write(int_to_bytes(len(data)).rjust(5, b'\0'))
-    file.write(int_to_bytes(len(lines)).rjust(5, b'\0'))
+    file.write(int_to_bytes(len(data), 5))
+    file.write(int_to_bytes(len(lines), 5))
     file.write(data)
