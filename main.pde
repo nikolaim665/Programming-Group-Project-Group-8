@@ -14,7 +14,8 @@ PImage locationPoint;
 float startX, startY;
 float endX, endY;
 float currentX, currentY;
-float speed = 0.5;
+float speed = 0.2;
+int counterLines = 0;
 Flights flights;
 void settings()
 {
@@ -70,23 +71,27 @@ void draw()
   }
   if (departureSelected == true && arrivalSelected == false)
   {
-    Airport[]  airports = flights.getSortedAirports(dataViews.getFilter());
+    var airports = flights.getAirports(dataViews.getFilter());
     for (int j = 0; j < airportsPosition.length; j++)
       {
-         if ( departureDisplayed != j )
+         if ( departureDisplayed != j && airports.containsKey(airportsCode[j]) && counterLines == 5)
          {
             stroke(#4C0013);
             line(airportsPosition[departureDisplayed][0] * MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT, airportsPosition[j][0] * MAP_WIDTH, airportsPosition[j][1] * MAP_HEIGHT);
          }
+      }
+      if (counterLines < 5)
+      {
+      counterLines++;
       }
    }
     if (departureSelected == true)
     {
       fill(#FFFADA);
       noStroke();
-      rect(airportsPosition[departureDisplayed][0] * MAP_WIDTH - 20, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30, 40, 20);
+      rect(airportsPosition[departureDisplayed][0] * MAP_WIDTH - 40, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30, 80, 20);
       fill(#4B0076);
-      text(airportsCode[departureDisplayed], airportsPosition[departureDisplayed][0] * MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 20);
+      text("DEP: " + airportsCode[departureDisplayed], airportsPosition[departureDisplayed][0] * MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 20);
       startX = airportsPosition[departureDisplayed][0] * MAP_WIDTH; // set the starting X position
       startY = airportsPosition[departureDisplayed][1] * MAP_HEIGHT; // set the starting Y position
     }
@@ -97,11 +102,12 @@ void draw()
     }
     if (arrivalSelected == true)
     {
+      counterLines = 0;
       fill(#FFFADA);
       noStroke();
-      rect(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 20, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30, 40, 20);
+      rect(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 40, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30, 80, 20);
       fill(#4B0076);
-      text(airportsCode[arrivalDisplayed], airportsPosition[arrivalDisplayed][0] * MAP_WIDTH, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 20);
+      text("ARR: " + airportsCode[arrivalDisplayed], airportsPosition[arrivalDisplayed][0] * MAP_WIDTH, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 20);
       stroke(0);
       line(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT, airportsPosition[departureDisplayed][0] * 
       MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT);
@@ -142,11 +148,14 @@ void draw()
           clicked = false;
         }
       }
-      fill(#FFFADA);
-      noStroke();
-      rect(airportsPosition[i][0] * MAP_WIDTH - 20, airportsPosition[i][1] * MAP_HEIGHT - 30, 40, 20);
-      fill(#4B0076);
-      text(airportsCode[i], airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT - 20);
+      if(departureDisplayed != i && arrivalDisplayed != i)
+      {
+        fill(#FFFADA);
+        noStroke();
+        rect(airportsPosition[i][0] * MAP_WIDTH - 20, airportsPosition[i][1] * MAP_HEIGHT - 30, 40, 20);
+        fill(#4B0076);
+        text(airportsCode[i], airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT - 20);
+      }
     }
     else
     {

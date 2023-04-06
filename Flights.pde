@@ -158,7 +158,7 @@ class Flights
 
   public Airport[] getSortedAirports(Filter filter)
   {
-    var flightsByAirport = getAirports();
+    var flightsByAirport = getAirports(filter);
     var airports = new Airport[flightsByAirport.size()];
     int i = 0;
     for (var entry: flightsByAirport.entrySet())
