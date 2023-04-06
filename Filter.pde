@@ -31,19 +31,4 @@ class Filter
         && airportTo.equals(another.airportTo) && airportFrom.equals(another.airportFrom)
         && minDate == another.minDate && maxDate == another.maxDate;
   }
-
-  public Filter withDateRange(int minimum, int maximum)
-  {
-    return new Filter(city, airportFrom, airportTo, minimum, maximum);
-  }
-
-  public Filter withCityPrefix(String newPrefix)
-  {
-    return new Filter(newPrefix, airportFrom, airportTo, minDate, maxDate);
-  }
-
-  public Filter withAirports(String from, String to)
-  {
-    return new Filter(city, from, to, minDate, maxDate);
-  }
 }
