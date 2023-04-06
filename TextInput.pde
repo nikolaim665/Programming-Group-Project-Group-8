@@ -1,23 +1,25 @@
 class TextInput
 {
-  private String label = "", inputText = "";
+  private String inputText = "";
   private int cursorPosition = 0;
   private int x, y, w, h;
+  private String[] labels;
+  private int currentLabel = 0;
   
-  public TextInput(int x, int y, int w, int h, String label)
+  public TextInput(int x, int y, int w, int h, String ... labels)
   {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
-    this.label = label;
+    this.labels = labels;
   }
 
   private void drawLabel(int textW)
   {
     fill(0);
     textAlign(LEFT, CENTER);
-    text(label, x, y, textW, h);
+    text(labels[currentLabel], x, y, textW, h);
   }
 
   private void drawInputBox(int textW)
@@ -43,10 +45,15 @@ class TextInput
       rect(x + textWidth(inputText.substring(0, cursorPosition)) + textW + 2, y + h * 0.2, 1, h * 0.6);
     }
   }
+
+  public void selectLabel(int i)
+  {
+    currentLabel = i;
+  }
   
   public void draw()
   {
-    int textW = round(textWidth(label));
+    int textW = round(textWidth(labels[currentLabel]));
     drawLabel(textW);
     drawInputBox(textW);
     drawInputText(textW);

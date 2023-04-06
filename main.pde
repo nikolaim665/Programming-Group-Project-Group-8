@@ -22,12 +22,12 @@ void setup()
   airportsCodes();
 
   map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT, flights);
-  textInput = new TextInput(SCREEN_WIDTH - 245, 0, 240, MENU_HEIGHT, "City: ");
+  textInput = new TextInput(SCREEN_WIDTH - 245, 0, 240, MENU_HEIGHT, "City: ", "City: ", "Carrier code: ", "Carrier code: ");
   
   datePicker = new DatePicker(flights.getMinDate(), flights.getMaxDate(), MAP_WIDTH + MENU_WIDTH + 20, 0, DATEPICKER_WIDTH, MENU_HEIGHT);
   
   // The menu for switching between displayed content in DataViews
-  menu = new Menu(MAP_WIDTH, 0, MENU_WIDTH, MENU_HEIGHT, "Flight info", "Airline issues", "Flights by state", "Flights by airport");
+  menu = new Menu(MAP_WIDTH, 0, MENU_WIDTH, MENU_HEIGHT, "Flight info", "Airport issues", "Flights by state", "Flights by airport");
   
   // The DataViews showing various information, statistics, etc.
   dataViews = new DataViews();
@@ -47,8 +47,6 @@ void draw()
   datePicker.draw();
   dataViews.draw();
   menu.draw();
-  text("x= " + mouseX + "/ 1250", 1000, 600);
-  text("y= " + mouseY + "/ 750", 1000, 650);
   
   if (mousePressed)
   {
@@ -84,6 +82,7 @@ void mousePressed()
   if (menu.mouseClicked(mouseX, mouseY))
   {
     dataViews.setView(menu.getSelected());
+    textInput.selectLabel(menu.getSelected());
   }
   else
   {
@@ -94,7 +93,14 @@ void mousePressed()
 void updateFilter()
 {
   int start = millis();
-  dataViews.setFilter(new Filter(textInput.getText(), "", "", datePicker.beginDate(), datePicker.endDate()));
+  if (menu.getSelected() >= 2)
+  {
+    dataViews.setFilter(new Filter(textInput.getText(), "", "", "", datePicker.beginDate(), datePicker.endDate()));
+  }
+  else
+  {
+    dataViews.setFilter(new Filter("", textInput.getText(), "", "", datePicker.beginDate(), datePicker.endDate()));
+  }
   
   delay(max(500 - millis() + start, 0));
   thread("updateFilter");

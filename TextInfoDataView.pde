@@ -75,7 +75,7 @@ class TextInfoDataView extends DataView
     }
     else
     {
-      text("No flights by this carrier", textX, y);
+      text("No flights matching your criteria", textX, y);
     }
   }
 
