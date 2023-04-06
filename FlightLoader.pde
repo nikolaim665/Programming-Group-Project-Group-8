@@ -14,9 +14,9 @@ class FlightLoader
   private int nextInt()
   {
     int result = 0;
-    while (i < len && buffer[i] != '\t')
+    while (i < len && buffer[i] != -1)
     {
-      result = (result << 6) | (buffer[i] - '0');
+      result = result << 7 | buffer[i];
       ++i;
     }
     ++i;
@@ -25,7 +25,7 @@ class FlightLoader
 
   private int nextTime()
   {
-    int result = buffer[i] - '0' << 6 | buffer[i + 1] - '0';
+    int result = buffer[i] << 7 | buffer[i + 1];
     i += 2;
     return result;
   }
@@ -40,7 +40,7 @@ class FlightLoader
   private String nextString()
   {
     int begin = i;
-    while (i < len && buffer[i] != '\t')
+    while (i < len && buffer[i] != -1)
     {
       ++i;
     }
@@ -54,12 +54,10 @@ class FlightLoader
     int lineCount = 0;
     try (FileInputStream reader = new FileInputStream(filepath))
     {
-      byte[] tmp = new byte[12];
+      byte[] tmp = new byte[10];
       reader.read(tmp);
-      len = (tmp[0] - '0') << 30 | (tmp[1] - '0') << 24 | (tmp[2] - '0') << 18
-          | (tmp[3] - '0') << 12 | (tmp[4] - '0') <<  6 | (tmp[5] - '0');
-      lineCount = (tmp[6] - '0') << 30 | (tmp[ 7] - '0') << 24 | (tmp[8] - '0') << 18
-                | (tmp[9] - '0') << 12 | (tmp[10] - '0') <<  6 | (tmp[11] - '0');
+      len = tmp[0] << 28 | tmp[1] << 21 | tmp[2] << 14 | tmp[3] << 7 | tmp[4];
+      lineCount = tmp[5] << 28 | tmp[6] << 21 | tmp[7] << 14 | tmp[8] << 7 | tmp[9];
       buffer = new byte[len];
       reader.read(buffer);
     }
@@ -87,10 +85,10 @@ class FlightLoader
       flightNumber = nextInt();
       originAirportCode = nextString();
       originCityName = nextString();
-      originStateCode = (byte)(nextByte() - '0');
+      originStateCode = nextByte();
       destinationAirportCode = nextString();
       destinationCityName = nextString();
-      destinationStateCode = (byte)(nextByte() - '0');
+      destinationStateCode = nextByte();
       scheduledDeparture = nextTime();
       actualDeparture = nextTime();
       scheduledArrival = nextTime();

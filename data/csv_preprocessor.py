@@ -2,12 +2,12 @@ import io
 
 lines = [line.split(',') for line in open('flights_sample.csv').read().strip().split('\n')[1:]]
 
-def int_to_string(num: int):
-    result = ''
+def int_to_bytes(num: int):
+    result = b''
     while num > 0:
-        result = chr(ord('0') + num % 64) + result
-        num //= 64
-    return result.zfill(1)
+        result = bytes([num % 128]) + result
+        num //= 128
+    return result.rjust(1, b'\0')
 
 def is_leap(year: int):
     return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
@@ -24,25 +24,25 @@ def year_start(year: int):
 def fmt_date(date: str):
     month, day, year = [int(part) for part in date.split(' ')[0].split('/')]
     days = year_start(year) + month_start(year, month) + day - 1
-    return int_to_string(days).encode()
+    return int_to_bytes(days)
 
 def fmt_int(integer: str):
     try:
-        return int_to_string(int(integer)).encode()
+        return int_to_bytes(int(integer))
     except:
-        return int_to_string(0x7fff_ffff).encode()
+        return int_to_bytes(0x7fff_ffff)
 
 def fmt_time(time: str):
     try:
-        return int_to_string(int(time[:2]) * 60 + int(time[2:])).zfill(2).encode()
+        return int_to_bytes(int(time[:2]) * 60 + int(time[2:])).rjust(2, b'\0')
     except:
-        return int_to_string(0x7fff_ffff)[-2:].encode()
+        return int_to_bytes(1500)
 
 def fmt_float(num: str):
     try:
-        return int_to_string(int(float(num))).encode()
+        return int_to_bytes(int(float(num)))
     except:
-        return int_to_string(0x7fff_ffff).encode()
+        return int_to_bytes(0x7fff_ffff)
 
 def fmt_bool(boolean: str):
     return b'1' if boolean.startswith('1') else b'0'
@@ -59,21 +59,21 @@ states = [
 ]
 
 def fmt_state(code: str):
-    return int_to_string(states.index(code)).encode()
+    return int_to_bytes(states.index(code))
 
 
 lines.sort(key=lambda line: fmt_date(line[0]))
 
 output = io.BytesIO()
 for line in lines:
-    output.write(fmt_date(line[0]) + b'\t')
-    output.write(fmt_text(line[1]) + b'\t')
-    output.write(fmt_int(line[2]) + b'\t')
-    output.write(fmt_text(line[3]) + b'\t')
-    output.write(fmt_text(line[4][1:] + ',' + line[5][:-1])+ b'\t')
+    output.write(fmt_date(line[0]) + bytes([255]))
+    output.write(fmt_text(line[1]) + bytes([255]))
+    output.write(fmt_int(line[2]) + bytes([255]))
+    output.write(fmt_text(line[3]) + bytes([255]))
+    output.write(fmt_text(line[4][1:] + ',' + line[5][:-1])+ bytes([255]))
     output.write(fmt_state(line[6]))
-    output.write(fmt_text(line[8]) + b'\t')
-    output.write(fmt_text(line[9][1:] + ',' + line[10][:-1]) + b'\t')
+    output.write(fmt_text(line[8]) + bytes([255]))
+    output.write(fmt_text(line[9][1:] + ',' + line[10][:-1]) + bytes([255]))
     output.write(fmt_state(line[11]))
     output.write(fmt_time(line[13]))
     output.write(fmt_time(line[14]))
@@ -81,10 +81,10 @@ for line in lines:
     output.write(fmt_time(line[16]))
     output.write(fmt_bool(line[17]))
     output.write(fmt_bool(line[18]))
-    output.write(fmt_float(line[19])+ b'\t')
+    output.write(fmt_float(line[19])+ bytes([255]))
 
 with open('flights_lines.txt', mode='wb') as file:
     data = output.getvalue()
-    file.write(int_to_string(len(data)).zfill(6).encode())
-    file.write(int_to_string(len(lines)).zfill(6).encode())
+    file.write(int_to_bytes(len(data)).rjust(5, b'\0'))
+    file.write(int_to_bytes(len(lines)).rjust(5, b'\0'))
     file.write(data)

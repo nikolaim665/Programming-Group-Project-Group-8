@@ -27,11 +27,12 @@ class Map
     int r=255; int g=0; int b=0;
     for (int i=0; i<data.length; i++)
     {
-        String code = data[i].stateCode;
-        int flight = data[i].flights;
-        state = shape.getChild(code);
-        
-        if (state != null)
+      String code = data[i].stateCode;
+      int flight = data[i].flights;
+      state = shape.getChild(code);
+      
+      if (state != null)
+      {
         int percent = round((100*flight)/getMaxFlightCount());
         int gAndB= round(percent*4.55);
         gAndB= gAndB-455;
@@ -55,7 +56,7 @@ class Map
             b=0;
         }
         state.setFill(color(r,g,b));
-
+      }
     }
   }
 
