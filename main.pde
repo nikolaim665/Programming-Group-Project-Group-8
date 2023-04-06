@@ -7,8 +7,8 @@ float[][] airportsPosition = new float[60][3];
 String[] airportsCode = new String[60];
 boolean departureSelected = false;
 boolean arrivalSelected = false;
-int departureDisplayed = 0;
-int arrivalDisplayed = 0;
+int departureDisplayed = -1;
+int arrivalDisplayed = -1;
 boolean clicked = false;
 PImage locationPoint;
 float startX, startY;
@@ -64,7 +64,13 @@ void draw()
   menu.draw();
   text("x= " + mouseX + "/ 1250", 1100, 600);
   text("y= " + mouseY + "/ 750", 1100, 650);
-  
+  fill(#FFFADA);
+  rect(400, 10, 480, 30);
+  fill(0);
+  text("From: ", 450, 25);
+  text(departureSelected ? airportsCode[departureDisplayed] : "Please Select departure", 575, 25);
+  text("To: ", 680, 25);
+  text(arrivalSelected ? airportsCode[arrivalDisplayed] : "Please Select arrival", 775, 25);
   if (mousePressed)
   {
     datePicker.mousePressed(mouseX, mouseY);
@@ -89,32 +95,41 @@ void draw()
     {
       fill(#FFFADA);
       noStroke();
-      rect(airportsPosition[departureDisplayed][0] * MAP_WIDTH - 40, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30, 80, 20);
+      rect(airportsPosition[departureDisplayed][0] * MAP_WIDTH - 50, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30, 90, 20);
+      stroke(0);
+      line(airportsPosition[departureDisplayed][0] * MAP_WIDTH - 40 + 80 - 10, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30 + 10, 
+      airportsPosition[departureDisplayed][0] * MAP_WIDTH - 40 + 80, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30);
+      line(airportsPosition[departureDisplayed][0] * MAP_WIDTH - 40 + 80 - 10, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30, 
+      airportsPosition[departureDisplayed][0] * MAP_WIDTH - 40 + 80, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30 + 10);
       fill(#4B0076);
-      text("DEP: " + airportsCode[departureDisplayed], airportsPosition[departureDisplayed][0] * MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 20);
-      startX = airportsPosition[departureDisplayed][0] * MAP_WIDTH; // set the starting X position
-      startY = airportsPosition[departureDisplayed][1] * MAP_HEIGHT; // set the starting Y position
+      text("DEP: " + airportsCode[departureDisplayed], airportsPosition[departureDisplayed][0] * MAP_WIDTH - 10, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 20);
+      startX = airportsPosition[departureDisplayed][0] * MAP_WIDTH;
+      startY = airportsPosition[departureDisplayed][1] * MAP_HEIGHT;
     }
     if(departureSelected == true && arrivalSelected == false)
     {
-      currentX = startX; // set the current X position to the starting X position
-      currentY = startY; // set the current Y position to the starting Y position
+      currentX = startX;
+      currentY = startY;
     }
     if (arrivalSelected == true)
     {
       counterLines = 0;
       fill(#FFFADA);
       noStroke();
-      rect(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 40, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30, 80, 20);
+      rect(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 50, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30, 90, 20);
       fill(#4B0076);
-      text("ARR: " + airportsCode[arrivalDisplayed], airportsPosition[arrivalDisplayed][0] * MAP_WIDTH, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 20);
+      text("ARR: " + airportsCode[arrivalDisplayed], airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 10, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 20);
       stroke(0);
+      line(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 40 + 80 - 10, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30 + 10, 
+      airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 40 + 80, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30);
+      line(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 40 + 80 - 10, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30, 
+      airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 40 + 80, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30 + 10);
       line(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT, airportsPosition[departureDisplayed][0] * 
       MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT);
-      endX = airportsPosition[arrivalDisplayed][0] * MAP_WIDTH ; // set the end X position
-      endY = airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT;// set the end Y position
-      circle(currentX, currentY, 10); // draw the image at its current position
-      moveImage(); // move the image
+      endX = airportsPosition[arrivalDisplayed][0] * MAP_WIDTH ;
+      endY = airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT;
+      circle(currentX, currentY, 10);
+      moveImage();
       if(dist(currentX, currentY, endX, endY) < 1)
       {
         currentX = startX;
@@ -166,8 +181,8 @@ void draw()
   }
   if (departureSelected == true && arrivalSelected ==  true && clicked)
   {
-    departureDisplayed = 0;
-    arrivalDisplayed = 0;
+    departureDisplayed = -1;
+    arrivalDisplayed = -1;
     arrivalSelected = false;
     departureSelected = false;
     clicked = false;
