@@ -22,12 +22,12 @@ void setup()
   airportsCodes();
 
   map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT, flights);
-  textInput = new TextInput(SCREEN_WIDTH - 120, 0, 115, MENU_HEIGHT);
+  textInput = new TextInput(SCREEN_WIDTH - 245, 0, 240, MENU_HEIGHT, "City: ", "City: ", "Carrier code: ", "Carrier code: ");
   
-  datePicker = new DatePicker(flights.getMinDate(), flights.getMaxDate(), MAP_WIDTH + MENU_WIDTH + 20, 0, 320, MENU_HEIGHT);
+  datePicker = new DatePicker(flights.getMinDate(), flights.getMaxDate(), MAP_WIDTH + MENU_WIDTH + 20, 0, DATEPICKER_WIDTH, MENU_HEIGHT);
   
   // The menu for switching between displayed content in DataViews
-  menu = new Menu(MAP_WIDTH, 0, MENU_WIDTH, MENU_HEIGHT, "Flight info", "Airline issues", "Flights by state", "Flights by airport");
+  menu = new Menu(MAP_WIDTH, 0, MENU_WIDTH, MENU_HEIGHT, "Flight info", "Airport issues", "Flights by state", "Flights by airport");
   
   // The DataViews showing various information, statistics, etc.
   dataViews = new DataViews();
@@ -36,7 +36,7 @@ void setup()
   dataViews.add(new FlightsByStateDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   dataViews.add(new FlightsByAirportDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   
-  dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), flights.getMinDate(), flights.getMaxDate()));
+  updateFilter();
 }
 
 void draw()
@@ -86,6 +86,7 @@ void mousePressed()
   if (menu.mouseClicked(mouseX, mouseY))
   {
     dataViews.setView(menu.getSelected());
+    textInput.selectLabel(menu.getSelected());
   }
   else
   {
@@ -93,14 +94,20 @@ void mousePressed()
   }
 }
 
-void mouseReleased()
+void updateFilter()
 {
-  dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), datePicker.beginDate(), datePicker.endDate()));
-}
-
-void keyReleased()
-{
-  dataViews.setFilter(new Filter(textInput.getText().toUpperCase(), datePicker.beginDate(), datePicker.endDate()));
+  int start = millis();
+  if (menu.getSelected() >= 2)
+  {
+    dataViews.setFilter(new Filter(textInput.getText(), "", "", "", datePicker.beginDate(), datePicker.endDate()));
+  }
+  else
+  {
+    dataViews.setFilter(new Filter("", textInput.getText(), "", "", datePicker.beginDate(), datePicker.endDate()));
+  }
+  
+  delay(max(500 - millis() + start, 0));
+  thread("updateFilter");
 }
 
 void keyPressed()

@@ -70,9 +70,7 @@ class FlightLoader
     String carrierCode;
     int flightNumber;
     String originAirportCode, originCityName, originStateCode;
-    int originWorldAreaCode;
     String destinationAirportCode, destinationCityName, destinationStateCode;
-    int destinationWorldAreaCode;
     int scheduledDeparture, actualDeparture, scheduledArrival, actualArrival;
     boolean isCancelled, isDiverted;
     int distance;
@@ -85,11 +83,9 @@ class FlightLoader
       originAirportCode = nextString();
       originCityName = nextString();
       originStateCode = nextString();
-      originWorldAreaCode = nextInt();
       destinationAirportCode = nextString();
       destinationCityName = nextString();
       destinationStateCode = nextString();
-      destinationWorldAreaCode = nextInt();
       scheduledDeparture = nextTime();
       actualDeparture = nextTime();
       scheduledArrival = nextTime();
@@ -99,8 +95,8 @@ class FlightLoader
       distance = nextInt();
 
       flights[line] = new Flight(
-        flightDate, carrierCode, flightNumber, originAirportCode, originCityName, originStateCode, originWorldAreaCode,
-        destinationAirportCode, destinationCityName, destinationStateCode, destinationWorldAreaCode,
+        flightDate, carrierCode, flightNumber, originAirportCode, originCityName, originStateCode,
+        destinationAirportCode, destinationCityName, destinationStateCode,
         scheduledDeparture, actualDeparture, scheduledArrival, actualArrival, isCancelled, isDiverted, distance
       );
     }

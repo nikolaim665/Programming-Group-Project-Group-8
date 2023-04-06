@@ -93,8 +93,8 @@ abstract class BarChartDataView extends DataView
   {
     noStroke();
 
-    int marginLeft = 80, marginRight = 20;
-    int marginTop = 20, marginBottom = 30;
+    int marginLeft = 70, marginRight = 10;
+    int marginTop = 20, marginBottom = 20;
     
     drawBars(x + marginLeft, y + marginTop, w - marginRight - marginLeft, h - marginTop - marginBottom);
     drawAxes(x + marginLeft, y + marginTop, w - marginRight - marginLeft, h - marginTop - marginBottom);

@@ -2,6 +2,7 @@ class DataViews
 {
   private ArrayList<DataView> dataViews = new ArrayList<DataView>();
   private int currentView = 0;
+  private Filter filter = null;
   
   public void setView(int newView)
   {
@@ -24,6 +25,12 @@ class DataViews
     {
       dataView.setFilter(filter);
     }
+    this.filter = filter;
+  }
+
+  public Filter getFilter()
+  {
+    return filter;
   }
 
   public void keyPressed(int keyPressed, int keyCodePressed)
