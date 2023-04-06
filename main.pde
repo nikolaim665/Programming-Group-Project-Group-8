@@ -10,7 +10,7 @@ boolean arrivalSelected = false;
 int departureDisplayed = 0;
 int arrivalDisplayed = 0;
 boolean clicked = false;
-
+PImage planeIcon;
 void settings()
 {
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -21,7 +21,9 @@ void setup()
   // Arial, 16 point, anti-aliasing on
   textFont(createFont("Arial", 16, true));
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
-  
+  planeIcon = loadImage("planeIcon.png");
+  planeIcon.resize(60, 60);
+  for(int n = 0; n < planeIcon.pixels.length; n++) if(planeIcon.pixels[n] == 0) planeIcon.pixels[n] = 0;
   
   Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
   
@@ -90,6 +92,7 @@ void draw()
       stroke(0);
       line(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT, airportsPosition[departureDisplayed][0] * 
       MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT);
+      image(planeIcon, airportsPosition[arrivalDisplayed][0] * MAP_WIDTH, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT);
   }
   for (int i = 0; i < airportsPosition.length; i++)
   {
