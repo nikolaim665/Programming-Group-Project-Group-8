@@ -152,7 +152,7 @@ class Flights
     return ok ? i : -1;
   }
 
-  public Airport[] getSortedAirports(Filter filter)
+  public HashMap<String, Integer> getAirports(Filter filter)
   {
     var flightsByAirport = new HashMap<String, Integer>();
     for (Flight flight: flights)
@@ -166,7 +166,12 @@ class Flights
         }
       }
     }
+    return flightsByAirport;
+  }
 
+  public Airport[] getSortedAirports(Filter filter)
+  {
+    var flightsByAirport = getAirports(filter);
     var airports = new Airport[flightsByAirport.size()];
     int i = 0;
     for (var entry: flightsByAirport.entrySet())

@@ -3,22 +3,37 @@ Menu menu;
 DataViews dataViews;
 TextInput textInput;
 DatePicker datePicker;
-float[][] airportsPosition = new float[81][3];
-String[] airportsCode = new String[81];
-
+Flights flights;
+float[][] airportsPosition = new float[60][3];
+String[] airportsCode = new String[60];
+boolean departureSelected = false;
+boolean arrivalSelected = false;
+int departureDisplayed = -1;
+int arrivalDisplayed = -1;
+boolean clicked = false;
+PImage locationPoint;
+float startX, startY;
+float endX, endY;
+float currentX, currentY;
+float speed = 2;
+int counterLines = 0;
+float anglePlane;
 void settings()
 {
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
+
 void setup()
 {
   // Arial, 16 point, anti-aliasing on
   int m = millis();
   textFont(createFont("Arial", 16, true));
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
-  println(millis() - m, "ms");
+  locationPoint = loadImage("locationPoint.png");
+  locationPoint.resize(60, 60);
+  for(int n = 0; n < locationPoint.pixels.length; n++) if(locationPoint.pixels[n] == 0) locationPoint.pixels[n] = 0;
   
-  Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
+  flights = new FlightLoader(dataPath("flights_lines.txt")).load();
   
   println(millis() - m, "ms");
   airportsPositions();
@@ -48,40 +63,148 @@ void setup()
 
 void draw()
 {
+  int unitRadius = SCREEN_HEIGHT / 20;
   background(255, 255, 180);
   map.draw();
   textInput.draw();
   datePicker.draw();
   dataViews.draw();
   menu.draw();
-  
+  //text("x= " + mouseX + "/ 1250", 1100, 600);
+  //text("y= " + mouseY + "/ 750", 1100, 650);
+  fill(#FFFADA);
+  rect(400, 10, 480, 30);
+  fill(0);
+  text("From: ", 450, 25);
+  text(departureSelected ? airportsCode[departureDisplayed] : "Please Select Departure", 575, 25);
+  text("To: ", 680, 25);
+  text(arrivalSelected ? airportsCode[arrivalDisplayed] : "Please Select Arrival", 775, 25);
   if (mousePressed)
   {
     datePicker.mousePressed(mouseX, mouseY);
   }
-
-  int unitRadius = MAP_HEIGHT / 20;
-  for (int i = 0; i < 40; i++)
+  if (departureSelected == true && arrivalSelected == false)
+  {
+    var airports = flights.getAirports(dataViews.getFilter());
+    for (int j = 0; j < airportsPosition.length; j++)
+      {
+         if ( departureDisplayed != j && airports.containsKey(airportsCode[j]) && counterLines == 10)
+         {
+            stroke(#4C0013);
+            line(airportsPosition[departureDisplayed][0] * MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT, airportsPosition[j][0] * MAP_WIDTH, airportsPosition[j][1] * MAP_HEIGHT);
+         }
+      }
+      if (counterLines < 10)
+      {
+        
+        counterLines++;
+      }
+   }
+    if (departureSelected == true)
+    {
+      fill(#FFFADA);
+      noStroke();
+      rect(airportsPosition[departureDisplayed][0] * MAP_WIDTH - 50, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30, 90, 20);
+      stroke(0);
+      line(airportsPosition[departureDisplayed][0] * MAP_WIDTH - 40 + 80 - 10, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30 + 10, 
+      airportsPosition[departureDisplayed][0] * MAP_WIDTH - 40 + 80, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30);
+      line(airportsPosition[departureDisplayed][0] * MAP_WIDTH - 40 + 80 - 10, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30, 
+      airportsPosition[departureDisplayed][0] * MAP_WIDTH - 40 + 80, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 30 + 10);
+      fill(#4B0076);
+      text("DEP: " + airportsCode[departureDisplayed], airportsPosition[departureDisplayed][0] * MAP_WIDTH - 10, airportsPosition[departureDisplayed][1] * MAP_HEIGHT - 20);
+      startX = airportsPosition[departureDisplayed][0] * MAP_WIDTH;
+      startY = airportsPosition[departureDisplayed][1] * MAP_HEIGHT;
+    }
+    if(departureSelected == true && arrivalSelected == false)
+    {
+      currentX = startX;
+      currentY = startY;
+    }
+    if (arrivalSelected == true)
+    {
+      counterLines = 0;
+      fill(#FFFADA);
+      noStroke();
+      rect(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 50, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30, 90, 20);
+      fill(#4B0076);
+      text("ARR: " + airportsCode[arrivalDisplayed], airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 10, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 20);
+      stroke(0);
+      line(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 40 + 80 - 10, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30 + 10, 
+      airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 40 + 80, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30);
+      line(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 40 + 80 - 10, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30, 
+      airportsPosition[arrivalDisplayed][0] * MAP_WIDTH - 40 + 80, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT - 30 + 10);
+      line(airportsPosition[arrivalDisplayed][0] * MAP_WIDTH, airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT, airportsPosition[departureDisplayed][0] * 
+      MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT);
+      endX = airportsPosition[arrivalDisplayed][0] * MAP_WIDTH ;
+      endY = airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT;
+      circle(currentX, currentY, 10);    
+      moveImage();
+      if(dist(currentX, currentY, endX, endY) < 1)
+      {
+        currentX = startX;
+        currentY = startY;
+      }
+    }
+  for (int i = 0; i < airportsPosition.length; i++)
   {
     if (mouseX > airportsPosition[i][0] * MAP_WIDTH  - airportsPosition[i][2] * unitRadius
      && mouseX < airportsPosition[i][0] * MAP_WIDTH  + airportsPosition[i][2] * unitRadius
      && mouseY > airportsPosition[i][1] * MAP_HEIGHT - airportsPosition[i][2] * unitRadius
      && mouseY < airportsPosition[i][1] * MAP_HEIGHT + airportsPosition[i][2] * unitRadius)
     {
-      fill(#280137);
-      text(airportsCode[i], airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT + 25);
-      for (int j = 0; j < 40; j++)
+      if (departureSelected == false && arrivalSelected == false && clicked)
       {
-        stroke(#FFD773);
-        line(airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[j][0] * MAP_WIDTH, airportsPosition[j][1] * MAP_HEIGHT);
+        departureDisplayed = i;
+        departureSelected = true;
+        clicked = false;
+      }
+      if (departureSelected == true && arrivalSelected == false && clicked)
+      {
+        if ( i != departureDisplayed)
+        {
+          arrivalDisplayed = i;
+          arrivalSelected = true;
+          clicked = false;
+        }
+        else
+        {
+          clicked = false;
+        }
+      }
+      if(departureDisplayed != i && arrivalDisplayed != i)
+      {
+        fill(#FFFADA);
+        noStroke();
+        rect(airportsPosition[i][0] * MAP_WIDTH - 20, airportsPosition[i][1] * MAP_HEIGHT - 30 - airportsPosition[i][2] * unitRadius, 40, 20);
+        fill(#4B0076);
+        text(airportsCode[i], airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT - 20 - airportsPosition[i][2] * unitRadius);
       }
     }
     else
     {
       fill(#9966CB);
     }
+    stroke(0);
     circle(airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT, airportsPosition[i][2] * unitRadius * 2);
   }
+  if (departureSelected == true && arrivalSelected ==  true && clicked)
+  {
+    departureDisplayed = -1;
+    arrivalDisplayed = -1;
+    arrivalSelected = false;
+    departureSelected = false;
+    clicked = false;
+  }
+}
+
+void moveImage()
+{
+  float dx = endX - startX; // calculate the X distance between the starting and end points
+  float dy = endY - startY; // calculate the Y distance between the starting and end points
+  float distance = sqrt(dx*dx + dy*dy); // calculate the total distance of the line
+  float ratio = speed / distance; // calculate the ratio of the speed to the total distance
+  currentX += dx * ratio; // move the image along the X axis
+  currentY += dy * ratio; // move the image along the Y axis
 }
 
 void mousePressed()
@@ -102,11 +225,11 @@ void updateFilter()
   int start = millis();
   if (menu.getSelected() >= 2)
   {
-    dataViews.setFilter(new Filter(textInput.getText(), "", "", "", datePicker.beginDate(), datePicker.endDate()));
+    dataViews.setFilter(new Filter(textInput.getText(), "", departureSelected ? airportsCode[departureDisplayed] :"", arrivalSelected ? airportsCode[arrivalDisplayed] :"", datePicker.beginDate(), datePicker.endDate()));
   }
   else
   {
-    dataViews.setFilter(new Filter("", textInput.getText(), "", "", datePicker.beginDate(), datePicker.endDate()));
+    dataViews.setFilter(new Filter("", textInput.getText(), departureSelected ? airportsCode[departureDisplayed] :"", arrivalSelected ? airportsCode[arrivalDisplayed] :"", datePicker.beginDate(), datePicker.endDate()));
   }
   
   delay(max(500 - millis() + start, 0));
@@ -118,6 +241,46 @@ void keyPressed()
   textInput.keyPressed(key, keyCode);
   dataViews.keyPressed(key, keyCode);
 }
+
+void mouseReleased()
+{
+  for (int i = 0; i < airportsPosition.length; i++)
+  {
+    int unitRadius = SCREEN_HEIGHT / 20;
+    if (mouseX > airportsPosition[i][0] * MAP_WIDTH  - airportsPosition[i][2] * unitRadius
+     && mouseX < airportsPosition[i][0] * MAP_WIDTH  + airportsPosition[i][2] * unitRadius
+     && mouseY > airportsPosition[i][1] * MAP_HEIGHT - airportsPosition[i][2] * unitRadius
+     && mouseY < airportsPosition[i][1] * MAP_HEIGHT + airportsPosition[i][2] * unitRadius)
+     {
+      clicked = true;
+     }
+  }
+}
+
+public int airportCodeFinder(String code)
+{
+  for (int i = 0; i < airportsCode.length; i++)
+  {
+    if (code == airportsCode[i])
+    {
+      return i;
+    }
+  }
+  return -1;
+}
+
+public boolean airportDisplayable(String code)
+{
+  for (int i = 0; i < airportsCode.length; i++)
+  {
+    if (code == airportsCode[i])
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
 void airportsPositions()
 {
   airportsPosition[0][0] = 0.061; 
@@ -240,37 +403,68 @@ void airportsPositions()
   airportsPosition[39][0] = 0.0368; 
   airportsPosition[39][1] = 0.4427;
   airportsPosition[39][2] = 0.15;
-  airportsPosition[40][0] = 0.061; 
-  airportsPosition[40][1] = 0.567;
+  airportsPosition[40][0] = 0.2448; 
+  airportsPosition[40][1] = 0.2213;
   airportsPosition[40][2] = 0.15;
-  airportsPosition[41][0] = 0.8525; 
-  airportsPosition[41][1] = 0.359;
+  airportsPosition[41][0] = 0.1696; 
+  airportsPosition[41][1] = 0.2693;
   airportsPosition[41][2] = 0.15;
-  airportsPosition[42][0] = 0.34167; 
-  airportsPosition[42][1] = 0.44;
+  airportsPosition[42][0] = 0.3152; 
+  airportsPosition[42][1] = 0.3333;
   airportsPosition[42][2] = 0.15;
-  airportsPosition[43][0] = 0.6175; 
-  airportsPosition[43][1] = 0.375;
+  airportsPosition[43][0] = 0.4016; 
+  airportsPosition[43][1] = 0.152;
   airportsPosition[43][2] = 0.15;
-  airportsPosition[44][0] = 0.771; 
-  airportsPosition[44][1] = 0.835;
+  airportsPosition[44][0] = 0.4728; 
+  airportsPosition[44][1] = 0.3227;
   airportsPosition[44][2] = 0.15;
-  airportsPosition[45][0] = 0.7008; 
-  airportsPosition[45][1] = 0.6627;
+  airportsPosition[45][0] = 0.4792; 
+  airportsPosition[45][1] = 0.396;
   airportsPosition[45][2] = 0.15;
-  airportsPosition[46][0] = 0.4696; 
-  airportsPosition[46][1] = 0.7133;
+  airportsPosition[46][0] = 0.4648; 
+  airportsPosition[46][1] = 0.5347;
   airportsPosition[46][2] = 0.15;
-  airportsPosition[47][0] = 0.4456; 
-  airportsPosition[47][1] = 0.8307;
+  airportsPosition[47][0] = 0.4496; 
+  airportsPosition[47][1] = 0.6227;
   airportsPosition[47][2] = 0.15;
-  airportsPosition[48][0] = 0.7632; 
-  airportsPosition[48][1] = 0.5973;
+  airportsPosition[48][0] = 0.556; 
+  airportsPosition[48][1] = 0.6453;
   airportsPosition[48][2] = 0.15;
-  airportsPosition[49][0] = 0.856; 
-  airportsPosition[49][1] = 0.3467;
+  airportsPosition[49][0] = 0.5176; 
+  airportsPosition[49][1] = 0.5933;
   airportsPosition[49][2] = 0.15;
+  airportsPosition[50][0] = 0.204; 
+  airportsPosition[50][1] = 0.4013;
+  airportsPosition[50][2] = 0.15;
+  airportsPosition[51][0] = 0.2904; 
+  airportsPosition[51][1] = 0.6013;
+  airportsPosition[51][2] = 0.15;
+  airportsPosition[52][0] = 0.12; 
+  airportsPosition[52][1] = 0.896;
+  airportsPosition[52][2] = 0.15;
+  airportsPosition[53][0] = 0.596; 
+  airportsPosition[53][1] = 0.716;
+  airportsPosition[53][2] = 0.15;
+  airportsPosition[54][0] = 0.8888; 
+  airportsPosition[54][1] = 0.2213;
+  airportsPosition[54][2] = 0.15;
+  airportsPosition[55][0] = 0.704; 
+  airportsPosition[55][1] = 0.432;
+  airportsPosition[55][2] = 0.15;
+  airportsPosition[56][0] = 0.736; 
+  airportsPosition[56][1] = 0.472;
+  airportsPosition[56][2] = 0.15;
+  airportsPosition[57][0] = 0.6672; 
+  airportsPosition[57][1] = 0.5013;
+  airportsPosition[57][2] = 0.15;
+  airportsPosition[58][0] = 0.6424; 
+  airportsPosition[58][1] = 0.576;
+  airportsPosition[58][2] = 0.15;
+  airportsPosition[59][0] = 0.6496; 
+  airportsPosition[59][1] = 0.6653;
+  airportsPosition[59][2] = 0.15;
 }
+
 void airportsCodes()
 {
   airportsCode[0] = "LAX";
@@ -313,34 +507,24 @@ void airportsCodes()
   airportsCode[37] = "BWI";
   airportsCode[38] = "IND";
   airportsCode[39] = "OAK";
-  airportsCode[40] = "MSP";
-  airportsCode[41] = "BUR";
-  airportsCode[42] = "RIC";
-  airportsCode[43] = "SMF";
-  airportsCode[44] = "CAK";
-  airportsCode[45] = "SNA";
-  airportsCode[46] = "";
-  airportsCode[47] = "ACY";
-  airportsCode[48] = "MIA";
-  airportsCode[49] = "RDU";
-  airportsCode[50] = "BQN";
-  airportsCode[51] = "MKE";
-  airportsCode[52] = "STX";
-  airportsCode[53] = "AUS";
-  airportsCode[54] = "CLE";
-  airportsCode[55] = "PIT";
-  airportsCode[56] = "SDF";
-  airportsCode[57] = "LBE";
-  airportsCode[58] = "CMH";
-  airportsCode[59] = "IAD";
-  airportsCode[60] = "MFR";
-  airportsCode[61] = "MTJ";
-  airportsCode[62] = "SFO";
-  airportsCode[63] = "FSD";
-  airportsCode[64] = "EGE";
-  airportsCode[65] = "GEG";
-  airportsCode[66] = "OMA";
-  airportsCode[67] = "SBA";
-  airportsCode[68] = "SAN";
-  airportsCode[69] = "XNA";
+  airportsCode[40] = "BZN";
+  airportsCode[41] = "BOI";
+  airportsCode[42] = "CPR";
+  airportsCode[43] = "MOT";
+  airportsCode[44] = "FSD";
+  airportsCode[45] = "OMA";
+  airportsCode[46] = "ICT";
+  airportsCode[47] = "OKC";
+  airportsCode[48] = "LIT";
+  airportsCode[49] = "XNA";
+  airportsCode[50] = "SLC";
+  airportsCode[51] = "ABQ";
+  airportsCode[52] = "ANC";
+  airportsCode[53] = "JAN";
+  airportsCode[54] = "PWM";
+  airportsCode[55] = "CMH";
+  airportsCode[56] = "CRW";
+  airportsCode[57] = "SDF";
+  airportsCode[58] = "BNA";
+  airportsCode[59] = "BHM";
 }

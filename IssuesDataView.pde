@@ -19,8 +19,7 @@ class IssuesDataView extends DataView
     textAlign(LEFT, TOP);
     text("Average flight delay: " + round(flightData.avgDelay) + " mins", x + offsetX, y + offsetY);
     text("Average flight distance: " + round(flightData.avgDistance) + " miles", x + offsetX, y + offsetY + 25);
-    text("Delayed flights: " + flightData.delayed, x + offsetX, y + offsetY + 50);
-    text("Total flights: " + flightData.total, x + offsetX, y + offsetY + 75);
+    text("Total flights: " + flightData.total, x + offsetX, y + offsetY + 50);
   }
 
   protected void filterUpdated()
