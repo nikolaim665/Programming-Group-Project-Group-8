@@ -3,6 +3,7 @@ Menu menu;
 DataViews dataViews;
 TextInput textInput;
 DatePicker datePicker;
+Flights flights;
 float[][] airportsPosition = new float[60][3];
 String[] airportsCode = new String[60];
 boolean departureSelected = false;
@@ -14,9 +15,9 @@ PImage locationPoint;
 float startX, startY;
 float endX, endY;
 float currentX, currentY;
-float speed = 0.2;
+float speed = 2;
 int counterLines = 0;
-Flights flights;
+float anglePlane;
 void settings()
 {
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -56,21 +57,22 @@ void setup()
 
 void draw()
 {
+  int unitRadius = SCREEN_HEIGHT / 20;
   background(255, 255, 180);
   map.draw();
   textInput.draw();
   datePicker.draw();
   dataViews.draw();
   menu.draw();
-  text("x= " + mouseX + "/ 1250", 1100, 600);
-  text("y= " + mouseY + "/ 750", 1100, 650);
+  //text("x= " + mouseX + "/ 1250", 1100, 600);
+  //text("y= " + mouseY + "/ 750", 1100, 650);
   fill(#FFFADA);
   rect(400, 10, 480, 30);
   fill(0);
   text("From: ", 450, 25);
-  text(departureSelected ? airportsCode[departureDisplayed] : "Please Select departure", 575, 25);
+  text(departureSelected ? airportsCode[departureDisplayed] : "Please Select Departure", 575, 25);
   text("To: ", 680, 25);
-  text(arrivalSelected ? airportsCode[arrivalDisplayed] : "Please Select arrival", 775, 25);
+  text(arrivalSelected ? airportsCode[arrivalDisplayed] : "Please Select Arrival", 775, 25);
   if (mousePressed)
   {
     datePicker.mousePressed(mouseX, mouseY);
@@ -80,15 +82,16 @@ void draw()
     var airports = flights.getAirports(dataViews.getFilter());
     for (int j = 0; j < airportsPosition.length; j++)
       {
-         if ( departureDisplayed != j && airports.containsKey(airportsCode[j]) && counterLines == 5)
+         if ( departureDisplayed != j && airports.containsKey(airportsCode[j]) && counterLines == 10)
          {
             stroke(#4C0013);
             line(airportsPosition[departureDisplayed][0] * MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT, airportsPosition[j][0] * MAP_WIDTH, airportsPosition[j][1] * MAP_HEIGHT);
          }
       }
-      if (counterLines < 5)
+      if (counterLines < 10)
       {
-      counterLines++;
+        
+        counterLines++;
       }
    }
     if (departureSelected == true)
@@ -128,7 +131,7 @@ void draw()
       MAP_WIDTH, airportsPosition[departureDisplayed][1] * MAP_HEIGHT);
       endX = airportsPosition[arrivalDisplayed][0] * MAP_WIDTH ;
       endY = airportsPosition[arrivalDisplayed][1] * MAP_HEIGHT;
-      circle(currentX, currentY, 10);
+      circle(currentX, currentY, 10);    
       moveImage();
       if(dist(currentX, currentY, endX, endY) < 1)
       {
@@ -138,7 +141,6 @@ void draw()
     }
   for (int i = 0; i < airportsPosition.length; i++)
   {
-    int unitRadius = SCREEN_HEIGHT / 20;
     if (mouseX > airportsPosition[i][0] * MAP_WIDTH  - airportsPosition[i][2] * unitRadius
      && mouseX < airportsPosition[i][0] * MAP_WIDTH  + airportsPosition[i][2] * unitRadius
      && mouseY > airportsPosition[i][1] * MAP_HEIGHT - airportsPosition[i][2] * unitRadius
@@ -167,9 +169,9 @@ void draw()
       {
         fill(#FFFADA);
         noStroke();
-        rect(airportsPosition[i][0] * MAP_WIDTH - 20, airportsPosition[i][1] * MAP_HEIGHT - 30, 40, 20);
+        rect(airportsPosition[i][0] * MAP_WIDTH - 20, airportsPosition[i][1] * MAP_HEIGHT - 30 - airportsPosition[i][2] * unitRadius, 40, 20);
         fill(#4B0076);
-        text(airportsCode[i], airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT - 20);
+        text(airportsCode[i], airportsPosition[i][0] * MAP_WIDTH, airportsPosition[i][1] * MAP_HEIGHT - 20 - airportsPosition[i][2] * unitRadius);
       }
     }
     else
