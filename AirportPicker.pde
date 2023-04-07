@@ -30,7 +30,7 @@ class AirportPicker
   private Flights flights;
   private Filter filter = new Filter();
   private HashMap<String, Integer> flightLines = null;
-  private float animationPosition = 0.0;
+  private float animationPosition = 0.0, animationSpeed = 0.0;
 
   public AirportPicker(int w, int h, int airportRadius, Flights flights)
   {
@@ -95,7 +95,13 @@ class AirportPicker
       {
         arrival = departure = -1;
       }
-      animationPosition = 0.0;
+      if (departure >= 0 && arrival >= 0)
+      {
+        animationPosition = 0.0;
+        float dx = xCoordinates[arrival] - xCoordinates[departure];
+        float dy = yCoordinates[arrival] - yCoordinates[departure];
+        animationSpeed = 0.005 / sqrt(dx * dx + dy * dy);
+      }
     }
   }
 
@@ -121,8 +127,8 @@ class AirportPicker
     fill(0);
     circle(circleX * w, circleY * h, 10);
     
-    animationPosition += 0.01;
-    if (animationPosition >= 1)
+    animationPosition += animationSpeed;
+    if (animationPosition > 1)
     {
       animationPosition = 0;
     }
