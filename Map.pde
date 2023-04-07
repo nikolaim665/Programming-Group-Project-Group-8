@@ -3,14 +3,14 @@ class Map
   private PShape shape;
   private PShape state;
   private int x, y, w, h;
-  private Flights.StateFlightData[] data;
+  private FlightCount[] data;
   
   private int getMaxFlightCount()
   {
     int maximum = 0;
     for (int i = 0; i < data.length; ++i)
     {
-      maximum = max(maximum, data[i].flights);
+      maximum = max(maximum, data[i].count);
     }
     return maximum;
   }
@@ -27,8 +27,8 @@ class Map
     int r=255; int g=0; int b=0;
     for (int i=0; i<data.length; i++)
     {
-      String code = data[i].stateCode;
-      int flight = data[i].flights;
+      String code = data[i].category;
+      int flight = data[i].count;
       state = shape.getChild(code);
       
       if (state != null)
