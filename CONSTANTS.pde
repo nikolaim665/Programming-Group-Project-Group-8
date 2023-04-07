@@ -10,7 +10,6 @@ final int DATEPICKER_WIDTH = 300;
 final int DATAVIEW_WIDTH = SCREEN_WIDTH - MAP_WIDTH;
 final int DATAVIEW_HEIGHT = SCREEN_HEIGHT - MENU_HEIGHT;
 
-
 final String[] STATE_CODES = {
   "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN",
   "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH",
