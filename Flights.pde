@@ -29,7 +29,7 @@ class Flights
     return flights[i];
   }
   
-  class FlightStats
+  class Statistics
   {
     public final float avgDistance;
     public final float avgDelay;
@@ -38,7 +38,7 @@ class Flights
     public final int diverted;
     public final int cancelled;
    
-    public FlightStats(float avgDistance, float avgDelay, int delayed, int total, int diverted, int cancelled)
+    public Statistics(float avgDistance, float avgDelay, int delayed, int total, int diverted, int cancelled)
     {
       this.avgDistance = avgDistance;
       this.avgDelay = avgDelay;
@@ -49,7 +49,7 @@ class Flights
     }
   }
   
-  public FlightStats getFlightStats(Filter filter)
+  public Statistics getStatistics(Filter filter)
   {
     float totalDistance = 0, totalDelay = 0;
     int total = 0, delayed = 0, diverted = 0, cancelled = 0;
@@ -77,48 +77,49 @@ class Flights
     }
     if (total == 0)
     {
-      return new FlightStats(0, 0, 0, 0, 0, 0);
+      return new Statistics(0, 0, 0, 0, 0, 0);
     }
-    return new FlightStats(totalDistance / total, totalDelay / total, delayed, total, diverted, cancelled);
+    return new Statistics(totalDistance / total, totalDelay / total, delayed, total, diverted, cancelled);
   }
 
-  public class StateFlightData
+  public FlightCount[] getFlightsByStates(Filter filter)
   {
-    public final String stateCode;
-    public final int flights;
-
-    public StateFlightData(String stateCode, int flights)
-    {
-      this.stateCode = stateCode;
-      this.flights = flights;
-    }
-  }
-
-  public StateFlightData[] getFlightsByStates(Filter filter)
-  {
-    var flightsByStates = new HashMap<String, Integer>(STATE_CODES.length);
+    int stateCount = 0;
+    int[] flightsByStates = new int[STATE_CODES.length];
     
     for (Flight flight: flights)
     {
       if (filter.matches(flight))
       {
-        flightsByStates.put(flight.destinationStateCode, flightsByStates.getOrDefault(flight.destinationStateCode, 0) + 1);
-        if (!flight.originStateCode.equals(flight.destinationStateCode))
+        if (flightsByStates[flight.destinationStateCode] == 0)
         {
-          flightsByStates.put(flight.originStateCode, flightsByStates.getOrDefault(flight.originStateCode, 0) + 1);
+          ++stateCount;
+        }
+        ++flightsByStates[flight.destinationStateCode];
+        if (flight.originStateCode != flight.destinationStateCode)
+        {
+          if (flightsByStates[flight.originStateCode] == 0)
+          {
+            ++stateCount;
+          }
+          ++flightsByStates[flight.originStateCode];
         }
       }
     }
 
-    StateFlightData[] result = new StateFlightData[STATE_CODES.length];
-    for (int i = 0; i < STATE_CODES.length; ++i)
+    FlightCount[] result = new FlightCount[stateCount];
+    for (int i = 0, dest = 0; i < STATE_CODES.length; ++i)
     {
-      result[i] = new StateFlightData(STATE_CODES[i], flightsByStates.getOrDefault(STATE_CODES[i], 0));
+      if (flightsByStates[i] > 0)
+      {
+        result[dest] = new FlightCount(STATE_CODES[i], flightsByStates[i]);
+        ++dest;
+      }
     }
     return result;
   }
 
-  public StateFlightData[] getFlightsByStates()
+  public FlightCount[] getFlightsByStates()
   {
     return getFlightsByStates(new Filter());
   }
@@ -139,7 +140,7 @@ class Flights
     return ok ? i : -1;
   }
 
-  public Airport[] getSortedAirports(Filter filter)
+  public HashMap<String, Integer> getAirports(Filter filter)
   {
     var flightsByAirport = new HashMap<String, Integer>();
     for (Flight flight: flights)
@@ -153,18 +154,24 @@ class Flights
         }
       }
     }
+    return flightsByAirport;
+  }
 
-    var airports = new Airport[flightsByAirport.size()];
+  public FlightCount[] getSortedAirports(Filter filter)
+  {
+    var flightsByAirport = getAirports(filter);
+    var airports = new FlightCount[flightsByAirport.size()];
     int i = 0;
     for (var entry: flightsByAirport.entrySet())
     {
-      airports[i] = new Airport(entry.getKey(), entry.getValue());
+      airports[i] = new FlightCount(entry.getKey(), entry.getValue());
       ++i;
     }
-    return Airport.sort(airports);
+    FlightCount.sort(airports);
+    return airports;
   }
 
-  public Airport[] getSortedAirports()
+  public FlightCount[] getSortedAirports()
   {
     return getSortedAirports(new Filter());
   }

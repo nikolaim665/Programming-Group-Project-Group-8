@@ -14,9 +14,9 @@ class FlightLoader
   private int nextInt()
   {
     int result = 0;
-    while (i < len && buffer[i] != '\t')
+    while (i < len && buffer[i] != -1)
     {
-      result = (result << 6) | (buffer[i] - '0');
+      result = result << 7 | buffer[i];
       ++i;
     }
     ++i;
@@ -25,14 +25,21 @@ class FlightLoader
 
   private int nextTime()
   {
-    int result = buffer[i] - '0' << 6 | buffer[i + 1] - '0';
+    int result = buffer[i] << 7 | buffer[i + 1];
     i += 2;
     return result;
   }
 
-  private boolean nextBoolean()
+  private int nextDate()
   {
-    boolean result = buffer[i] == '1';
+    int result = buffer[i] << 14 | buffer[i + 1] << 7 | buffer[i + 2];
+    i += 3;
+    return result;
+  }
+
+  private byte nextByte()
+  {
+    byte result = buffer[i];
     ++i;
     return result;
   }
@@ -40,7 +47,7 @@ class FlightLoader
   private String nextString()
   {
     int begin = i;
-    while (i < len && buffer[i] != '\t')
+    while (i < len && buffer[i] != -1)
     {
       ++i;
     }
@@ -50,48 +57,51 @@ class FlightLoader
     
   public Flights load()
   {
+    int m = millis();
     int lineCount = 0;
     try (FileInputStream reader = new FileInputStream(filepath))
     {
-      byte[] tmp = new byte[12];
+      byte[] tmp = new byte[10];
       reader.read(tmp);
-      len = (tmp[0] - '0') << 30 | (tmp[1] - '0') << 24 | (tmp[2] - '0') << 18
-          | (tmp[3] - '0') << 12 | (tmp[4] - '0') <<  6 | (tmp[5] - '0');
-      lineCount = (tmp[6] - '0') << 30 | (tmp[ 7] - '0') << 24 | (tmp[8] - '0') << 18
-                | (tmp[9] - '0') << 12 | (tmp[10] - '0') <<  6 | (tmp[11] - '0');
+      len = tmp[0] << 28 | tmp[1] << 21 | tmp[2] << 14 | tmp[3] << 7 | tmp[4];
+      lineCount = tmp[5] << 28 | tmp[6] << 21 | tmp[7] << 14 | tmp[8] << 7 | tmp[9];
       buffer = new byte[len];
       reader.read(buffer);
     }
     catch (Exception exc) {}
+    println("reading file:", millis() - m);
+    m = millis();
     
     var flights = new Flight[lineCount];
     
     int flightDate;
     String carrierCode;
     int flightNumber;
-    String originAirportCode, originCityName, originStateCode;
-    String destinationAirportCode, destinationCityName, destinationStateCode;
+    String originAirportCode, originCityName;
+    byte originStateCode;
+    String destinationAirportCode, destinationCityName;
+    byte destinationStateCode;
     int scheduledDeparture, actualDeparture, scheduledArrival, actualArrival;
     boolean isCancelled, isDiverted;
     int distance;
 
     for (int line = 0; i < len; ++line)
     {
-      flightDate = nextInt();
+      flightDate = nextDate();
       carrierCode = nextString();
       flightNumber = nextInt();
       originAirportCode = nextString();
       originCityName = nextString();
-      originStateCode = nextString();
+      originStateCode = nextByte();
       destinationAirportCode = nextString();
       destinationCityName = nextString();
-      destinationStateCode = nextString();
+      destinationStateCode = nextByte();
       scheduledDeparture = nextTime();
       actualDeparture = nextTime();
       scheduledArrival = nextTime();
       actualArrival = nextTime();
-      isCancelled = nextBoolean();
-      isDiverted = nextBoolean();
+      isCancelled = nextByte() == '1';
+      isDiverted = nextByte() == '1';
       distance = nextInt();
 
       flights[line] = new Flight(
@@ -100,6 +110,7 @@ class FlightLoader
         scheduledDeparture, actualDeparture, scheduledArrival, actualArrival, isCancelled, isDiverted, distance
       );
     }
+    println("parsing file:", millis() - m);
     return new Flights(flights);
   }
 }

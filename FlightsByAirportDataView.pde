@@ -1,6 +1,6 @@
 class FlightsByAirportDataView extends BarChartDataView
 {
-  private Airport[] airports = {};
+  private FlightCount[] airports = {};
   private static final int MAX_AIRPORTS = 160;
   private int sumOfRest = 0;
 
@@ -16,7 +16,7 @@ class FlightsByAirportDataView extends BarChartDataView
     sumOfRest = 0;
     for (int i = MAX_AIRPORTS, len = airports.length; i < len; ++i)
     {
-        sumOfRest += airports[i].flights;
+        sumOfRest += airports[i].count;
     }
     
     super.filterUpdated();
@@ -29,7 +29,7 @@ class FlightsByAirportDataView extends BarChartDataView
 
   protected int getBarValue(int i)
   {
-    return i < MAX_AIRPORTS ? airports[i].flights : sumOfRest;
+    return i < MAX_AIRPORTS ? airports[i].count : sumOfRest;
   }
 
   protected String getBarLabel(int i)
@@ -41,8 +41,8 @@ class FlightsByAirportDataView extends BarChartDataView
   {
     if (i < MAX_AIRPORTS)
     {
-        int ratio = (int)(10000L * airports[i].flights / flights.size());
-        return airports[i].code + "\n" + ratio / 100 + "." + ratio % 100 + "% of all flights";
+        int ratio = (int)(10000L * airports[i].count / flights.size());
+        return airports[i].category + "\n" + ratio / 100 + "." + ratio % 100 + "% of all flights";
     }
     else
     {
