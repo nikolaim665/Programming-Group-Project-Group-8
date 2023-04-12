@@ -87,9 +87,9 @@ class AirportPicker
       {
         departure = clicked;
       }
-      else if (arrival < 0)
+      else if (arrival < 0 && departure != clicked)
       {
-        arrival = clicked;
+          arrival = clicked;
       }
       else
       {
@@ -141,14 +141,10 @@ class AirportPicker
     
     noStroke();
     fill(#FFFADA);
-    rect(x - 50, y - 30, 90, 20);
+    rect(x - 50, y - 30, 80, 20);
     
     fill(#4B0076);
     text(captionPrefix + codes[airport], x - 10, y - 20);
-    
-    stroke(0);
-    line(x + 30, y - 20, x + 40, y - 30);
-    line(x + 30, y - 30, x + 40, y - 20);
   }
 
   private void drawLine(int airportFrom, int airportTo)
