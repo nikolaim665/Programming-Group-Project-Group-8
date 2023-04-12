@@ -57,7 +57,6 @@ class FlightLoader
     
   public Flights load()
   {
-    int m = millis();
     int lineCount = 0;
     try (FileInputStream reader = new FileInputStream(filepath))
     {
@@ -69,8 +68,6 @@ class FlightLoader
       reader.read(buffer);
     }
     catch (Exception exc) {}
-    println("reading file:", millis() - m);
-    m = millis();
     
     var flights = new Flight[lineCount];
     
@@ -110,7 +107,6 @@ class FlightLoader
         scheduledDeparture, actualDeparture, scheduledArrival, actualArrival, isCancelled, isDiverted, distance
       );
     }
-    println("parsing file:", millis() - m);
     return new Flights(flights);
   }
 }

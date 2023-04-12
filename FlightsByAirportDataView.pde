@@ -41,12 +41,12 @@ class FlightsByAirportDataView extends BarChartDataView
   {
     if (i < MAX_AIRPORTS)
     {
-        int ratio = (int)(10000L * airports[i].count / flights.size());
+        int ratio = (int)max(1, 10000L * airports[i].count / flights.size());
         return airports[i].category + "\n" + ratio / 100 + "." + ratio % 100 + "% of all flights";
     }
     else
     {
-        int ratio = (int)(10000L * sumOfRest / flights.size());
+        int ratio = (int)max(1, 10000L * sumOfRest / flights.size());
         return "Other" + "\n" + ratio / 100 + "." + ratio % 100 + "% of all flights";
     }
   }
