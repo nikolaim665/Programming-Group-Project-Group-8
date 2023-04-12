@@ -201,7 +201,7 @@ class AirportPicker
     }
     if (arrival >= 0)
     {
-      drawAirportCaption(departure, "ARR: ");
+      drawAirportCaption(arrival, "ARR: ");
     }
     if (departure >= 0 && arrival >= 0)
     {
