@@ -77,15 +77,18 @@ void mousePressed()
 
 void updateFilter()
 {
+  Filter filter;
   if (menu.getSelected() >= 2)
   {
-    dataViews.setFilter(new Filter(textInput.getText(), "", airportPicker.getDeparture(), airportPicker.getArrival(), datePicker.beginDate(), datePicker.endDate()));
+    filter = new Filter(textInput.getText(), "", airportPicker.getDeparture(), airportPicker.getArrival(), datePicker.beginDate(), datePicker.endDate());
   }
   else
   {
-    dataViews.setFilter(new Filter("", textInput.getText(), airportPicker.getDeparture(), airportPicker.getArrival(), datePicker.beginDate(), datePicker.endDate()));
+    filter = new Filter("", textInput.getText(), airportPicker.getDeparture(), airportPicker.getArrival(), datePicker.beginDate(), datePicker.endDate());
   }
-  airportPicker.setFilter(dataViews.getFilter());
+  
+  dataViews.setFilter(filter);
+  airportPicker.setFilter(filter);
 }
 
 void keyPressed()
