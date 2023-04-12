@@ -99,7 +99,7 @@ class FlightLoader
       actualArrival = nextTime();
       isCancelled = nextByte() == '1';
       isDiverted = nextByte() == '1';
-      distance = nextInt();
+      distance = nextInt() * 1000 / 1609;
 
       flights[line] = new Flight(
         flightDate, carrierCode, flightNumber, originAirportCode, originCityName, originStateCode,

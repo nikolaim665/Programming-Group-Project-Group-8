@@ -65,7 +65,6 @@ class Map
     shape(shape, x, y, w, h);  
     //0%==480, 10%== 430, 20%==385,  30%==340,  40%==270,  50%==225, 60%==180,  70%==135,   80==90, 90%==45,   0%==0
     noStroke();
-    textAlign(LEFT, TOP);
     
     fill(255);
     rect(MAP_WIDTH-75, MAP_HEIGHT-280, 75, 30);
@@ -83,19 +82,19 @@ class Map
     
     fill(0);
     text("Flights:", MAP_WIDTH-70, MAP_HEIGHT-275);
-    text((getMaxFlightCount()/1000)*1000, MAP_WIDTH-70, MAP_HEIGHT-250);
-    text(round((getMaxFlightCount()*0.9)/1000)*1000, MAP_WIDTH-70, MAP_HEIGHT-230);
-    text(round((getMaxFlightCount()*0.8)/1000)*1000, MAP_WIDTH-70, MAP_HEIGHT-210);
-    text(round((getMaxFlightCount()*0.7)/1000)*1000, MAP_WIDTH-70, MAP_HEIGHT-190);
-    text(round((getMaxFlightCount()*0.6)/1000)*1000, MAP_WIDTH-70, MAP_HEIGHT-170);
-    text(round((getMaxFlightCount()*0.5)/1000)*1000, MAP_WIDTH-70, MAP_HEIGHT-150);
-    text(round((getMaxFlightCount()*0.4)/1000)*1000, MAP_WIDTH-70, MAP_HEIGHT-130);
-    text(round((getMaxFlightCount()*0.3)/1000)*1000, MAP_WIDTH-70, MAP_HEIGHT-110);
-    text(round((getMaxFlightCount()*0.2)/1000)*1000, MAP_WIDTH-70, MAP_HEIGHT-90);
-    text(round((getMaxFlightCount()*0.1)/1000)*1000, MAP_WIDTH-70, MAP_HEIGHT-70);
-    text(round(getMaxFlightCount()*0), MAP_WIDTH-70, MAP_HEIGHT-50);
-      
-      
+
+    int step = round(getMaxFlightCount() / 10000.0) * 1000;
+    text(step * 10, MAP_WIDTH-70, MAP_HEIGHT-250);
+    text(step * 9, MAP_WIDTH-70, MAP_HEIGHT-230);
+    text(step * 8, MAP_WIDTH-70, MAP_HEIGHT-210);
+    text(step * 7, MAP_WIDTH-70, MAP_HEIGHT-190);
+    text(step * 6, MAP_WIDTH-70, MAP_HEIGHT-170);
+    text(step * 5, MAP_WIDTH-70, MAP_HEIGHT-150);
+    text(step * 4, MAP_WIDTH-70, MAP_HEIGHT-130);
+    text(step * 3, MAP_WIDTH-70, MAP_HEIGHT-110);
+    text(step * 2, MAP_WIDTH-70, MAP_HEIGHT-90);
+    text(step * 1, MAP_WIDTH-70, MAP_HEIGHT-70);
+    text(step * 0, MAP_WIDTH-70, MAP_HEIGHT-50);
 
   }
 }// C O'Sull implemented heatmap into main 05/04/23

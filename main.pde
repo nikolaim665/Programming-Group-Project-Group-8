@@ -19,6 +19,7 @@ void setup()
   // Arial, 16 point, anti-aliasing on
   textFont(createFont("Arial", 16, true));
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
+  textAlign(LEFT, TOP);
   
   Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
   

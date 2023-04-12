@@ -18,9 +18,8 @@ class IssuesDataView extends DataView
   private void drawText(int offsetX, int offsetY)
   {
     fill(0);
-    textAlign(LEFT, TOP);
     text("Average flight delay: " + round(flightStats.avgDelay) + " mins", x + offsetX, y + offsetY);
-    text("Average flight distance: " + round(flightStats.avgDistance) + " miles", x + offsetX, y + offsetY + 25);
+    text("Average flight distance: " + round(flightStats.avgDistance) + " km", x + offsetX, y + offsetY + 25);
     text("Total flights: " + flightStats.total, x + offsetX, y + offsetY + 50);
   }
 
@@ -39,7 +38,6 @@ class IssuesDataView extends DataView
     if (flightStats.total > 0)
     {
       // Delayed flights pie chart
-      textAlign(LEFT, TOP);
       drawPiePiece(15, 150, 200, 0, flightStats.delayed, flightStats.total, #F80000);
       text("Delayed flights (" + flightStats.delayed + ")", x + 25, y + 360);
       drawPiePiece(15, 150, 200, flightStats.delayed, flightStats.total - flightStats.delayed, flightStats.total, #0000FF);

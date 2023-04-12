@@ -1,7 +1,7 @@
 class FlightsByAirportDataView extends BarChartDataView
 {
   private FlightCount[] airports = {};
-  private static final int MAX_AIRPORTS = 160;
+  private static final int MAX_AIRPORTS = 161;
   private int sumOfRest = 0;
 
   public FlightsByAirportDataView(Flights flights, int x, int y, int w, int h)
@@ -42,12 +42,12 @@ class FlightsByAirportDataView extends BarChartDataView
     if (i < MAX_AIRPORTS)
     {
         int ratio = (int)max(1, 10000L * airports[i].count / flights.size());
-        return airports[i].category + "\n" + ratio / 100 + "." + ratio % 100 + "% of all flights";
+        return airports[i].category + " (" + ratio / 100 + "." + ratio % 100 + "%)";
     }
     else
     {
         int ratio = (int)max(1, 10000L * sumOfRest / flights.size());
-        return "Other" + "\n" + ratio / 100 + "." + ratio % 100 + "% of all flights";
+        return "Other (" + ratio / 100 + "." + ratio % 100 + "%)";
     }
   }
 }

@@ -45,7 +45,6 @@ class TextInfoDataView extends DataView
     noStroke();
 
     fill(0);
-    textAlign(LEFT, TOP);
     int textX = x + 15;
 
     if (flightIndex != -1)
@@ -63,7 +62,7 @@ class TextInfoDataView extends DataView
       text("Actual Departure: " + formatTime(flight.actualDeparture), textX, y + 200);
       text("Scheduled Arrival: " + formatTime(flight.scheduledArrival), textX, y + 225);
       text("Actual Arrival: " + formatTime(flight.actualArrival), textX, y + 250);
-      text("Distance: " + flight.distance + " miles", textX, y + 275);
+      text("Distance: " + flight.distance + " km", textX, y + 275);
       if (flight.isCancelled)
       {
         text("Flight has been cancelled", textX, y + 300);

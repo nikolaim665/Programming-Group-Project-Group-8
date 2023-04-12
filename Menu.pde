@@ -55,7 +55,6 @@ class Menu
       rect(x, y, w, h * options.length);
   
       noStroke();
-      textAlign(CENTER, CENTER);
       for (int i = 0; i < options.length; ++i)
       {
         if (inRect(mouseX, mouseY, x, y + h * i, w, h))
@@ -64,7 +63,7 @@ class Menu
           rect(x + 1, y + h * i, w - 1, h);
         }
         fill(0);
-        text(options[i], x, y + h * i, w, h);
+        text(options[i], x + 10, y + h * i + 8);
       }
     }
     else
@@ -73,9 +72,8 @@ class Menu
       stroke(128);
       rect(x, y, w, h - 1);
   
-      textAlign(CENTER, CENTER);
       fill(0);
-      text(options[selected], x, y, w, h);
+      text(options[selected], x + 10, y + 8);
     }
   }
 }
