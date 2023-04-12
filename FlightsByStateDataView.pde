@@ -1,6 +1,6 @@
 class FlightsByStateDataView extends BarChartDataView
 {
-  private Flights.StateFlightData[] stateFlightData = {};
+  private FlightCount[] stateFlightData = {};
 
   public FlightsByStateDataView(Flights flights, int x, int y, int w, int h)
   {
@@ -20,16 +20,16 @@ class FlightsByStateDataView extends BarChartDataView
 
   protected int getBarValue(int i)
   {
-    return stateFlightData[i].flights;
+    return stateFlightData[i].count;
   }
 
   protected String getBarLabel(int i)
   {
-    return stateFlightData[i].stateCode;
+    return stateFlightData[i].category;
   }
 
   protected String getBarDescription(int i)
   {
-    return stateFlightData[i].stateCode;
+    return stateFlightData[i].category;
   }
 }

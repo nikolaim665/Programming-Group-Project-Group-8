@@ -15,12 +15,12 @@ class Flight
   // Name of the city
   public final String originCityName;
   // Code of the US state
-  public final String originStateCode;
+  public final byte originStateCode;
   
   // The same information for the airport, where the flight finished 
   public final String destinationAirportCode;
   public final String destinationCityName;
-  public final String destinationStateCode;
+  public final byte destinationStateCode;
   
   // Time of the scheduled/actual departure/arrival, represented as the number of seconds since midnight.
   // -1 (minus one) is used as an indicator, if the value is missing. 
@@ -38,8 +38,8 @@ class Flight
   
   // Just a constructor which takes all the values as arguments and initializes all the fields.
   public Flight(int flightDate, String carrierCode, int flightNumber,
-    String originAirportCode, String originCityName, String originStateCode,
-    String destinationAirportCode, String destinationCityName, String destinationStateCode,
+    String originAirportCode, String originCityName, byte originStateCode,
+    String destinationAirportCode, String destinationCityName, byte destinationStateCode,
     int scheduledDeparture, int actualDeparture, int scheduledArrival, int actualArrival,
     boolean isCancelled, boolean isDiverted, int distance)
   {

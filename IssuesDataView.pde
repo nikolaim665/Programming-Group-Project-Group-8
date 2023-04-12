@@ -1,6 +1,6 @@
 class IssuesDataView extends DataView
 {
-  private Flights.FlightStats flightData;
+  private Flights.Statistics flightData;
 
   public IssuesDataView(Flights flights, int x, int y, int w, int h)
   {
@@ -26,7 +26,7 @@ class IssuesDataView extends DataView
 
   protected void filterUpdated()
   {
-    flightData = flights.getFlightStats(filter);
+    flightData = flights.getStatistics(filter);
   }
   
   public void draw()
