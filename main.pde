@@ -10,10 +10,12 @@ void settings()
 {
   m = millis();
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
+  
 }
 
 void setup()
 {
+  surface.setTitle("Flight Data & Connections");
   // Arial, 16 point, anti-aliasing on
   textFont(createFont("Arial", 16, true));
   size(SCREEN_WIDTH, SCREEN_HEIGHT);

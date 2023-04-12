@@ -1,5 +1,5 @@
-final int SCREEN_WIDTH = 2600;
-final int SCREEN_HEIGHT = 1000;
+final int SCREEN_WIDTH = 2200;
+final int SCREEN_HEIGHT = 800;
 
 final int MAP_HEIGHT = SCREEN_HEIGHT;
 final int MAP_WIDTH = MAP_HEIGHT * 5 / 3;
