@@ -28,11 +28,6 @@ class DataViews
     this.filter = filter;
   }
 
-  public Filter getFilter()
-  {
-    return filter;
-  }
-
   public void keyPressed(int keyPressed, int keyCodePressed)
   {
     dataViews.get(currentView).keyPressed(keyPressed, keyCodePressed);
