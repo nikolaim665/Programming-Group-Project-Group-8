@@ -158,9 +158,4 @@ class Flights
     FlightCount.sort(airports);
     return airports;
   }
-
-  public FlightCount[] getSortedAirports()
-  {
-    return getSortedAirports(new Filter());
-  }
 }

@@ -1,9 +1,9 @@
 class Map
 {
   private PShape shape;
-  private PShape state;
   private int x, y, w, h;
   private FlightCount[] data;
+  private int maxFlightCount;
   
   private int getMaxFlightCount()
   {
@@ -17,45 +17,39 @@ class Map
   
   public Map(String svgPath, int x, int y, int w, int h, Flights flights)
   {
-    shape = loadShape(svgPath);
-    data = flights.getFlightsByStates();
     this.x = x;
     this.y = y;
     this.w = w;
-    this.h = h; 
+    this.h = h;
+
+    shape = loadShape(svgPath);
+    data = flights.getFlightsByStates();
+    maxFlightCount = getMaxFlightCount();
     
-    int r=255; int g=0; int b=0;
+    int g = 0, b = 0;
     for (int i=0; i<data.length; i++)
     {
-      String code = data[i].category;
-      int flight = data[i].count;
-      state = shape.getChild(code);
+      PShape state = shape.getChild(data[i].category);
       
       if (state != null)
       {
-        int percent = round((100*flight)/getMaxFlightCount());
-        int gAndB= round(percent*4.55);
-        gAndB= gAndB-455;
-        if (gAndB<0)
-        {
-          gAndB=gAndB*-1;
-        }
-        if (gAndB >255 && gAndB<280)
+        int gAndB = 455 - 455 * data[i].count / maxFlightCount;
+        if (gAndB > 255 && gAndB < 280)
         {
             g=255;
             b=gAndB-255;
         }
         if (gAndB>280)
         {
-          g=255;
-          b=gAndB-230;
+            g=255;
+            b=gAndB-230;
         }
         else
         {
             g=gAndB;
             b=0;
         }
-        state.setFill(color(r,g,b));
+        state.setFill(color(255,g,b));
       }
     }
   }
@@ -83,18 +77,11 @@ class Map
     fill(0);
     text("Flights:", MAP_WIDTH-70, MAP_HEIGHT-275);
 
-    int step = round(getMaxFlightCount() / 10000.0) * 1000;
-    text(step * 10, MAP_WIDTH-70, MAP_HEIGHT-250);
-    text(step * 9, MAP_WIDTH-70, MAP_HEIGHT-230);
-    text(step * 8, MAP_WIDTH-70, MAP_HEIGHT-210);
-    text(step * 7, MAP_WIDTH-70, MAP_HEIGHT-190);
-    text(step * 6, MAP_WIDTH-70, MAP_HEIGHT-170);
-    text(step * 5, MAP_WIDTH-70, MAP_HEIGHT-150);
-    text(step * 4, MAP_WIDTH-70, MAP_HEIGHT-130);
-    text(step * 3, MAP_WIDTH-70, MAP_HEIGHT-110);
-    text(step * 2, MAP_WIDTH-70, MAP_HEIGHT-90);
-    text(step * 1, MAP_WIDTH-70, MAP_HEIGHT-70);
-    text(step * 0, MAP_WIDTH-70, MAP_HEIGHT-50);
+    int step = maxFlightCount / 10000 * 1000;
+    for (int i = 0; i <= 10; ++i)
+    {
+      text(step * i, MAP_WIDTH - 70, MAP_HEIGHT - 50 - i * 20);
+    }
 
   }
 }// C O'Sull implemented heatmap into main 05/04/23
