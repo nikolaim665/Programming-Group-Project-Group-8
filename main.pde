@@ -73,20 +73,20 @@ void mousePressed()
   }
 }
 
+Filter currentFilter = null;
 void updateFilter()
 {
-  Filter filter;
   if (menu.getSelected() >= 2)
   {
-    filter = new Filter(textInput.getText(), "", airportPicker.getDeparture(), airportPicker.getArrival(), datePicker.beginDate(), datePicker.endDate());
+    currentFilter = new Filter(textInput.getText(), "", airportPicker.getDeparture(), airportPicker.getArrival(), datePicker.beginDate(), datePicker.endDate());
   }
   else
   {
-    filter = new Filter("", textInput.getText(), airportPicker.getDeparture(), airportPicker.getArrival(), datePicker.beginDate(), datePicker.endDate());
+    currentFilter = new Filter("", textInput.getText(), airportPicker.getDeparture(), airportPicker.getArrival(), datePicker.beginDate(), datePicker.endDate());
   }
-  
-  dataViews.setFilter(filter);
-  airportPicker.setFilter(filter);
+
+  dataViews.setFilter(currentFilter);
+  airportPicker.setFilter(currentFilter);
 }
 
 void keyPressed()
