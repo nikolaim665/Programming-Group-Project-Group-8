@@ -55,10 +55,8 @@ class DatePicker
     rect(from, y, to - from, 9);
 
     fill(0);
-    textAlign(LEFT, TOP);
-    text(beginStr, x, y + 9, w, h - 9);
-    textAlign(RIGHT, TOP);
-    text(endStr, x, y + 9, w, h - 9);
+    text(beginStr, x, y + 9);
+    text(endStr, x + w - textWidth(endStr), y + 9);
   }
   
   public void mousePressed(int posX, int posY)

@@ -96,14 +96,6 @@ class Flights
           ++stateCount;
         }
         ++flightsByStates[flight.destinationStateCode];
-        if (flight.originStateCode != flight.destinationStateCode)
-        {
-          if (flightsByStates[flight.originStateCode] == 0)
-          {
-            ++stateCount;
-          }
-          ++flightsByStates[flight.originStateCode];
-        }
       }
     }
 
@@ -148,10 +140,6 @@ class Flights
       if (filter.matches(flight))
       {
         flightsByAirport.put(flight.destinationAirportCode, flightsByAirport.getOrDefault(flight.destinationAirportCode, 0) + 1);
-        if (!flight.originAirportCode.equals(flight.destinationAirportCode))
-        {
-          flightsByAirport.put(flight.originAirportCode, flightsByAirport.getOrDefault(flight.originAirportCode, 0) + 1);
-        }
       }
     }
     return flightsByAirport;
@@ -169,10 +157,5 @@ class Flights
     }
     FlightCount.sort(airports);
     return airports;
-  }
-
-  public FlightCount[] getSortedAirports()
-  {
-    return getSortedAirports(new Filter());
   }
 }

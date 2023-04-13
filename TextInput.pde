@@ -18,8 +18,7 @@ class TextInput
   private void drawLabel(int textW)
   {
     fill(0);
-    textAlign(LEFT, CENTER);
-    text(labels[currentLabel], x, y, textW, h);
+    text(labels[currentLabel], x, y + 8, textW, h);
   }
 
   private void drawInputBox(int textW)
@@ -32,8 +31,8 @@ class TextInput
   private void drawInputText(int textW)
   {
     fill(0);
-    textAlign(LEFT, CENTER);
-    text(inputText, x + textW + 2, y, w - textW - 2, h);
+    
+    text(inputText, x + textW + 2, y + 8, w - textW - 2, h);
   }
 
   private void drawCursor(int textW)

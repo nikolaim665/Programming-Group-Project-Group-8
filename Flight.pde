@@ -33,7 +33,7 @@ class Flight
   public final boolean isCancelled;
   // Diverted flight indicator
   public final boolean isDiverted;
-  // Distance between the origin and destination airports in miles
+  // Distance between the origin and destination airports in km
   public final int distance;
   
   // Just a constructor which takes all the values as arguments and initializes all the fields.

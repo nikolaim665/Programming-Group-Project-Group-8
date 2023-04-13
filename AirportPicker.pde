@@ -87,9 +87,9 @@ class AirportPicker
       {
         departure = clicked;
       }
-      else if (arrival < 0)
+      else if (arrival < 0 && departure != clicked)
       {
-        arrival = clicked;
+          arrival = clicked;
       }
       else
       {
@@ -109,13 +109,11 @@ class AirportPicker
   {
     noStroke();
     fill(#FFFADA);
-    rect(400, 10, 480, 30);
+    rect(260, 5, 480, 30);
 
     fill(#000000);
-    text("From: ", 450, 25);
-    text(departure >= 0 ? codes[departure] : "Please Select Departure", 575, 25);
-    text("To: ", 680, 25);
-    text(arrival >= 0 ? codes[arrival] : "Please Select Arrival", 775, 25);
+    text("From:  " + (departure >= 0 ? codes[departure] : "Please Select Departure"), 270, 10);
+    text("To:  " + (arrival >= 0 ? codes[arrival] : "Please Select Arrival"), 540, 10);
   }
 
   private void drawAnimation()
@@ -136,19 +134,18 @@ class AirportPicker
 
   private void drawAirportCaption(int airport, String captionPrefix)
   {
-    float x = xCoordinates[airport] * w;
-    float y = yCoordinates[airport] * h;
+    int x = round(xCoordinates[airport] * w);
+    int y = round(yCoordinates[airport] * h);
+
+    String label = captionPrefix + codes[airport];
+    int boxW = ceil(textWidth(label)) + 10;
     
     noStroke();
     fill(#FFFADA);
-    rect(x - 50, y - 30, 90, 20);
+    rect(x - boxW / 2, y - 36, boxW, 24);
     
-    fill(#4B0076);
-    text(captionPrefix + codes[airport], x - 10, y - 20);
-    
-    stroke(0);
-    line(x + 30, y - 20, x + 40, y - 30);
-    line(x + 30, y - 30, x + 40, y - 20);
+    fill(0);
+    text(label, x - boxW / 2 + 5, y - 34);
   }
 
   private void drawLine(int airportFrom, int airportTo)
@@ -175,11 +172,8 @@ class AirportPicker
     {
       if (isInAirport(mouseX, mouseY, i) && departure != i && arrival != i)
       {
-        fill(#FFFADA);
-        noStroke();
-        rect(xCoordinates[i] * w - 20, yCoordinates[i] * h - 30 - airportRadius, 40, 20);
+        drawAirportCaption(i, "");
         fill(#4B0076);
-        text(codes[i], xCoordinates[i] * w, yCoordinates[i] * h - 20 - airportRadius);
       }
       else
       {
@@ -201,7 +195,7 @@ class AirportPicker
     }
     if (arrival >= 0)
     {
-      drawAirportCaption(departure, "ARR: ");
+      drawAirportCaption(arrival, "ARR: ");
     }
     if (departure >= 0 && arrival >= 0)
     {

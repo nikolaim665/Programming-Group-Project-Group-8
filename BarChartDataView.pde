@@ -51,15 +51,16 @@ abstract class BarChartDataView extends DataView
       
       fill(0);
       textSize(6);
-      textAlign(CENTER, TOP);
-      text(getBarLabel(i), barX + barW / 2, chartY + chartH);
+      
+      String label = getBarLabel(i);
+      text(label, barX + barW / 2 - textWidth(label) / 2, chartY + chartH);
       
       if (barX < mouseX && mouseX < barX + barW)
       {
         textSize(25);
         String text = getBarDescription(i);
         float textW = textWidth(text);
-        text(text, max(chartX + textW / 2 + 5, min(chartX + chartW - textW / 2, barX + barW / 2)), chartY + 2);
+        text(text, max(chartX + 5, min(chartX + chartW - textW, barX + barW / 2 - textW / 2)), chartY + 2);
       }
     }
   }
@@ -67,9 +68,9 @@ abstract class BarChartDataView extends DataView
   private void drawMarkers(int chartX, int chartY, int chartH)
   {
     fill(0);
-    textAlign(RIGHT, CENTER);
     textSize(16);
 
+    int maxW = ceil(textWidth(str(upperLimit)));
     int markerX = chartX - 8;
     float markerY = chartY;
     float markerStepY = float(chartH) * markerStep / upperLimit;
@@ -77,7 +78,7 @@ abstract class BarChartDataView extends DataView
     for (int markerValue = upperLimit; markerValue >= 0; markerValue -= markerStep)
     {
       rect(markerX, markerY, 6, 2);
-      text(str(markerValue), markerX - 2, markerY - 3);
+      text(str(markerValue), markerX - maxW - 1, markerY - 11);
       markerY += markerStepY;
     }
   }

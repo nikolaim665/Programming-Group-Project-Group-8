@@ -1,5 +1,10 @@
 static class Date
 {
+  private static final String[] months = {
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  };
+
   private static int yearStart(int year)
   {
     year -= 1;
@@ -52,7 +57,7 @@ static class Date
     {
       ++month;
     }
-    days -= monthStart(year, month);
-    return String.format("%04d-%02d-%02d", year, month, days + 1);
+    int day = days - monthStart(year, month) + 1;
+    return day + " " + months[month - 1] + " " + year;
   }
 }
