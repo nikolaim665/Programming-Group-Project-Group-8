@@ -5,17 +5,14 @@ TextInput textInput;
 DatePicker datePicker;
 AirportPicker airportPicker;
 
-int m;
 void settings()
 {
-  m = millis();
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
-  
 }
 
 void setup()
 {
-  surface.setTitle("Flight Data & Connections");
+  surface.setTitle("Flight Data Browser");
   // Arial, 16 point, anti-aliasing on
   textFont(createFont("Arial", 16, true));
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -23,9 +20,8 @@ void setup()
   
   Flights flights = new FlightLoader(dataPath("flights_lines.txt")).load();
   
-  println(millis() - m, "ms");
-
   map = new Map("usa.svg", 0, 0, MAP_WIDTH, MAP_HEIGHT, flights);
+  
   airportPicker = new AirportPicker(MAP_WIDTH, MAP_HEIGHT, round(SCREEN_HEIGHT / 20 * 0.15), flights);
 
   textInput = new TextInput(SCREEN_WIDTH - 245, 0, 240, MENU_HEIGHT, "City: ", "City: ", "Carrier code: ", "Carrier code: ");
@@ -34,7 +30,6 @@ void setup()
   // The menu for switching between displayed content in DataViews
   menu = new Menu(MAP_WIDTH, 0, MENU_WIDTH, MENU_HEIGHT, "Flight info", "Airport issues", "Flights by state", "Flights by airport");
   
-  println(millis() - m, "ms");
   // The DataViews showing various information, statistics, etc.
   dataViews = new DataViews();
   dataViews.add(new TextInfoDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
@@ -43,8 +38,6 @@ void setup()
   dataViews.add(new FlightsByAirportDataView(flights, MAP_WIDTH, MENU_HEIGHT, DATAVIEW_WIDTH, DATAVIEW_HEIGHT));
   
   updateFilter();
-
-  println(millis() - m, "ms");
 }
 
 void draw()

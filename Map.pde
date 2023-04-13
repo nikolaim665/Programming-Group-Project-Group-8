@@ -60,27 +60,24 @@ class Map
     //0%==480, 10%== 430, 20%==385,  30%==340,  40%==270,  50%==225, 60%==180,  70%==135,   80==90, 90%==45,   0%==0
     noStroke();
     
-    fill(255);
-    rect(MAP_WIDTH-75, MAP_HEIGHT-280, 75, 30);
-    fill(255,0,0); rect(MAP_WIDTH-75, MAP_HEIGHT-250, 75, 20); //100%
-    fill(255,45,0); rect(MAP_WIDTH-75, MAP_HEIGHT-230, 75, 20); //90&
-    fill(255,90,0); rect(MAP_WIDTH-75, MAP_HEIGHT-210, 75, 20); //80%
-    fill(255,135,0); rect(MAP_WIDTH-75, MAP_HEIGHT-190, 75, 20); //70%
-    fill(255,180,0); rect(MAP_WIDTH-75, MAP_HEIGHT-170, 75, 20); //60%
-    fill(255,225,0); rect(MAP_WIDTH-75, MAP_HEIGHT-150, 75, 20); //50%
-    fill(255,255,45); rect(MAP_WIDTH-75, MAP_HEIGHT-130, 75, 20); //40%
-    fill(255,255,90); rect(MAP_WIDTH-75, MAP_HEIGHT-110, 75, 20); //30%
-    fill(255,255,135); rect(MAP_WIDTH-75, MAP_HEIGHT-90, 75, 20); //20%
-    fill(255,255,180); rect(MAP_WIDTH-75, MAP_HEIGHT-70, 75, 20); //10%
-    fill(255,255,230); rect(MAP_WIDTH-75, MAP_HEIGHT-50, 75, 20); //0%
+    int relY = MAP_HEIGHT+25;
+    fill(255,0,0); rect(MAP_WIDTH-75, relY-250, 75, 20); //100%
+    fill(255,45,0); rect(MAP_WIDTH-75, relY-230, 75, 20); //90&
+    fill(255,90,0); rect(MAP_WIDTH-75, relY-210, 75, 20); //80%
+    fill(255,135,0); rect(MAP_WIDTH-75, relY-190, 75, 20); //70%
+    fill(255,180,0); rect(MAP_WIDTH-75, relY-170, 75, 20); //60%
+    fill(255,225,0); rect(MAP_WIDTH-75, relY-150, 75, 20); //50%
+    fill(255,255,45); rect(MAP_WIDTH-75, relY-130, 75, 20); //40%
+    fill(255,255,90); rect(MAP_WIDTH-75, relY-110, 75, 20); //30%
+    fill(255,255,135); rect(MAP_WIDTH-75, relY-90, 75, 20); //20%
+    fill(255,255,180); rect(MAP_WIDTH-75, relY-70, 75, 20); //10%
+    fill(255,255,230); rect(MAP_WIDTH-75, relY-50, 75, 20); //0%
     
     fill(0);
-    text("Flights:", MAP_WIDTH-70, MAP_HEIGHT-275);
-
     int step = maxFlightCount / 10000 * 1000;
     for (int i = 0; i <= 10; ++i)
     {
-      text(step * i, MAP_WIDTH - 70, MAP_HEIGHT - 50 - i * 20);
+      text(step * i, MAP_WIDTH - 70, relY - 50 - i * 20);
     }
 
   }
