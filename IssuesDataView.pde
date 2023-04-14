@@ -1,7 +1,7 @@
 // Class displaying the data view about bad things which happen to flights (e.g. delays, cancellation etc.)
 class IssuesDataView extends DataView
 {
-  private Flights.Statistics flightStats;
+  private Flights.Statistics flightData;
 
   public IssuesDataView(Flights flights, int x, int y, int w, int h)
   {
@@ -19,14 +19,15 @@ class IssuesDataView extends DataView
   private void drawText(int offsetX, int offsetY)
   {
     fill(0);
-    text("Average flight delay: " + round(flightStats.avgDelay) + " mins", x + offsetX, y + offsetY);
-    text("Average flight distance: " + round(flightStats.avgDistance) + " km", x + offsetX, y + offsetY + 25);
-    text("Total flights: " + flightStats.total, x + offsetX, y + offsetY + 50);
+    textAlign(LEFT, TOP);
+    text("Average flight delay: " + round(flightData.avgDelay) + " mins", x + offsetX, y + offsetY);
+    text("Average flight distance: " + round(flightData.avgDistance) + " miles", x + offsetX, y + offsetY + 25);
+    text("Total flights: " + flightData.total, x + offsetX, y + offsetY + 50);
   }
 
   protected void filterUpdated()
   {
-    flightStats = flights.getStatistics(filter);
+    flightData = flights.getStatistics(filter);
   }
   
   public void draw()
@@ -36,23 +37,24 @@ class IssuesDataView extends DataView
     // Text
     drawText(15, 15);
 
-    if (flightStats.total > 0)
+    if (flightData.total > 0)
     {
       // Delayed flights pie chart
-      drawPiePiece(15, 150, 200, 0, flightStats.delayed, flightStats.total, #F80000);
-      text("Delayed flights (" + flightStats.delayed + ")", x + 25, y + 360);
-      drawPiePiece(15, 150, 200, flightStats.delayed, flightStats.total - flightStats.delayed, flightStats.total, #0000FF);
-      text("Flights on time ("+ (flightStats.total - flightStats.delayed) + ")", x + 25, y + 380);
+      textAlign(LEFT, TOP);
+      drawPiePiece(15, 150, 200, 0, flightData.delayed, flightData.total, #F80000);
+      text("Delayed flights (" + flightData.delayed + ")", x + 25, y + 360);
+      drawPiePiece(15, 150, 200, flightData.delayed, flightData.total - flightData.delayed, flightData.total, #0000FF);
+      text("Flights on time ("+ (flightData.total - flightData.delayed) + ")", x + 25, y + 380);
       
       
       // Diverted flights pie chart
-      int divertedOrCancelled = flightStats.diverted + flightStats.cancelled;
-      int normalFlights = flightStats.total - divertedOrCancelled;
-      drawPiePiece(300, 150, 200, 0, flightStats.diverted, flightStats.total, #6ded6f);
-      text("Diverted flights (" + flightStats.diverted + ")", x + 320, y + 360);
-      drawPiePiece(300, 150, 200, flightStats.diverted, flightStats.cancelled, flightStats.total, #F80000);
-      text("Cancelled flights (" + flightStats.cancelled + ")", x + 320, y + 380);
-      drawPiePiece(300, 150, 200, divertedOrCancelled, normalFlights, flightStats.total, #0000FF);
+      int divertedOrCancelled = flightData.diverted + flightData.cancelled;
+      int normalFlights = flightData.total - divertedOrCancelled;
+      drawPiePiece(300, 150, 200, 0, flightData.diverted, flightData.total, #6ded6f);
+      text("Diverted flights (" + flightData.diverted + ")", x + 320, y + 360);
+      drawPiePiece(300, 150, 200, flightData.diverted, flightData.cancelled, flightData.total, #F80000);
+      text("Cancelled flights (" + flightData.cancelled + ")", x + 320, y + 380);
+      drawPiePiece(300, 150, 200, divertedOrCancelled, normalFlights, flightData.total, #0000FF);
       text("Regular flights (" + normalFlights + ")", x + 320, y + 400);
     }
   }

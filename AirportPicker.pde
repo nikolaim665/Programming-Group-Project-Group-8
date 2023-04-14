@@ -113,11 +113,11 @@ class AirportPicker
   {
     noStroke();
     fill(#FFFADA);
-    rect(400, 10, 480, 30);
+    rect(260, 5, 480, 30);
 
     fill(#000000);
-    text("From:  " + (departure >= 0 ? codes[departure] : "Please Select Departure"), 410, 15);
-    text("To:  " + (arrival >= 0 ? codes[arrival] : "Please Select Arrival"), 680, 15);
+    text("From:  " + (departure >= 0 ? codes[departure] : "Please Select Departure"), 270, 10);
+    text("To:  " + (arrival >= 0 ? codes[arrival] : "Please Select Arrival"), 540, 10);
   }
 
   private void drawAnimation()
