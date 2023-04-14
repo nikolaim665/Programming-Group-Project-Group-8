@@ -1,3 +1,4 @@
+// Abstract class for the data views
 abstract class DataView
 {
   protected final Flights flights;
@@ -14,15 +15,13 @@ abstract class DataView
     this.filter = new Filter();
   }
 
-  public boolean contains(int posX, int posY)
-  {
-    return x <= posX && posX <= x + w && y <= posY && posY <= y + h;
-  }
-
+  // The data views are expected to draw themselves on the screen
   public abstract void draw();
 
   public final void setFilter(Filter newFilter) 
   {
+    // We want to update the filter only if the new filter is different
+    // because it is a O(n) operation proportional to the number of flights
     if (!filter.equals(newFilter))
     {
       filter = newFilter;
@@ -31,6 +30,8 @@ abstract class DataView
   }
 
   protected void filterUpdated() {}
+
+  // Handling user interaction events
   public void keyPressed(int keyPressed, int keyCodePressed) {}
   public void mouseClicked(int x, int y) {}
 }

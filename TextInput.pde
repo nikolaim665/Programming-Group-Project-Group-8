@@ -1,11 +1,15 @@
+// Class for the text input UI widget
 class TextInput
 {
   private String inputText = "";
   private int cursorPosition = 0;
   private int x, y, w, h;
+
+  // There are multiple labels because we filter by city in some data views
+  // and by carrier code in others
   private String[] labels;
   private int currentLabel = 0;
-  
+
   public TextInput(int x, int y, int w, int h, String ... labels)
   {
     this.x = x;
@@ -31,12 +35,12 @@ class TextInput
   private void drawInputText(int textW)
   {
     fill(0);
-    
     text(inputText, x + textW + 2, y + 8, w - textW - 2, h);
   }
 
   private void drawCursor(int textW)
   {
+    // Blinking cursor effect
     if (millis() / 500 % 2 == 0)
     {
       fill(0);
@@ -90,6 +94,7 @@ class TextInput
   
   public String getText()
   {
+    // The user might unintentionally include some spaces, so we remove them
     return inputText.trim();
   }
 }

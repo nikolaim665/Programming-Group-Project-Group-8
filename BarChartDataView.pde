@@ -1,3 +1,6 @@
+// Abstract bar chart class to avoid duplicating the code for our two barcharts.
+// Its subclasses are expected to implement the methods about the particular bars
+// of a bar chart.
 abstract class BarChartDataView extends DataView
 {
   private int upperLimit = 1, markerStep = 1;

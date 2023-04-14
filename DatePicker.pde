@@ -1,3 +1,4 @@
+// User control widget to select the date range
 class DatePicker
 {
   private final int minimum, maximum, range;

@@ -1,3 +1,6 @@
+// Static class for formating the date. It converts the data from an integer
+// representing the number of days since 0001-01-01 to human-readable European
+// format "DD MMM YYYY"
 static class Date
 {
   private static final String[] months = {

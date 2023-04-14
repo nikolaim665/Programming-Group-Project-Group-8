@@ -1,5 +1,7 @@
 import java.util.HashMap;
 
+// This class displays the airports on the map, lets the user choose the departure
+// and arrival airport and displays lines for flights matching filtering criteria.
 class AirportPicker
 {
   private final String[] codes = {

@@ -78,6 +78,11 @@ class TextInfoDataView extends DataView
     }
   }
 
+  private boolean contains(int posX, int posY)
+  {
+    return x <= posX && posX <= x + w && y <= posY && posY <= y + h;
+  }
+
   public void mouseClicked(int x, int y)
   {
     if (contains(x, y))
