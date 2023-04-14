@@ -16,3 +16,5 @@ Group members:
 - `main.pde` - the main program (currently just dummy program which loads all flights and prints them)
 - `sketch.properties` - a configuration file which tells Processing that the main program is in the file `main.pde`
 - `Menu.pde` - class Menu displaying a list of Buttons and providing a function to tell which of them has been clicked
+
+The pdf report of the project can be found in the report folder
