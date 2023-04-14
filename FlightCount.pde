@@ -1,3 +1,5 @@
+// This class represents information about the number of flights in a specified
+// category (e.g. to a given airport or state).
 static class FlightCount
 {
   public final String category;
@@ -9,6 +11,7 @@ static class FlightCount
     this.count = count;
   }
   
+  // Implementation of the radix sort algorithm
   public static void sort(FlightCount[] array)
   {
     FlightCount[] second = new FlightCount[array.length], tmp = null;

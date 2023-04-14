@@ -1,11 +1,13 @@
 import java.io.FileInputStream;
 
+// Class to load all the flight data from flights_lines.txt (the original
+// data, preprocessed by a Python script).
 class FlightLoader
 {
   private String filepath;
   private byte[] buffer = null;
   private int i = 0, len = 0;
-  
+
   public FlightLoader(String filepath)
   {
     this.filepath = filepath;
@@ -43,7 +45,7 @@ class FlightLoader
     ++i;
     return result;
   }
-    
+
   private String nextString()
   {
     int begin = i;
@@ -52,9 +54,12 @@ class FlightLoader
       ++i;
     }
     ++i;
+
+    // We use the deprecated form of String contstructor because it does not
+    // process Unicode, so it is faster.
     return new String(buffer, 0, begin, i - begin - 1);
   }
-    
+
   public Flights load()
   {
     int lineCount = 0;
@@ -99,6 +104,8 @@ class FlightLoader
       actualArrival = nextTime();
       isCancelled = nextByte() == '1';
       isDiverted = nextByte() == '1';
+
+      // Converting from miles to kilometers, because we are civilized Europeans
       distance = nextInt() * 1000 / 1609;
 
       flights[line] = new Flight(

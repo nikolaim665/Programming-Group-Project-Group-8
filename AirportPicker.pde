@@ -1,5 +1,7 @@
 import java.util.HashMap;
 
+// This class displays the airports on the map, lets the user choose the departure
+// and arrival airport and displays lines for flights matching filtering criteria.
 class AirportPicker
 {
   private final String[] codes = {
@@ -30,6 +32,8 @@ class AirportPicker
   private Flights flights;
   private Filter filter = new Filter();
   private HashMap<String, Integer> flightLines = null;
+
+  // Animation of the circle moving from departure to arrival airport
   private float animationPosition = 0.0, animationSpeed = 0.0;
 
   public AirportPicker(int w, int h, int airportRadius, Flights flights)

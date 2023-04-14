@@ -1,3 +1,4 @@
+// Class displaying the data view about bad things which happen to flights (e.g. delays, cancellation etc.)
 class IssuesDataView extends DataView
 {
   private Flights.Statistics flightData;

@@ -1,7 +1,12 @@
+// Class displaying the bar chart of incoming flights by airport
 class FlightsByAirportDataView extends BarChartDataView
 {
   private FlightCount[] airports = {};
+  
+  // Too many airports looks bad, as most of the bars would then be very small
   private static final int MAX_AIRPORTS = 161;
+  
+  // So instead we display their sum
   private int sumOfRest = 0;
 
   public FlightsByAirportDataView(Flights flights, int x, int y, int w, int h)

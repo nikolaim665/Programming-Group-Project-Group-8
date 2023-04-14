@@ -1,5 +1,6 @@
 import java.util.HashMap;
 
+// Class representing the entire dataset of flights and contains methods for querying the dataset.
 class Flights
 {
   private Flight[] flights;
@@ -75,6 +76,7 @@ class Flights
         }
       }
     }
+    // We don't want to divide by zero, as program crashes have a negative impact on user experience
     if (total == 0)
     {
       return new Statistics(0, 0, 0, 0, 0, 0);
@@ -82,6 +84,7 @@ class Flights
     return new Statistics(totalDistance / total, totalDelay / total, delayed, total, diverted, cancelled);
   }
 
+  // Return states and their numbers of incoming flights which match the filter, as an array
   public FlightCount[] getFlightsByStates(Filter filter)
   {
     int stateCount = 0;
@@ -116,6 +119,7 @@ class Flights
     return getFlightsByStates(new Filter());
   }
 
+  // Get first flight matching the given criteria when going from i-th flight in a specified direction
   public int firstMatching(Filter filter, int i, int direction)
   {
     int begin = i, len = flights.length;
@@ -132,6 +136,7 @@ class Flights
     return ok ? i : -1;
   }
 
+  // Return airports and their numbers of incoming flights which match the filter, as a HashMap
   public HashMap<String, Integer> getAirports(Filter filter)
   {
     var flightsByAirport = new HashMap<String, Integer>();
@@ -145,6 +150,7 @@ class Flights
     return flightsByAirport;
   }
 
+  // Return airports and numbers of incoming flights which match the filter, as a sorted array
   public FlightCount[] getSortedAirports(Filter filter)
   {
     var flightsByAirport = getAirports(filter);

@@ -1,8 +1,10 @@
+// Class encapsulating all the filtering criteria, to make it easy to add new criteria
+// and to pass the Filter object around without having to deal with its contents
 class Filter
 {
-  public final String carrierCode, city;
-  public final String airportFrom, airportTo;
-  public final int minDate, maxDate;
+  private final String carrierCode, city;
+  private final String airportFrom, airportTo;
+  private final int minDate, maxDate;
 
   public Filter(String carrierCode, String city, String airportFrom, String airportTo, int minDate, int maxDate)
   {

@@ -1,3 +1,5 @@
+// Data view displaying infomation about a single flight, also enables going through all
+// the flights by arrow keys or by mouse clicking.
 class TextInfoDataView extends DataView
 {
   private int flightIndex = 0;
@@ -76,6 +78,11 @@ class TextInfoDataView extends DataView
     {
       text("No flights matching your criteria", textX, y);
     }
+  }
+
+  private boolean contains(int posX, int posY)
+  {
+    return x <= posX && posX <= x + w && y <= posY && posY <= y + h;
   }
 
   public void mouseClicked(int x, int y)

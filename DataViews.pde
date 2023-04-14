@@ -1,3 +1,7 @@
+// Class containing all the data views. It does not have any information about specific
+// data views and can handle any instance of a subclass of the DataView class.
+// Displays the currently selected data view and passes all user interaction events
+// to the currently selected data view.
 class DataViews
 {
   private ArrayList<DataView> dataViews = new ArrayList<DataView>();
