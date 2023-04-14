@@ -1,3 +1,5 @@
+// Data view displaying infomation about a single flight, also enables going through all
+// the flights by arrow keys or by mouse clicking.
 class TextInfoDataView extends DataView
 {
   private int flightIndex = 0;

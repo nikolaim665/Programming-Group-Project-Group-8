@@ -32,6 +32,8 @@ class AirportPicker
   private Flights flights;
   private Filter filter = new Filter();
   private HashMap<String, Integer> flightLines = null;
+
+  // Animation of the circle moving from departure to arrival airport
   private float animationPosition = 0.0, animationSpeed = 0.0;
 
   public AirportPicker(int w, int h, int airportRadius, Flights flights)

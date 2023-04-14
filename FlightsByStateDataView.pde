@@ -1,3 +1,4 @@
+// Class displaying the bar chart of incoming flights by state
 class FlightsByStateDataView extends BarChartDataView
 {
   private FlightCount[] stateFlightData = {};

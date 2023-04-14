@@ -1,3 +1,4 @@
+// Class for the heatmap of states by incoming flights
 class Map
 {
   private PShape shape;

@@ -1,3 +1,4 @@
+// The drop-down menu class
 class Menu
 {
   private int x, y, w, h;
